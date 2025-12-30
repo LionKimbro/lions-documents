@@ -1,7 +1,7 @@
 date: 2025-10-29
 title: Lion's Python Programming Guidelines (v2025-10-28)
 chatgpt: https://chatgpt.com/c/6902f51d-b658-8329-8c63-f00e744cac94
-updated: 2025-12-27
+updated: 2025-12-30
 
 
 == Release Note ==
@@ -33,8 +33,8 @@ date: 2025-11-18
 
 2025-11-18: major expansion on function naming;
             also, divided into multiple LSF sections
-
-2025:12-27: "Avoid decorators, type annotations, and other meta-programming features unless there is a demanding reason"
+2025-12-27: "Avoid decorators, type annotations, and other meta-programming features unless there is a demanding reason"
+2025-12-30: "Always use pathlib.Path."
 
 
 == I. PRINCIPLES ==
@@ -337,6 +337,11 @@ Example:
   kBAR = "bar"
   kCOLORS = {RED: "#ff0000", GREEN: "#00ff00", BLUE: "#0000ff"}
   kCONFIGFILE_PATH = Path("D:\\conf\\program_x_config.json")
+
+
+--- Paths ---
+
+- Always use pathlib.Path.
 
 
 --- Function Arguments ---
