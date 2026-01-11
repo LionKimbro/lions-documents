@@ -1,0 +1,215 @@
+{
+  "metadata": {
+    "title": "Lion’s Philosophy of Programming",
+    "version": "v2025-10-28",
+    "created": "2025-10-28",
+    "json_version_created": "2025-12-30",
+    "mode": [
+      "operational",
+      "dialogical",
+      "living"
+    ],
+    "archival_priority": false
+  },
+  "purpose": {
+    "section_created": "2025-10-28",
+    "summary": "This document establishes the philosophical foundations that underlie Lion’s programming practice, providing orientation rather than prescription.",
+    "purposes": {
+      "preface_to_guidelines": "Serve as philosophical context for Lion’s Python Programming Guidelines.",
+      "share_foundations": "Expose the history, values, and reasoning behind specific coding choices.",
+      "collaboration_with_wing_cat": "Provide shared orientation and working assumptions for collaborative programming.",
+      "self_clarification": "Allow Lion to see, refine, and evolve his own thinking more clearly.",
+      "public_readership": "Offer an intelligible foundation for anyone curious about this approach."
+    },
+    "intended_readers": {
+      "lion": {
+        "role": "author and evolving practitioner",
+        "use": "self-reflection, refinement, recalibration"
+      },
+      "wing_cat": {
+        "role": "collaborative interpreter and assistant",
+        "use": "align suggestions, code generation, and critique with Lion’s values"
+      },
+      "interested_global_reader": {
+        "role": "external observer",
+        "use": "understand the philosophical stance without adopting it wholesale"
+      }
+    }
+  },
+  "context": {
+    "summary": "This is Part I of a three-part body of work, establishing philosophical orientation before practical rules or recipes.",
+    "position_in_trilogy": {
+      "part_1": "Philosophy of Programming (this document)",
+      "part_2": "Python Programming Guidelines",
+      "part_3": "Python Programming Cookbook"
+    },
+    "stance": {
+      "not_claiming_universality": true,
+      "ecology_specific": true,
+      "anti_dogmatic": true
+    }
+  },
+  "pillars": {
+    "creative_encounter": {
+      "summary": "Programming is inherently messy and nonlinear, and this disorder is not a flaw but the medium through which clarity emerges.",
+      "verbatim": {
+        "core": "The fog is not the obstacle to programming — it is programming. Disorder is the substrate of discovery.",
+        "extension": "Clarity is not the starting condition of programming; it is what remains when the wandering has done its work."
+      },
+      "working_assumptions": {
+        "change_is_the_medium": {
+          "type": "processual",
+          "statement": "Change is not an edge case but the environment in which programming lives."
+        },
+        "code_reflects_neurology": {
+          "type": "experiential",
+          "statement": "Each programmer’s style reflects a material neurology, and an accretion of experiences, habits, fears, and delights."
+        },
+        "unfinishedness_is_normal": {
+          "type": "ontological",
+          "statement": "Programs are never finally complete; they pass through cycles of use, neglect, return, and renovation."
+        }
+      },
+      "claims": {
+        "programming_process": {
+          "type": "observation",
+          "statement": "The act of programming involves guessing, trying, breaking things, rewriting, and circling back repeatedly."
+        },
+        "order_vs_disorder": {
+          "type": "value",
+          "statement": "A disciplined program is born from an undisciplined process."
+        },
+        "craft_metaphor": {
+          "type": "analogy",
+          "statement": "The workbench is messy; the thing being made, at the center, strives toward order."
+        }
+      },
+      "imagery": {
+        "house_metaphor": {
+          "image": "A program is a house -- often-times even a home -- that can be entered, left, and renovated.",
+          "force": "The structure must remain inhabitable across long absences and partial understanding."
+        },
+        "fog_metaphor": {
+          "image": "Fog as the objective condition of unfinished structure.",
+          "force": "Fog is not confusion to be eliminated but a sign that real structure is still forming."
+        },
+        "renovation_metaphor": {
+          "image": "Code as a space repeatedly remodeled rather than a monument completed once.",
+          "force": "Revision is not failure but continued inhabitation."
+        },
+        "sarah_winchester": {
+          "who": "Sarah Winchester",
+          "why": "An image of continual renovation without finality, where inhabitation itself becomes an artistic act.",
+          "used_for": "Understanding code as a living, revisitable structure rather than a finished artifact.",
+          "scope": "Create software environments for humans, artificial intelligences, and automations alike."
+        }
+      }
+    },
+    "manias_fads_and_absurdities": {
+      "summary": "In a culture saturated with slogans, automation, and inherited rules, developing your own discipline is not rebellion or self-expression; it is self-defense.",
+      "verbatim": "When we stop trusting ourselves, programming becomes a game of obedience.",
+      "claims": {
+        "cultural_weather": {
+          "type": "observation",
+          "statement": "Programming culture propagates doctrines that often outlive their usefulness."
+        },
+        "dogma_vs_judgment": {
+          "type": "value",
+          "statement": "Rules should arise from seeing, not replace seeing."
+        },
+        "personal_style": {
+          "type": "principle",
+          "statement": "Each programmer inevitably forms a personal style shaped by lived experience."
+        }
+      },
+      "positive_guidance": {
+        "develop_your_own_discipline": {
+          "statement": "Build a discipline that you can live inside, understand, and maintain yourself.",
+          "note": "Borrowed discipline decays into ritual; owned discipline remains adaptive."
+        },
+        "apprenticeship_then_adulthood": {
+          "statement": "Learn whatever you have to in order to learn, even if that includes absorbing a great deal of dogma.",
+          "extension": "After roughly a decade, do not fear stepping beyond the dogmas.  The rules were scaffolding, not a lifelong home."
+        },
+        "majority_of_a_lifetime": {
+          "statement": "Most of a programmer’s life lies beyond the basics, out on the open horizon.",
+          "implication": "That is where the work turns outward—toward building futures not yet imagined, where today’s rules are insufficient and judgment must carry the weight."
+        }
+      },
+      "specific_rejected_dogmas": [
+        "globals are evil",
+        "gotos are always harmful",
+        "variable names must be verbose",
+        "state must be avoided",
+        "everything must be an object"
+      ],
+      "thought_terminators": [
+        "it's more maintainable",
+        "it's cleaner that way",
+        "it's safer that way",
+        "it's more reusable"
+      ],
+      "imagery": {
+        "hellscape": {
+          "image": "A fiery hell landscape -- of dread, fury, mass confusion -- where people bark rules at one another - about how one must program, and what terrible things will happen if one does not conform.",
+          "force": "Noise replaces judgment; fear and repetition drown out the quiet act of seeing.",
+          "reference": " — \"I saw the best minds of my generation destroyed by madness, raving hysterical, naked.\"",
+          "signifies": "epistemic madness (noise)"
+        },
+        "warzone": {
+          "image": "An ideological battlefield where software packages and methodologies and best practices attack one another, viciously, compliance is enforced at gunpoint, palisades are erected, protocols become mind control, logos are flags under which people march.",
+          "examples": [
+            "wokeness",
+            "corporate programming orthodoxies",
+            "methodology wars",
+            "language wars",
+            "framework crusades",
+            "XML,SOAP-era complexity arms races",
+            "Rustacians, attempting to turn everything into Rust"
+          ],
+          "force": "Energy is spent fighting positions.",
+          "note": "to a degree, this cannot be helped",
+          "signifies": "ideological violence (conflict)"
+        },
+        "wasteland": {
+          "image": "A silent expanse of abandoned codebases and ossified processes, where no one remembers why things are the way they are, only that deviation is forbidden.",
+          "force": "Fear replaces judgment; survival replaces creation.",
+          "reference": "Blame! (Tsutomu Nihei manga)",
+          "signifies": "post-collapse labor (drudgery)"
+        },
+        "context": "These are not metaphors; they are recurring environments."
+      }
+    },
+    "clarity_and_control": {
+      "summary": "A programmer must be able to see the whole system and change it deliberately; modern tooling often obscures both.",
+      "verbatim": "Clarity is the power to see what is there. Control is the power to make it so.",
+      "claims": {
+        "program_structure": {
+          "type": "model",
+          "statement": "Programs consist of steps (what happens) and promises (relations that must hold)."
+        },
+        "clarity": {
+          "type": "value",
+          "statement": "True clarity is spare and serves human sight."
+        },
+        "control": {
+          "type": "value",
+          "statement": "True control arises from understanding, not automation alone."
+        },
+        "brevity": {
+          "type": "principle",
+          "statement": "Brevity enables leverage; sprawl destroys command."
+        }
+      },
+      "failure-modes": {
+        "over_tooling": "Delegating understanding to frameworks and automation.",
+        "ceremonial_clarity": "Mistaking verbosity for insight.",
+        "defensive_programming_sprawl": "Accumulating safety layers until the system cannot be held in mind."
+      },
+      "assistant": {
+        "guidance": "Prefer representations that allow rapid mental simulation and confident modification.",
+        "warning": "Excess ceremony can masquerade as safety while eroding control."
+      }
+    }
+  }
+}
