@@ -1,0 +1,96 @@
+date: 2026-01-17
+title: Prompts for Reworking Code with Wing-Cat
+
+
+== Strategic Approach ==
+date: 2026-01-17
+
+  - Plan out your steps, broadly, before talking with Wing-Cat.
+  - Editing in the small: (Editing a single file; Tactical Level:)
+    - I want to kind of sketch out the "before" and "after" picture of how I want the code adapted, for Marginalia.
+      1. Look at how something is.
+      2. Make a brief sketch of what it IS -- ultra-abreviated, but locking onto the general form.
+      3. Make a brief sketch of HOW I WOULD LIKE IT TO BE.
+      4. Ask Wing-Cat to rerender the thing in the way that I would like it.
+      5. Supply "skeleton keys" -- write-ups of APIs, data points, etc., in JSON format,
+         that describe a part of the system, for reference, for use within the rewriting process.
+  - Editing in the large (Strategic Level):
+      1. Flesh out a picture of -- how you want the system to work, at a high level.
+      2. Preserve JSON describing it.  Keep it small, narrow, simple, tight.
+      3. Work out a list of the architectural changes you want to make, to get it into that shape:
+        - New modules that need to be created.
+        - Changes to existing modules that need to be made.
+        - Clean-up steps that you want to perform.
+          - include things like: "Wing-Cat, examine this function by function for anything that might not be called."
+        - Make and use tools to assist in the tracking of execution, seeing what's being used and what's not being used.
+  - Keep a library of prompts to use in this process.
+    Seperate out experimental prompts, and time-tested prompts, in different places.
+
+
+== Creating a Directory of Methods and Global Data ==
+data: 2026-01-17
+
+Outer Format:
+
+{
+  "global-state-data": {
+    ...
+  },
+  "function-modules" :{
+    "<module-name>": {}
+  }
+}
+
+
+Global State Data section:
+
+{
+  "import": "import <module-name>",
+  "globals": {
+    "<data>": 
+  }
+}
+
+
+    "import": "import <module-name>",
+    "globals": {
+      "<data>": {
+        "type" :"..."
+
+
+{
+  "global state data": {
+    "import": "import state",
+    "globals": {
+      "g['foo']": {
+        "type": "....",
+        "contains": "...",
+        "write policy": "..."
+      },
+      "...": {}
+    }
+  },
+  "function modules": {
+    "foo": {
+      "import": "import foo",
+      "functions": {
+        "add": {"invocation": "add(a,b)",
+                "arg-a": ["int", "first number to add"],
+                "arg-b": ["int", "second number to add"],
+                "returns": ["int", "sum of two numbers"],
+                "reads-globals": ["g['foo']"],
+                "writes-globals": ["g['bar']"],
+                "purpose": "add two numbers, increments g['bar']"},
+        "sub": {"invocation": "sub(a,b)", "arg-a": [], "arg-b": [],
+                "returns": ["int", "sub b from a"],
+                "reads-globals": [],
+                "writes-globals": [],
+                "purpose": "subtract b from a"}
+      }
+    },
+    "...": {
+      "import": "...",
+      "functions": {}
+    }
+  }
+}
