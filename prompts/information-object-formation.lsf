@@ -1,0 +1,38 @@
+date: 2026-01-17
+title: Prompts for Information Object Formation
+
+
+== JSON Informational / Architecture Sketch ==
+date: 2026-01-17
+
+This is about asking for REPRESENTATIONS > EXPLANATIONS.
+
+It is CONCEPTUAL STRUCTURE MADE EXPLICIT.
+
+
+------------------------------------------------------------
+Can you give me a JSON informational that describes this system in terms of roles, components, and relationships — not as an essay, but as structured knowledge?
+------------------------------------------------------------
+
+Key phrases: "JSON informational", "architectural sketch", "roles, components, relationships", "not an essay"
+
+
+------------------------------------------------------------
+Model this as a system description in JSON: what exists, what it does, and how the pieces relate. No rhetoric, no closing, just structural description.
+------------------------------------------------------------
+
+Key phrases: "system description", "what exists, what it does, how pieces relate", "no rhetoric"
+
+
+------------------------------------------------------------
+I want this as a machine-readable knowledge object in JSON, suitable for indexing or UI rendering, not as human-facing prose.
+------------------------------------------------------------
+
+Key phrases: "machine-readable knowledge object", "indexing or UI rendering", "not human-facing prose"
+
+
+------------------------------------------------------------
+Can you render this as a Marginalia-style architectural index in JSON: core concepts, subsystems, interfaces, and constraints?
+------------------------------------------------------------
+
+

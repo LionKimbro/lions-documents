@@ -1,0 +1,1055 @@
+{
+  "doc_type": "lions_python_programming_guidelines",
+  "version_label": "v2025-10-28",
+  "metadata": {
+    "date": "2025-10-29",
+    "title": "Lion's Python Programming Guidelines (v2025-10-28)",
+    "chatgpt_thread": "https://chatgpt.com/c/6902f51d-b658-8329-8c63-f00e744cac94",
+    "updated": "2025-12-30"
+  },
+  "release_note": {
+    "date": "2025-10-30",
+    "text": [
+      "This document consolidates the lineage of",
+      "python-coding-guidelines_v2025-10-15.txt and",
+      "python-coding-guidelines-v02.md into a single definitive statement of",
+      "Lion Kimbro’s programming method.  It codifies a minimal, expressive,",
+      "and philosophically unified style of Python rooted in clarity,",
+      "control, and moral simplicity."
+    ],
+    "structure_overview": [
+      { "part": "I", "title": "Principles", "summary": "sets the structural foundations." },
+      { "part": "II", "title": "Guidelines", "summary": "defines operational practice." },
+      { "part": "III", "title": "Data Management", "summary": "establishes persistence discipline." },
+      { "part": "IV", "title": "Tkinter", "summary": "documents canonical GUI procedure." },
+      { "part": "V", "title": "Documentation Practices", "summary": "describes the voice of code itself." }
+    ],
+    "edition_policy": {
+      "authoritative_reference_year": 2025,
+      "future_changes_policy": [
+        "This edition is frozen as the authoritative reference for the year 2025.",
+        "Subsequent changes will appear as dated part-series revisions (e.g. v2025-12-14_part2_lions-python-programming-guidelines.txt).",
+        "Cookbook entries will evolve independently as timestamped additions.",
+        "Minor annotations to this text will be explicitly dated inline and compiled before any future major revision."
+      ]
+    }
+  },
+  "updates": {
+    "date": "2025-11-18",
+    "items": [
+      {
+        "date": "2025-11-18",
+        "change": "major expansion on function naming; also, divided into multiple LSF sections"
+      },
+      {
+        "date": "2025-12-27",
+        "change": "Avoid decorators, type annotations, and other meta-programming features unless there is a demanding reason"
+      },
+      {
+        "date": "2025-12-30",
+        "change": "Always use pathlib.Path."
+      }
+    ]
+  },
+  "parts": [
+    {
+      "id": "I",
+      "title": "PRINCIPLES",
+      "date": "2025-10-29",
+      "principles_list": [
+        {
+          "name": "Principle of Minimal Expression",
+          "quote": "Do not build what you do not need."
+        },
+        {
+          "name": "Principle of Soft Modularity",
+          "quote": "Prefer small, repeatable patterns to heavy structures."
+        },
+        {
+          "name": "Principle of Trusted Conditions",
+          "quote": "Stand by your assumptions."
+        },
+        {
+          "name": "Principle of The Castle Gate",
+          "quote": "Be liberal in what you accept, but strict with what you admit."
+        },
+        {
+          "name": "Principle of Separate Validation",
+          "quote": "Segregate validation & operation."
+        },
+        {
+          "name": "Principle of Uniformity Within the Castle",
+          "quote": "Once inside, all data speaks one dialect."
+        },
+        {
+          "name": "Principle of Vulnerability",
+          "quote": "Within the castle, prefer vulnerability to armor."
+        }
+      ],
+      "sections": [
+        {
+          "type": "principle_detail",
+          "name": "Principle of Minimal Expression",
+          "quote": "Do not build what you do not need.",
+          "content": [
+            {
+              "kind": "text",
+              "lines": [
+                "That is, rather than writing this:"
+              ]
+            },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "class BigClassThatDoesImportantThings:",
+                "    def __init__(self):",
+                "        self.initialize()",
+                "    def initialize(self):",
+                "        self.msg = \"Hello, world!\"",
+                "    def speak(self):",
+                "        print(self.msg)"
+              ]
+            },
+            {
+              "kind": "text",
+              "lines": [
+                "Instead, write this:"
+              ]
+            },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "def speak():",
+                "    print(\"hello, world!\")"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "principle_detail",
+          "name": "Principle of Soft Modularity",
+          "quote": "Prefer small, repeatable patterns to heavy structures.",
+          "content": [
+            {
+              "kind": "text",
+              "lines": [
+                "That is, rather than writing this:"
+              ]
+            },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "class GuiBuilder:",
+                "    def __init__(self, root):",
+                "        self.root = root",
+                "        self.build_header()",
+                "        self.build_body()",
+                "        self.build_footer()",
+                "",
+                "    def build_header(self):",
+                "        frame = Frame(self.root)",
+                "        Label(frame, text=\"Header\").pack()",
+                "        frame.pack()",
+                "",
+                "    def build_body(self):",
+                "        frame = Frame(self.root)",
+                "        Label(frame, text=\"Body\").pack()",
+                "        frame.pack()",
+                "",
+                "    def build_footer(self):",
+                "        frame = Frame(self.root)",
+                "        Label(frame, text=\"Footer\").pack()",
+                "        frame.pack()"
+              ]
+            },
+            {
+              "kind": "text",
+              "lines": [
+                "Instead, write this:"
+              ]
+            },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "frame = Frame(root); Label(frame, text=\"Header\").pack(); frame.pack()",
+                "frame = Frame(root); Label(frame, text=\"Body\").pack();   frame.pack()",
+                "frame = Frame(root); Label(frame, text=\"Footer\").pack(); frame.pack()"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "principle_detail",
+          "name": "The Parameter Principle",
+          "quote": "Pass only what varies.",
+          "content": [
+            { "kind": "text", "lines": [ "That is, rather than writing this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "for x in range(10):",
+                "    display(x, width=80, height=25, font=\"courier\", fontsize=12, device=output_device)"
+              ]
+            },
+            { "kind": "text", "lines": [ "Instead, write this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "set_width(80)",
+                "set_height(25)",
+                "set_font(\"courier\", 12)",
+                "set_device(output_device)",
+                "",
+                "...",
+                "",
+                "for x in range(10):",
+                "    display(x)"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "principle_detail",
+          "name": "Principle of Trusted Conditions",
+          "quote": "Stand by your assumptions.",
+          "content": [
+            { "kind": "text", "lines": [ "That is, rather than writing this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "D.get(\"foo\", None)  # \"defensive programming\", aka hedging"
+              ]
+            },
+            { "kind": "text", "lines": [ "Instead, write this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "D[\"foo\"]  # pre-condition: \"foo\" is present"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "principle_detail",
+          "name": "Principle of The Castle Gate",
+          "quote": "Be liberal in what you accept, but strict with what you admit.",
+          "content": [
+            { "kind": "text", "lines": [ "That is, rather than writing this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "def load_jpeg(f):",
+                "    g[DATA] = jpegdata_from_file(f)",
+                "",
+                "def load_png(f):",
+                "    g[DATA] = pngdata_from_file(f)",
+                "",
+                "def load_gif(f):",
+                "    g[DATA] = gifdata_from_file(f)"
+              ]
+            },
+            { "kind": "text", "lines": [ "Instead, write this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "def load_jpeg(f):",
+                "    g[DATA] = pixeldata_from_jpeg(f.read())",
+                "",
+                "def load_png(f):",
+                "    g[DATA] = pixeldata_from_png(f.read())",
+                "",
+                "def load_gif(f):",
+                "    g[DATA] = pixeldata_from_gif(f.read())"
+              ]
+            },
+            {
+              "kind": "text",
+              "lines": [
+                "Each loader normalizes external data into one canonical structure.",
+                "Different file formats may enter, but only uniform pixel data is",
+                "allowed inside the castle."
+              ]
+            }
+          ]
+        },
+        {
+          "type": "principle_detail",
+          "name": "Principle of Separate Validation",
+          "quote": "Segregate validation & operation.",
+          "content": [
+            { "kind": "text", "lines": [ "That is, rather than writing this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "def handle_request(msg):",
+                "    if len(msg) != 3:",
+                "        raise TypeError(\"bad message\")",
+                "    if TYPE not in msg:",
+                "        raise TypeError(\"missing type\")",
+                "    # more validation...",
+                "    ",
+                "    if msg[TYPE] == PING:",
+                "        do_something()"
+              ]
+            },
+            { "kind": "text", "lines": [ "Instead, write this:" ] },
+            {
+              "kind": "code",
+              "language": "python",
+              "lines": [
+                "def handle_request(msg):",
+                "    validate_request(msg)",
+                "",
+                "    if msg[TYPE] == PING:",
+                "        do_something()",
+                "",
+                "def validate_request(msg):",
+                "    if len(msg) != 3:",
+                "        raise TypeError(\"bad message\")",
+                "    if TYPE not in msg:",
+                "        raise TypeError(\"missing type\")"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "principle_detail",
+          "name": "Principle of Uniformity Within The Castle",
+          "quote": "Once inside, all data speaks one dialect.",
+          "content": [
+            {
+              "kind": "placeholder",
+              "label": "TO BE COLLECTED",
+              "notes": [
+                "the code example here will likely include checks for the presence of keys on input, and produce branching behavior based on the presence or absence of keys",
+                "the code example here will be direct, with no \"form checking\""
+              ]
+            }
+          ]
+        },
+        {
+          "type": "principle_detail",
+          "name": "Principle of Vulnerability",
+          "quote": "Within the castle, prefer vulnerability to armor.",
+          "content": [
+            {
+              "kind": "placeholder",
+              "label": "TO COLLECT",
+              "notes": [
+                "(TO COLLECT) Rather-than / Instead examples are not yet provided in this document snapshot."
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "II",
+      "title": "GUIDELINES",
+      "date": "2025-10-29",
+      "sections": [
+        {
+          "title": "Function and Variable Names",
+          "items": [
+            "snake_case",
+            "do NOT use type hints",
+            {
+              "rule": "use ultra-short variables wherever meaning is obvious by context",
+              "examples": [
+                { "name": "s", "meaning": "a string (if the meaning is obvious)" },
+                { "name": "s1", "meaning": "a string (if the meaning is obvious by context)" },
+                { "name": "s2", "meaning": "another string (if the meaning is obvious by context)" },
+                { "name": "L", "meaning": "a list" },
+                { "name": "D", "meaning": "a dictionary" },
+                { "name": "i", "meaning": "an index" },
+                { "name": "j", "meaning": "secondary index" },
+                {
+                  "name": "cmd",
+                  "meaning": "a command string issued by the user (\"open\", \"ls\", ...) (Feel free to use reasonable such things; I prefer it in fact.)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Global Variables",
+          "items": [
+            "IGNORE the cultural taboo against globals; they simplify programs.",
+            "Give each global a use policy -- clear rules for when and how it may be modified.",
+            "Global dictionaries and lists live at top level; mutate them in place, never re-assign.",
+            "Group scalar bundles (numbles, strings, etc.,) into bundles -- small, thematically related namespaces that are easy to inspect together while debugging.",
+            "Keep large or transient data out of these bundles, or place them in their own bundles.",
+            "The canonical global bundle is named \"g\".",
+            "The \"global\" keyword is never required: globals are never rebound, only modified in place."
+          ],
+          "example": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "g = {",
+              "  \"count\": 0,",
+              "  \"mode\" : \"idle\",",
+              "}",
+              "",
+              "events = []",
+              "",
+              "def step():",
+              "    g[\"count\"] += 1",
+              "    if g[\"mode\"] == \"idle\":",
+              "        print(\"waiting...\")",
+              "",
+              "def log_event(msg):",
+              "    events.append((g[\"count\"], msg))"
+            ]
+          }
+        },
+        {
+          "title": "Symbols",
+          "optional": true,
+          "items": [
+            "Use symbols liberally.  Rather than string keys, define symbols that evaluate to equivalent strings.",
+            "Symbols are always declared in all upper-case, and evaluate to upper-case."
+          ],
+          "example": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "COUNT = \"COUNT\"",
+              "MODE = \"MODE\"",
+              "IDLE = \"IDLE\"",
+              "RUNNING = \"RUNNING\"",
+              "",
+              "g = {",
+              "    COUNT: 0,",
+              "    MODE: IDLE  # IDLE or RUNNING",
+              "}"
+            ]
+          }
+        },
+        {
+          "title": "Constants",
+          "items": [
+            "Hard coded file paths are always constants.",
+            "Hard coded magic numbers are always constants.",
+            "Lookup tables are always constants.",
+            "If you are using symbols, then non-symbol named constants are given a name that is \"k\" (for \"constant\") + an all capital letters identifier."
+          ],
+          "example": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "kFOO = 10",
+              "kBAR = \"bar\"",
+              "kCOLORS = {RED: \"#ff0000\", GREEN: \"#00ff00\", BLUE: \"#0000ff\"}",
+              "kCONFIGFILE_PATH = Path(\"D:\\\\conf\\\\program_x_config.json\")"
+            ]
+          }
+        },
+        {
+          "title": "Paths",
+          "items": [
+            "Always use pathlib.Path."
+          ]
+        },
+        {
+          "title": "Function Arguments",
+          "items": [
+            "Do NOT use type annotations like \"key: str\" -- just \"key\" is fine.",
+            {
+              "rule": "Functions should have 0, 1, 2, or at most 3 arguments.",
+              "cases": [
+                {
+                  "arity": 0,
+                  "name": "nullary",
+                  "meaning": "the function simply does something.",
+                  "examples": [ "refresh()", "reset()" ]
+                },
+                {
+                  "arity": 1,
+                  "meaning": "the argument should be something that actually varies.",
+                  "examples": [
+                    { "example": "say(\"hello\")", "valid": true, "reason": "the message changes each call." },
+                    { "example": "doit(system_configuration)", "valid": false, "reason": "configuration is contextual; it belongs in globals, not in parameters." }
+                  ]
+                },
+                {
+                  "arity": 2,
+                  "meaning": "either a key/value pair, or a main argument + flags",
+                  "examples": [
+                    { "example": "set_color(\"background\", \"blue\")", "valid": true, "reason": "key/value." },
+                    { "example": "say(\"hello\", console)", "valid": false, "reason": "second argument is contextual." },
+                    { "example": "say(\"hello\", \"c\")", "valid": true, "reason": "last argument is a flags parameter (here \"c\" directs output to console)" }
+                  ]
+                },
+                {
+                  "arity": 3,
+                  "meaning": "the third argument must be used for flags that alter behavior.",
+                  "examples": [
+                    { "example": "set_color(\"background\", \"blue\", \".\")", "valid": true, "reason": "\".\" means \"dot stipple pattern.\"" }
+                  ],
+                  "note": "Most functions will never need this."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Type Annotations",
+          "items": [
+            "DO NOT use type annotations, unless there is a specifically demanding reason."
+          ]
+        },
+        {
+          "title": "Decorators",
+          "items": [
+            "DO NOT use decorators, unless there is a specifically demanding reason."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "III",
+      "title": "FUNCTION NAMES",
+      "date": "2025-11-18",
+      "intro": [
+        "These naming conventions create a street map of procedures — a small,",
+        "deliberate set of signals that turn a codebase into a place you can",
+        "move through with ease. Primitives become the highways of the system:",
+        "short, fast, used constantly. General verb-object functions form the",
+        "main roads, steady and familiar. Predicates are the road signs that",
+        "guide your decisions. One-off functions become the side paths and",
+        "alleys, each with a clearly marked purpose. And callback handlers act",
+        "as the city gates, announcing when the outside world enters.",
+        "",
+        "The effect is a codebase with shape, hierarchy, and terrain.  Patterns",
+        "of flow become visible the way avenues and lanes do when you look at a",
+        "real map. A reader can tell at once where the major currents run,",
+        "where a small detour lives, and where external events arrive.",
+        "",
+        "This structure means the codebase can be read like a map instead of a",
+        "maze — coherent, navigable, and intuitively organized, even before you",
+        "know every street by name."
+      ],
+      "sections": [
+        {
+          "category": "PRIMITIVES",
+          "pattern": "one word",
+          "definition": "Functions called extremely frequently (multiple times per 50–100 lines) should use a single-word name. These form the “core vocabulary” of the machine.",
+          "examples": [ "log(\"...\")", "send(msg)", "recv()", "push(obj)", "pop()", "flush()" ],
+          "characteristics": [
+            "minimal conceptual weight",
+            "high-frequency",
+            "context does most of the disambiguation",
+            "flags and global state may refine behavior internally"
+          ]
+        },
+        {
+          "category": "GENERAL FUNCTIONS",
+          "pattern": "verb_object",
+          "definition": "For the majority of reusable functions:",
+          "rules": [
+            "Use verb_object",
+            "Prefer simplicity over precision",
+            "Let context and flags disambiguate"
+          ],
+          "examples": [ "send_message(msg, flags=\"..\")", "store_photo(data)", "lookup_key(k)", "process_event(evt)" ],
+          "note": "These define the ordinary action layer of the system: steady, reliable, predictable."
+        },
+        {
+          "category": "ONE-OFF FUNCTIONAL UNITS",
+          "pattern": "really_long_and_really_descriptive_function_names",
+          "definition": "When a piece of code is ONLY ever called (and only ever TO be called) from one location and one location only, use really_long_and_really_descriptive_function_names.",
+          "reasoning": [
+            "In the main, this is for the purpose of breaking a function into peer-sized portions, to prevent one function from getting overloaded.",
+            "It is like a portion of an outline, broken into sub-parts.",
+            "Also, due to how my argument systems go, they are typically 0-arguments.",
+            "So they can just read like prose.",
+            "And they are called uniquely, so it's not spamming the code-base.",
+            "It makes it really clear what this is for, what it's about."
+          ],
+          "purpose": [
+            "Signals: \"This is basically a labelled code block.\"",
+            "Clarifies: \"This is NOT intended for general calling.\"",
+            "Protects namespace clarity.",
+            "Improves high-level scanning."
+          ],
+          "examples": [
+            "rebuild_everything_from_disk_now()",
+            "do_initial_pipeline_routing_setup()",
+            "update_filetree_cache_after_reload()",
+            "check_for_restart_request_and_handle()"
+          ]
+        },
+        {
+          "category": "PREDICATES",
+          "definition": "Predicates are boolean-returning functions that express conditions, readiness, permission, or intent. Their names must read like true/false questions and clearly signal whether they are reusable system checks or single-context conditions.",
+          "types": [
+            {
+              "type": "System-Wide Predicates",
+              "description": "Short, reusable status checks used in multiple locations across the codebase.",
+              "allowed_prefixes": {
+                "is_": "state inquiry",
+                "has_": "possession/existence",
+                "should_": "policy or intention check",
+                "may_": "permission, capability, or conditional allowance"
+              },
+              "naming_pattern_note": "Naming pattern is not strict.",
+              "naming_patterns": [
+                "is_<adjective_or_role>_<noun>()",
+                "has_<noun>()",
+                "should_<verb>()",
+                "may_<verb>()"
+              ],
+              "examples": [
+                "is_system_ready()",
+                "is_stream_open()",
+                "has_outbox_messages()",
+                "has_pending_uploads()",
+                "should_persist_now()",
+                "should_retry_later()",
+                "may_attempt_reconnect()"
+              ],
+              "flags_note": "These predicates may use flags internally to support multiple modes.",
+              "flag_examples": [
+                "is_ready(\"S\")  # system",
+                "is_ready(\"R\")  # robot"
+              ],
+              "constraint": "All such predicates remain short, because they serve as stable, reusable building blocks of the system's logic."
+            },
+            {
+              "type": "Single-Context Predicates",
+              "description": "Long, prose-like names for predicates used in only one location or unique to a particular flow.",
+              "naming_patterns": [
+                "is_this_the_first_time_the_application_has_started()",
+                "should_we_reload_everything_from_disk_now()",
+                "has_user_already_selected_a_photo_this_session()",
+                "may_we_proceed_with_initial_pairing_setup()"
+              ],
+              "characteristics": [
+                "Used in one place only.",
+                "Highly descriptive.",
+                "Declarative and narrative.",
+                "Do not clutter the global vocabulary.",
+                "Prefixes (is_, has_, should_, may_) do not count as words for the \"3+ word\" rule"
+              ],
+              "note": "These predicates exist to break a large flow into named, readable segments without introducing conceptual weight or namespace pollution."
+            }
+          ]
+        },
+        {
+          "category": "CALLBACK HANDLERS",
+          "pattern": "handle_...()",
+          "definition": [
+            "Callback handlers are functions invoked by external systems or frameworks such as tkinter, sockets, network protocols, timers, event loops, file watchers, or GUI widgets.",
+            "They have signatures you often do not control and represent the “edges” of the program where the outside world triggers internal logic.",
+            "Because they are externally invoked and usually correspond to a unique event, callback handlers are nearly always single-source functions."
+          ],
+          "rules": [
+            {
+              "rule": "All callback handlers must begin with handle_ or on_ (general preference for handle_).",
+              "reason": "This guarantees that when scanning function lists, you can instantly identify all handlers."
+            },
+            {
+              "rule": "Callback handlers follow the long-name, 3+ word rule (prefix handle_ or on_ does NOT count as a word).",
+              "reasons": [
+                "they are nearly always called from a single place",
+                "they represent unique events",
+                "their meaning must be absolutely clear at a glance",
+                "they serve as labeled chapters in a procedural story",
+                "they improve traceability in stack traces"
+              ]
+            }
+          ],
+          "examples": [
+            "handle_when_user_clicks_the_pairing_button(event)",
+            "handle_when_the_socket_receives_a_packet(sock, data)",
+            "handle_when_the_camera_initialization_completes()",
+            "handle_when_desktop_sends_a_message(message)",
+            "handle_if_the_user_selects_a_new_photo()",
+            "handle_when_the_camera_connection_fails(error)",
+            "handle_after_receiving_mqtt_message_from_desktop(msg)",
+            "handle_if_user_confirms_file_overwrite()"
+          ]
+        },
+        {
+          "category": "FLAGS MAY SPLIT FUNCTIONALITY",
+          "definition": "When a function is high-value but multi-modal, prefer flags over many similar names. Use long internal helpers for clarity.",
+          "example": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "def send_message(msg, data=None, flags=\"\"):",
+              "    if flags == \"T\":",
+              "        _send_tcp_message(msg, data)",
+              "    elif flags == \"O\":",
+              "        _send_message_to_target_object(msg, data)",
+              "    elif flags == \"U\":",
+              "        _send_message_to_user(msg, data)",
+              "    else:",
+              "        raise ValueError(flags)"
+            ]
+          },
+          "resulting_architecture": [
+            "simple at call sites,",
+            "explicit inside"
+          ],
+          "statement": "This is a defining feature of my style, and should be preserved."
+        },
+        {
+          "category": "JUSTIFICATION",
+          "content": [
+            "Flags work because the surrounding context already supplies nearly all the meaning. In real code, function calls are read inside a story, not in isolation.",
+            "When you see:",
+            "  def handle_when_user_clicks_save_button():",
+            "      text = read_text(\"editor\")",
+            "      save_text(text, \"F\")   # file",
+            "Even without knowing the flag, it is clear what’s happening: a user clicked a Save button, and the text is being saved somewhere. The \"F\" simply confirms the destination.",
+            "Inside the implementation, the long descriptive functions carry the full clarity:"
+          ],
+          "example": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "def save_text(text, flags=\"F\"):",
+              "    if flags == \"F\":",
+              "        _save_text_to_file(text)",
+              "    elif flags == \"N\":",
+              "        _save_text_to_network(text)",
+              "    elif flags == \"D\":",
+              "        _save_text_to_dictionary(text)",
+              "    elif flags == \"C\":",
+              "        _save_text_to_cache(text)"
+            ]
+          },
+          "conclusion": [
+            "Because each flag has one consistent meaning everywhere in the system, flags do not create ambiguity — they avoid clutter while preserving intent.",
+            "Context carries the meaning; flags make it precise."
+          ]
+        },
+        {
+          "category": "INTERNAL HELPER NAMING",
+          "rules": [
+            "Internal helpers follow all the normal naming rules.",
+            "The only difference is: they begin with an underscore."
+          ],
+          "examples": [ "_send()", "_save_text_to_file()", "_is_ready()", "_handle_when_socket_closes()" ]
+        },
+        {
+          "category": "CLOSING",
+          "text": [
+            "These naming conventions are not rules for their own sake. They are a way of giving shape to the codebase — a way of making the structure visible, the flow intuitive, and the machinery easy to live inside.",
+            "They keep the surface simple, the details expressive, and the whole system navigable like a map instead of a maze.",
+            "Their purpose is to support clarity, momentum, and the pleasure of writing code that feels like walking a familiar city: coherent, readable, and always pointing you in the right direction."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IV",
+      "title": "CLASSES",
+      "date": "2025-11-18",
+      "rules": [
+        {
+          "rule": "Avoid the use of classes. Prefer global functions and global variables.",
+          "note": "I recognize that this goes against the grain, but I follow the Principle of Minimal Expression."
+        },
+        {
+          "rule": "Acceptable exceptions include simple data containers such as Vector, Matrix, or similarly structured types."
+        },
+        {
+          "rule": "If you find yourself reaching for a class, that's okay, but pause:",
+          "subitems": [
+            "Ask how the same design could be expressed without a class, and we can add that pattern to this guide."
+          ]
+        }
+      ],
+      "example": {
+        "rather_than": {
+          "kind": "code",
+          "language": "python",
+          "lines": [
+            "class Counter:",
+            "    def __init__(self):",
+            "        self.count = 0",
+            "    def inc(self):",
+            "        self.count += 1",
+            "    def show(self):",
+            "        print(self.count)",
+            "",
+            "c = Counter()",
+            "c.inc()",
+            "c.show()"
+          ]
+        },
+        "write_this_instead": {
+          "kind": "code",
+          "language": "python",
+          "lines": [
+            "g = {\"count\": 0}",
+            "",
+            "def inc():",
+            "    g[\"count\"] += 1",
+            "",
+            "def show():",
+            "    print(g[\"count\"])",
+            "",
+            "inc()",
+            "show()"
+          ]
+        }
+      },
+      "todo": [
+        "INSERT OBJECT CURSORING EXAMPLE"
+      ]
+    },
+    {
+      "id": "V",
+      "title": "THREADS",
+      "date": "2025-11-18",
+      "stance": [
+        "Avoid threads whenever possible. They multiply complexity faster than they multiply performance."
+      ],
+      "justified_cases": [
+        {
+          "case": "Responsiveness in GUI programs",
+          "details": [
+            "Graphical interfaces (such as tkinter) often require that long-running operations happen outside the main event loop.",
+            "In these cases, a simple worker thread can keep the interface responsive while background work proceeds.",
+            "→ See the Tkinter section for recommended patterns."
+          ]
+        },
+        {
+          "case": "High-performance or blocking workloads",
+          "details": [
+            "Occasionally, a program must perform blocking I/O or coordinate with hardware or external systems that cannot be easily structured around event loops.",
+            "In these cases, a carefully isolated thread may be appropriate — but treat it as an exception, not a model."
+          ]
+        },
+        {
+          "case": "APIs that mandate their use.",
+          "details": []
+        }
+      ],
+      "warning": [
+        "If you find yourself worrying about “thread safety,” you are already outside the ideal design space of these guidelines.",
+        "Favor message queues, polling, or process-based coordination (see FileTalk) instead of shared mutable state."
+      ]
+    },
+    {
+      "id": "VI",
+      "title": "MULTI-CPU PROGRAMMING",
+      "date": "2025-11-18",
+      "guidance": [
+        "If you need to take advantage of multiple processors, make use of the interpreters module (PEP 554/734).",
+        "Since almost all of my programming emphasizes basic types (numbers, lists, strings, dictionaries,) it's a natural candidate for the interpreters module.",
+        "This said, in general, I avoid concurrencies like this. The reason to do this would be solely for the sake of performance."
+      ]
+    },
+    {
+      "id": "VII",
+      "title": "INTER-PROCESS COMMUNICATION",
+      "date": "2025-11-18",
+      "guidance": [
+        "Be aware of FileTalk — a simple, file-based system for programs to exchange information.",
+        "Consider what information your program might offer to others, and what it might receive in return."
+      ],
+      "filetalk_paradigm_extreme_synthesis": [
+        "Programs communicate by writing JSON files (with the extension .json) into designated receiving folders.",
+        "The outermost JSON value is always a list or dictionary.",
+        "Message delivery is not immediate; processes poll their receiving folders for new messages.",
+        "When reading, a process should retry if the file is not yet fully written — a successful parse of the outermost list or dictionary means the write is complete.",
+        "After a message is handled, the file should be deleted.",
+        "Archiving may be appropriate in special cases; ask before changing this behavior."
+      ],
+      "in_short": [
+        "My programs live in an ecology of processes that read and write one another’s files.",
+        "If your work involves multi-process coordination, ask about FileTalk conventions before proceeding."
+      ]
+    },
+    {
+      "id": "VIII",
+      "title": "DATA MANAGEMENT",
+      "date": "2025-11-18",
+      "sections": [
+        {
+          "title": "Persistent Storage",
+          "items": [
+            "Store data in JSON files whenever practical.",
+            "For small or human-edited files, use indented, readable JSON.",
+            "For long files, or machine-managed data, use compact (minified) JSON.",
+            "Always encode utf-8."
+          ]
+        },
+        {
+          "title": "Event Logs",
+          "items": [
+            "Store event logs one JSON object per line (the JSONL format).",
+            "Each new event is: (1) Appended to an in-memory log, and (2) Immediately written to disk (append-only).",
+            "Execution follows logging, either: immediately after writing to disk completes, or on a periodic polling loop that processes any unhandled events.",
+            "On startup, the program reconstructs state by replaying the event log in order."
+          ],
+          "snapshots": {
+            "label": "Snapshots (checkpoints of reconstructed state)",
+            "items": [
+              "Snapshots may be used to accelerate startup or to expose current state to other programs.",
+              "For collaborative systems, write snapshots promptly after each user-visible change.",
+              "For cautious systems, defer until explicit COMMIT or SAVE actions."
+            ]
+          },
+          "note": "Event logging is not appropriate for all programs — discuss with Lion before implementing."
+        },
+        {
+          "title": "Separation of File Serialization and Program Logic",
+          "items": [
+            "Keep file I/O separate from program logic. Reading and writing should be handled by small, dedicated functions whose only job is to move data to and from disk."
+          ]
+        },
+        {
+          "title": "Atomic Writes",
+          "items": [
+            "Always perform file writes atomically; See the \"Atomic Writes\" section of the Cookbook for possible implementation details."
+          ]
+        },
+        {
+          "title": "Singleton Files",
+          "items": [
+            "When there is only one canonical file of a kind — such as a single configuration or registry file — its read and write functions should be global and take no path arguments.",
+            "The file path is effectively constant within the program’s universe, so passing it around only adds noise."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "IX",
+      "title": "TKINTER",
+      "date": "2025-11-18",
+      "sections": [
+        {
+          "title": "Tkinter Threading",
+          "rules": [
+            "Tkinter programs should use exactly two threads: (1) GUI thread — the main thread that owns and updates widgets. (2) Worker thread — performs background operations and long-running work.",
+            "Threads exist only to keep the interface responsive.",
+            "All GUI interaction must happen on the main thread; never update widgets directly from a worker.",
+            "Use message queues to communicate safely."
+          ],
+          "example": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "gui_queue = queue.Queue()",
+              "work_queue = queue.Queue()",
+              "",
+              "def worker():",
+              "    while g[WORKING]:",
+              "        task = work_queue.get()     # blocking call",
+              "        result = do_work(task)",
+              "        gui_queue.put(result)"
+            ]
+          },
+          "polling": [
+            "The GUI thread should periodically poll gui_queue for updates (via after()), applying results as they arrive.",
+            "For general guidance on threads and alternatives, see the Threads section.",
+            "This guideline can be ignored if all work operations are most likely to take fewer than 50 ms to perform."
+          ]
+        },
+        {
+          "title": "Layout",
+          "items": [
+            "Use grid() for widget placement; it’s flexible, spatially clear, and scales well as interfaces grow.",
+            "Reserve pack() only for trivial, linear layouts or prototypes."
+          ]
+        },
+        {
+          "title": "Widgets Dictionary",
+          "rules": [
+            "Maintain a global dictionary named widgets to store references to UI elements. This allows easy introspection and debugging without scattered globals.",
+            "If multiple windows are active, use a list of widget dictionaries — one per window. Never store widget references as loose globals."
+          ],
+          "example": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "widgets = {}",
+              "",
+              "widgets[\"header\"] = ttk.Label(root, text=\"Header\")",
+              "widgets[\"header\"].grid(row=0, column=0)",
+              "",
+              "widgets[\"body\"] = ttk.Label(root, text=\"Body\")",
+              "widgets[\"body\"].grid(row=1, column=0)"
+            ]
+          }
+        },
+        {
+          "title": "The Root Window (g[TK])",
+          "rules": [
+            "Always create and store the root window in the global dictionary g."
+          ],
+          "example_1": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "g[TK] = tkinter.Tk()",
+              "g[TK].withdraw()                   # hide the root window",
+              "g[TK].option_add(\"*tearOff\", 0)    # disable tear-off menus"
+            ]
+          },
+          "example_2": {
+            "kind": "code",
+            "language": "python",
+            "lines": [
+              "g[TK] = widgets[\"root\"] = tkinter.tk()"
+            ],
+            "note": "This can be doubled with a widgets reference:"
+          }
+        },
+        {
+          "title": "Style",
+          "items": [
+            "Use ttk widgets whenever possible.",
+            "Define a coherent visual theme. Prefer \"dark mode\" interfaces.",
+            "Avoid ad hoc widget color settings; define palette constants or theme styles instead.",
+            "Ensure consistent padding, font, and border usage across all widgets."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "X",
+      "title": "DOCUMENTATION PRACTICES",
+      "date": "2025-11-18",
+      "sections": [
+        {
+          "title": "Docstrings",
+          "rules": [
+            "Do not document short functions (1-2 lines long) that are easily understandable at a glance.",
+            "Always document longer functions.",
+            "Do not fear docstrings becoming stale: Docstrings can now be trivially generated by AI.",
+            "If in doubt, error on the side of verbosity."
+          ],
+          "docstring_should_explain": [
+            "What the function does.",
+            "When or why it may be called (if not obvious).",
+            "What commands or events it handles.",
+            "What program state it modifies.",
+            "The shape of the data it touches, if it isn't documented elsewhere."
+          ],
+          "example": {
+            "status": "PENDING",
+            "label": "[EXAMPLE PENDING]"
+          }
+        }
+      ]
+    }
+  ]
+}

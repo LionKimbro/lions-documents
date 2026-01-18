@@ -1,0 +1,230 @@
+{
+  "doc_type": "wingcat_python_style_compact",
+  "inspired_by": "Lion's Python Programming Guidelines (2025)",
+  "purpose": "A short, structural rule-set for building simple, readable, castle-style procedural systems.",
+  "tone": "practical, procedural, narrative-first",
+
+  "core_beliefs": [
+    "Clarity beats cleverness.",
+    "Structure should be visible from a distance.",
+    "Context carries meaning; names and flags refine it.",
+    "Inside the system, assumptions are trusted.",
+    "Outside the system, data is normalized before entry."
+  ],
+
+  "design_principles": [
+    {
+      "name": "Minimal Construction",
+      "rule": "Do not build scaffolding unless it carries real weight.",
+      "notes": [
+        "Prefer direct functions over classes.",
+        "Avoid abstraction layers that only organize, not transform.",
+        "If a thing is used once, let it be local and obvious."
+      ]
+    },
+    {
+      "name": "Soft Modularity",
+      "rule": "Repeat small patterns instead of inventing big structures.",
+      "notes": [
+        "Structure through conventions, not frameworks.",
+        "Let similar code look similar, even if duplicated slightly."
+      ]
+    },
+    {
+      "name": "Trusted Interior",
+      "rule": "Inside the system, assume correctness.",
+      "notes": [
+        "No defensive dictionary access.",
+        "No optional fields once data is admitted.",
+        "Validation happens at boundaries, not everywhere."
+      ]
+    },
+    {
+      "name": "Castle Gate",
+      "rule": "Normalize all external input before use.",
+      "notes": [
+        "Different formats may enter.",
+        "Only canonical structures live inside."
+      ]
+    },
+    {
+      "name": "Separate Validation",
+      "rule": "Check first, then operate.",
+      "notes": [
+        "Validation functions do not perform work.",
+        "Operational functions assume valid data."
+      ]
+    }
+  ],
+
+  "state_and_globals": {
+    "philosophy": "Globals are acceptable and often preferable.",
+    "rules": [
+      "Globals are mutated, never rebound.",
+      "Group related scalars into small bundles.",
+      "Keep large or volatile data in dedicated containers.",
+      "Prefer one canonical global bundle named 'g'."
+    ]
+  },
+
+  "functions": {
+    "arguments": {
+      "max_args": 3,
+      "preferred": [0, 1, 2],
+      "rules": [
+        "Only pass what truly varies.",
+        "Contextual state belongs in globals.",
+        "Third argument is reserved for flags."
+      ]
+    },
+    "flags": {
+      "purpose": "Select behavior without multiplying function names.",
+      "rules": [
+        "Each flag has one meaning everywhere.",
+        "Context explains most of the intent.",
+        "Implementation carries the detailed branching."
+      ]
+    }
+  },
+
+  "naming_conventions": {
+    "primitives": {
+      "pattern": "single_word",
+      "use": "very frequent operations",
+      "examples": ["send", "recv", "log", "push", "pop"]
+    },
+    "general_functions": {
+      "pattern": "verb_object",
+      "use": "normal reusable actions",
+      "examples": ["send_message", "store_photo", "lookup_key"]
+    },
+    "one_off_functions": {
+      "pattern": "long_descriptive_names",
+      "use": "called from one place only",
+      "purpose": [
+        "act as labeled code blocks",
+        "make flow readable",
+        "prevent giant functions"
+      ]
+    },
+    "predicates": {
+      "short_system": {
+        "prefixes": ["is_", "has_", "should_", "may_"],
+        "use": "reusable state or policy checks"
+      },
+      "long_contextual": {
+        "use": "single-flow narrative checkpoints",
+        "rule": "read like questions in prose"
+      }
+    },
+    "callbacks": {
+      "prefix": ["handle_", "on_"],
+      "rule": "always long and descriptive",
+      "meaning": "this is where the outside world enters"
+    },
+    "internal_helpers": {
+      "rule": "same naming rules, but start with '_'"
+    }
+  },
+
+  "classes": {
+    "default_position": "avoid",
+    "acceptable_uses": [
+      "simple data containers",
+      "math-like structures (Vector, Matrix)"
+    ],
+    "reflection_rule": "Before using a class, ask how to express this procedurally."
+  },
+
+  "threads_and_concurrency": {
+    "default_position": "avoid",
+    "acceptable_cases": [
+      "GUI responsiveness",
+      "blocking I/O that cannot be event-driven",
+      "APIs that mandate threads"
+    ],
+    "preferred_models": [
+      "queues",
+      "polling loops",
+      "separate processes"
+    ]
+  },
+
+  "multi_process_coordination": {
+    "preferred_model": "file-based message passing (FileTalk style)",
+    "rules": [
+      "JSON messages written to folders",
+      "outermost structure is list or dict",
+      "poll for delivery",
+      "retry if file incomplete",
+      "delete after handling"
+    ],
+    "philosophy": "Programs live in an ecosystem, not in isolation."
+  },
+
+  "data_management": {
+    "storage": [
+      "Prefer JSON.",
+      "Indented for human-edited files.",
+      "Minified for machine-managed files.",
+      "Always UTF-8."
+    ],
+    "event_logs": {
+      "format": "JSONL",
+      "rules": [
+        "append-only",
+        "write before acting",
+        "replay on startup"
+      ],
+      "snapshots": "optional acceleration, not authoritative state"
+    },
+    "file_io_separation": "serialization is not business logic",
+    "atomic_writes": "always"
+  },
+
+  "tkinter_guidelines": {
+    "threads": {
+      "model": "exactly two",
+      "roles": ["GUI thread", "worker thread"],
+      "communication": "queues only"
+    },
+    "layout": {
+      "preferred": "grid",
+      "avoid": "pack except for trivial cases"
+    },
+    "widgets": {
+      "rule": "store in dictionaries",
+      "reason": "introspection and debugging"
+    },
+    "root_window": {
+      "rule": "store in g[TK]",
+      "defaults": ["withdraw root", "disable tear-off menus"]
+    },
+    "style": [
+      "prefer ttk",
+      "define themes",
+      "avoid ad hoc colors",
+      "consistent spacing and fonts"
+    ]
+  },
+
+  "documentation": {
+    "docstrings": {
+      "skip": "very short obvious functions",
+      "require": "anything with real logic",
+      "should_explain": [
+        "what it does",
+        "why it is called",
+        "what state it changes",
+        "what shape of data it expects"
+      ]
+    },
+    "philosophy": "Code should read like a story even without comments."
+  },
+
+  "closing": [
+    "The goal is not theoretical purity.",
+    "The goal is momentum, legibility, and trust in the system.",
+    "Good code feels like walking through a familiar city, not navigating a maze."
+  ]
+}

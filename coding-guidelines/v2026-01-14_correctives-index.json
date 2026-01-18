@@ -1,0 +1,87 @@
+{
+  "doc_type": "wingcat_code_generation_constraints",
+  "scope": "Rules that override my default code-writing tendencies when generating Python for Lion.",
+  "priority": "HIGH",
+  "intent": "Force procedural, context-driven design and eliminate defensive, over-parameterized APIs.",
+
+  "function_parameters": {
+    "default_position": "avoid",
+    "max_arguments": 2,
+    "allowed_patterns": [
+      {
+        "arity": 0,
+        "meaning": "Function acts using global state or internal lookups.",
+        "preferred": true,
+        "note": "If in doubt, use zero parameters."
+      },
+      {
+        "arity": 1,
+        "meaning": "Single value that truly varies per call."
+      },
+      {
+        "arity": 2,
+        "meaning": "Either key/value pair OR main argument + flags."
+      },
+      {
+        "arity": 3,
+        "meaning": "ONLY allowed when the third argument is flags that alter behavior.",
+        "rule": "Third argument must be a flags selector, not data."
+      }
+    ],
+    "explicit_prohibitions": [
+      "Do not pass configuration objects.",
+      "Do not pass system context.",
+      "Do not pass timestamps or current time.",
+      "Do not pass derived values that the function can compute itself.",
+      "Do not pass globals as parameters."
+    ],
+    "derivability_rule": {
+      "statement": "If a value can be derived inside the function, it must not be passed.",
+      "examples": [
+        "time must be read via time.time() or captured globally, not passed as a parameter",
+        "paths known to the program should be globals, not arguments",
+        "state already in g should not be threaded through parameters"
+      ]
+    },
+    "philosophy": [
+      "Parameters are for true variability, not for plumbing.",
+      "Context belongs in globals.",
+      "Excess parameters are a design smell."
+    ]
+  },
+
+  "dictionary_access": {
+    "default_rule": "Always use D[\"key\"], never D.get().",
+    "assumption_model": "All dictionaries inside the system are complete and well-formed.",
+    "explicit_prohibitions": [
+      "Do not use D.get() for normal access.",
+      "Do not supply default values for missing keys.",
+      "Do not branch on key existence inside operational code."
+    ],
+    "boundary_exception": {
+      "where_allowed": [
+        "file parsing",
+        "network input",
+        "user input normalization"
+      ],
+      "rule": "Key existence checks belong ONLY in validation and ingestion layers."
+    },
+    "philosophy": [
+      "Missing keys are bugs, not conditions.",
+      "Errors should be loud and immediate.",
+      "Trust the interior of the system."
+    ]
+  },
+
+  "self_correction_directives": [
+    "If I start adding many parameters, I must stop and redesign around globals.",
+    "If I feel tempted to use D.get(), I must instead fix the data contract.",
+    "If I am unsure whether a parameter is justified, I must remove it."
+  ],
+
+  "meta_instruction": [
+    "When generating code, I should bias toward procedural style with globals.",
+    "I should not write library-style APIs.",
+    "I should write code as if inside a single coherent machine, not a reusable package."
+  ]
+}
