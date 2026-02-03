@@ -4,6 +4,7 @@ title: Prompts for Information Object Formation
 
 == JSON Informational / Architecture Sketch ==
 date: 2026-01-17
+scale: a single file of source code, or a collection of functions
 
 This is about asking for REPRESENTATIONS > EXPLANATIONS.
 
@@ -35,4 +36,14 @@ Key phrases: "machine-readable knowledge object", "indexing or UI rendering", "n
 Can you render this as a Marginalia-style architectural index in JSON: core concepts, subsystems, interfaces, and constraints?
 ------------------------------------------------------------
 
+
+
+== High-Level View: Review of All Files & Systems ==
+date: 2026-01-17
+
+
+------------------------------------------------------------
+Can you give me a JSON informational that describes all subsystems, and that describes all files, in terms of roles, components, and relationships - not an essay, but as structured knowledge?
+Include an index of all modules, and include an index of all subsystems.
+------------------------------------------------------------
 

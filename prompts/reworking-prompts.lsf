@@ -27,6 +27,16 @@ date: 2026-01-17
     Seperate out experimental prompts, and time-tested prompts, in different places.
 
 
+== Understanding What it Does ==
+date: 2026-01-18
+
+------------------------------------------------------------
+Explain to me what this code does in extremely simplified pseudo-code:
+------------------------------------------------------------
+...
+------------------------------------------------------------
+
+
 == Creating a Directory of Methods and Global Data ==
 data: 2026-01-17
 
@@ -42,7 +52,7 @@ Outer Format:
 }
 
 
-Global Data read prompt:
+Global Data scanning prompt:
 ----------------------------------------
 Wing-Cat, please create a description of global data that meets the
 following form:
@@ -62,6 +72,34 @@ following form:
 module filename: {____________}
 ----------------------------------------
 {insert module here}
+----------------------------------------
+
+
+Function scanning prompt:
+----------------------------------------
+Wing-Cat, please create a description of functions that meet the following form:
+
+{
+  "import": "import foo",  <-- how this module is imported from within this package
+  "functions": {
+    "add": {"invocation": "add(a,b)",
+            "arg-a": ["int", "first number to add"],
+            "arg-b": ["int", "second number to add"],
+            "returns": ["int", "sum of two numbers"],
+            "reads-globals": ["g['foo']"],
+            "writes-globals": ["g['bar']"],
+            "purpose": "add two numbers, increments g['bar']"},
+    "sub": {"invocation": "sub(a,b)", "arg-a": [], "arg-b": [],
+            "returns": ["int", "sub b from a"],
+            "reads-globals": [],
+            "writes-globals": [],
+            "purpose": "subtract b from a"}
+  }
+}
+----------------------------------------
+module filename: {__________}
+----------------------------------------
+<insert module here>
 ----------------------------------------
 
 
