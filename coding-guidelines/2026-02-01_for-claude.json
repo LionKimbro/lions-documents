@@ -1,484 +1,48 @@
 {
   "document": {
-    "document_id": "lionsphilosophyofprogramming.2025.part2.first-try",
-    "title": "Lion's Python Programming Guidelines (2025) -- Part II (first attempt at JSON-ification)",
-    "purpose": "a JSON-ification of my full Python Programming guidelines"
+    "document_id": "lionsphilosophyofprogramming.2025.forclaude",
+    "title": "Lion's Python Programming Guidelines (2025) -- Special Edition for Claude",
+    "purpose": "adjusted programming guidelines for Claude Code"
   },
   "doc_type": "lions_python_programming_guidelines",
-  "version_label": "v2025-10-28",
+  "documentid": "coding-guidelines.for-claude.2026-02-01",
+  "version_label": "v2026-02-01",
   "metadata": {
-    "date": "2025-10-29",
-    "title": "Lion's Python Programming Guidelines (v2025-10-28)",
-    "chatgpt_thread": "https://chatgpt.com/c/6902f51d-b658-8329-8c63-f00e744cac94",
-    "updated": "2025-12-30"
-  },
-  "release_note": {
-    "date": "2025-10-30",
-    "text": [
-      "This document consolidates the lineage of",
-      "python-coding-guidelines_v2025-10-15.txt and",
-      "python-coding-guidelines-v02.md into a single definitive statement of",
-      "Lion Kimbro’s programming method.  It codifies a minimal, expressive,",
-      "and philosophically unified style of Python rooted in clarity,",
-      "control, and moral simplicity."
-    ],
-    "structure_overview": [
-      {
-        "part": "I",
-        "title": "Principles",
-        "summary": "sets the structural foundations."
-      },
-      {
-        "part": "II",
-        "title": "Guidelines",
-        "summary": "defines operational practice."
-      },
-      {
-        "part": "III",
-        "title": "Data Management",
-        "summary": "establishes persistence discipline."
-      },
-      {
-        "part": "IV",
-        "title": "Tkinter",
-        "summary": "documents canonical GUI procedure."
-      },
-      {
-        "part": "V",
-        "title": "Documentation Practices",
-        "summary": "describes the voice of code itself."
-      }
-    ],
-    "edition_policy": {
-      "authoritative_reference_year": 2025,
-      "future_changes_policy": [
-        "This edition is frozen as the authoritative reference for the year 2025.",
-        "Subsequent changes will appear as dated part-series revisions (e.g. v2025-12-14_part2_lions-python-programming-guidelines.txt).",
-        "Cookbook entries will evolve independently as timestamped additions.",
-        "Minor annotations to this text will be explicitly dated inline and compiled before any future major revision."
-      ]
-    }
-  },
-  "updates": {
-    "date": "2025-11-18",
-    "items": [
-      {
-        "date": "2025-11-18",
-        "change": "major expansion on function naming; also, divided into multiple LSF sections"
-      },
-      {
-        "date": "2025-12-27",
-        "change": "Avoid decorators, type annotations, and other meta-programming features unless there is a demanding reason"
-      },
-      {
-        "date": "2025-12-30",
-        "change": "Always use pathlib.Path."
-      }
-    ]
+    "date": "2026-02-01",
+    "title": "Lion's Python Programming Guidelines, adapted for Claude",
+    "updated": "2026-02-01"
   },
   "parts": [
-    {
-      "id": "I",
-      "title": "PRINCIPLES",
-      "date": "2025-10-29",
-      "principles_list": [
-        {
-          "name": "Principle of Minimal Expression",
-          "quote": "Do not build what you do not need."
-        },
-        {
-          "name": "Principle of Soft Modularity",
-          "quote": "Prefer small, repeatable patterns to heavy structures."
-        },
-        {
-          "name": "Principle of Trusted Conditions",
-          "quote": "Stand by your assumptions."
-        },
-        {
-          "name": "Principle of The Castle Gate",
-          "quote": "Be liberal in what you accept, but strict with what you admit."
-        },
-        {
-          "name": "Principle of Separate Validation",
-          "quote": "Segregate validation & operation."
-        },
-        {
-          "name": "Principle of Uniformity Within the Castle",
-          "quote": "Once inside, all data speaks one dialect."
-        },
-        {
-          "name": "Principle of Vulnerability",
-          "quote": "Within the castle, prefer vulnerability to armor."
-        }
-      ],
-      "sections": [
-        {
-          "type": "principle_detail",
-          "name": "Principle of Minimal Expression",
-          "quote": "Do not build what you do not need.",
-          "content": [
-            {
-              "kind": "text",
-              "lines": [
-                "That is, rather than writing this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "class BigClassThatDoesImportantThings:",
-                "    def __init__(self):",
-                "        self.initialize()",
-                "    def initialize(self):",
-                "        self.msg = \"Hello, world!\"",
-                "    def speak(self):",
-                "        print(self.msg)"
-              ]
-            },
-            {
-              "kind": "text",
-              "lines": [
-                "Instead, write this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "def speak():",
-                "    print(\"hello, world!\")"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "principle_detail",
-          "name": "Principle of Soft Modularity",
-          "quote": "Prefer small, repeatable patterns to heavy structures.",
-          "content": [
-            {
-              "kind": "text",
-              "lines": [
-                "That is, rather than writing this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "class GuiBuilder:",
-                "    def __init__(self, root):",
-                "        self.root = root",
-                "        self.build_header()",
-                "        self.build_body()",
-                "        self.build_footer()",
-                "",
-                "    def build_header(self):",
-                "        frame = Frame(self.root)",
-                "        Label(frame, text=\"Header\").pack()",
-                "        frame.pack()",
-                "",
-                "    def build_body(self):",
-                "        frame = Frame(self.root)",
-                "        Label(frame, text=\"Body\").pack()",
-                "        frame.pack()",
-                "",
-                "    def build_footer(self):",
-                "        frame = Frame(self.root)",
-                "        Label(frame, text=\"Footer\").pack()",
-                "        frame.pack()"
-              ]
-            },
-            {
-              "kind": "text",
-              "lines": [
-                "Instead, write this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "frame = Frame(root); Label(frame, text=\"Header\").pack(); frame.pack()",
-                "frame = Frame(root); Label(frame, text=\"Body\").pack();   frame.pack()",
-                "frame = Frame(root); Label(frame, text=\"Footer\").pack(); frame.pack()"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "principle_detail",
-          "name": "The Parameter Principle",
-          "quote": "Pass only what varies.",
-          "content": [
-            {
-              "kind": "text",
-              "lines": [
-                "That is, rather than writing this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "for x in range(10):",
-                "    display(x, width=80, height=25, font=\"courier\", fontsize=12, device=output_device)"
-              ]
-            },
-            {
-              "kind": "text",
-              "lines": [
-                "Instead, write this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "set_width(80)",
-                "set_height(25)",
-                "set_font(\"courier\", 12)",
-                "set_device(output_device)",
-                "",
-                "...",
-                "",
-                "for x in range(10):",
-                "    display(x)"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "principle_detail",
-          "name": "Principle of Trusted Conditions",
-          "quote": "Stand by your assumptions.",
-          "content": [
-            {
-              "kind": "text",
-              "lines": [
-                "That is, rather than writing this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "D.get(\"foo\", None)  # \"defensive programming\", aka hedging"
-              ]
-            },
-            {
-              "kind": "text",
-              "lines": [
-                "Instead, write this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "D[\"foo\"]  # pre-condition: \"foo\" is present"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "principle_detail",
-          "name": "Principle of The Castle Gate",
-          "quote": "Be liberal in what you accept, but strict with what you admit.",
-          "content": [
-            {
-              "kind": "text",
-              "lines": [
-                "That is, rather than writing this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "def load_jpeg(f):",
-                "    g[DATA] = jpegdata_from_file(f)",
-                "",
-                "def load_png(f):",
-                "    g[DATA] = pngdata_from_file(f)",
-                "",
-                "def load_gif(f):",
-                "    g[DATA] = gifdata_from_file(f)"
-              ]
-            },
-            {
-              "kind": "text",
-              "lines": [
-                "Instead, write this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "def load_jpeg(f):",
-                "    g[DATA] = pixeldata_from_jpeg(f.read())",
-                "",
-                "def load_png(f):",
-                "    g[DATA] = pixeldata_from_png(f.read())",
-                "",
-                "def load_gif(f):",
-                "    g[DATA] = pixeldata_from_gif(f.read())"
-              ]
-            },
-            {
-              "kind": "text",
-              "lines": [
-                "Each loader normalizes external data into one canonical structure.",
-                "Different file formats may enter, but only uniform pixel data is",
-                "allowed inside the castle."
-              ]
-            }
-          ]
-        },
-        {
-          "type": "principle_detail",
-          "name": "Principle of Separate Validation",
-          "quote": "Segregate validation & operation.",
-          "content": [
-            {
-              "kind": "text",
-              "lines": [
-                "That is, rather than writing this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "def handle_request(msg):",
-                "    if len(msg) != 3:",
-                "        raise TypeError(\"bad message\")",
-                "    if TYPE not in msg:",
-                "        raise TypeError(\"missing type\")",
-                "    # more validation...",
-                "    ",
-                "    if msg[TYPE] == PING:",
-                "        do_something()"
-              ]
-            },
-            {
-              "kind": "text",
-              "lines": [
-                "Instead, write this:"
-              ]
-            },
-            {
-              "kind": "code",
-              "language": "python",
-              "lines": [
-                "def handle_request(msg):",
-                "    validate_request(msg)",
-                "",
-                "    if msg[TYPE] == PING:",
-                "        do_something()",
-                "",
-                "def validate_request(msg):",
-                "    if len(msg) != 3:",
-                "        raise TypeError(\"bad message\")",
-                "    if TYPE not in msg:",
-                "        raise TypeError(\"missing type\")"
-              ]
-            }
-          ]
-        },
-        {
-          "type": "principle_detail",
-          "name": "Principle of Uniformity Within The Castle",
-          "quote": "Once inside, all data speaks one dialect.",
-          "content": [
-            {
-              "kind": "placeholder",
-              "label": "TO BE COLLECTED",
-              "notes": [
-                "the code example here will likely include checks for the presence of keys on input, and produce branching behavior based on the presence or absence of keys",
-                "the code example here will be direct, with no \"form checking\""
-              ]
-            }
-          ]
-        },
-        {
-          "type": "principle_detail",
-          "name": "Principle of Vulnerability",
-          "quote": "Within the castle, prefer vulnerability to armor.",
-          "content": [
-            {
-              "kind": "placeholder",
-              "label": "TO COLLECT",
-              "notes": [
-                "(TO COLLECT) Rather-than / Instead examples are not yet provided in this document snapshot."
-              ]
-            }
-          ]
-        }
-      ]
-    },
     {
       "id": "II",
       "title": "GUIDELINES",
       "date": "2025-10-29",
       "sections": [
         {
-          "title": "Function and Variable Names",
-          "items": [
-            "snake_case",
-            "do NOT use type hints",
-            {
-              "rule": "use ultra-short variables wherever meaning is obvious by context",
-              "examples": [
-                {
-                  "name": "s",
-                  "meaning": "a string (if the meaning is obvious)"
-                },
-                {
-                  "name": "s1",
-                  "meaning": "a string (if the meaning is obvious by context)"
-                },
-                {
-                  "name": "s2",
-                  "meaning": "another string (if the meaning is obvious by context)"
-                },
-                {
-                  "name": "L",
-                  "meaning": "a list"
-                },
-                {
-                  "name": "D",
-                  "meaning": "a dictionary"
-                },
-                {
-                  "name": "i",
-                  "meaning": "an index"
-                },
-                {
-                  "name": "j",
-                  "meaning": "secondary index"
-                },
-                {
-                  "name": "cmd",
-                  "meaning": "a command string issued by the user (\"open\", \"ls\", ...) (Feel free to use reasonable such things; I prefer it in fact.)"
-                }
-              ]
-            }
-          ]
-        },
-        {
           "title": "Global Variables",
-          "items": [
-            "IGNORE the cultural taboo against globals; they simplify programs.",
-            "Give each global a use policy -- clear rules for when and how it may be modified.",
-            "Global dictionaries and lists live at top level; mutate them in place, never re-assign.",
-            "Group scalar bundles (numbles, strings, etc.,) into bundles -- small, thematically related namespaces that are easy to inspect together while debugging.",
-            "Keep large or transient data out of these bundles, or place them in their own bundles.",
-            "The canonical global bundle is named \"g\".",
-            "The \"global\" keyword is never required: globals are never rebound, only modified in place."
-          ],
+          "items": {
+            "Globals Are a Tool, Not a Sin": "Do not treat globals as taboo. In disciplined systems, globals reduce complexity, improve inspectability, and simplify dataflow.",
+            "Global Ownership and Mutation Policy": "Every global must have an explicit use policy defining when it may be read, when it may be mutated, and which code is responsible for those mutations.",
+            "Global Structure Rules": [
+              "Globals that are dictionaries or lists must be created at module top level.",
+              "Globals are never rebound; they are mutated in place only.",
+              "Because of this, the Python \"global\" keyword is unnecessary."
+            ],
+            "Bundling Scalar State": "Scalar values (numbers, flags, short strings, small counters) should not exist as free globals. Group them into small, thematically coherent bundles so related state can be inspected together during debugging.",
+            "Glanceable vs Opaque State": "Not all global state is meant to be inspected by humans. Human-inspectable (glanceable) state and large opaque data must be kept in separate bundles with different expectations.",
+            "The G Dictionary": [
+              "The canonical human-inspectable state bundle within a module is a dictionary named \"g\".",
+              "\"g\" is for glanceable state only: its contents must remain small, stable, and safe to inspect at any time.",
+              "Anything that could overwhelm, freeze, or distract during debugging does not belong in \"g\"."
+            ],
+            "Large Data Isolation": [
+              "Large or voluminous values (long strings, large lists, bulk records, file contents, caches, databases, logs, etc.) are welcome in global space.",
+              "Such data must be isolated in their own top-level bundles (e.g., \"long_strings\", \"big_files\", \"bulk_data\").",
+              "Even a single large value should be stored under a descriptive key inside an appropriate large-data bundle, not directly in \"g\"."
+            ],
+            "Purpose of Large-Data Bundles": "Large-data bundles exist specifically so they can be avoided during debugging. Their purpose is storage and access, not inspection.",
+            "Function Dataflow Model": "Because global state is the primary dataflow mechanism, functions typically read from global space and write back to global space. As a result, functions often require few or no parameters and commonly return no value."
+          },
           "example": {
             "kind": "code",
             "language": "python",
@@ -497,29 +61,6 @@
               "",
               "def log_event(msg):",
               "    events.append((g[\"count\"], msg))"
-            ]
-          }
-        },
-        {
-          "title": "Symbols",
-          "optional": true,
-          "items": [
-            "Use symbols liberally.  Rather than string keys, define symbols that evaluate to equivalent strings.",
-            "Symbols are always declared in all upper-case, and evaluate to upper-case."
-          ],
-          "example": {
-            "kind": "code",
-            "language": "python",
-            "lines": [
-              "COUNT = \"COUNT\"",
-              "MODE = \"MODE\"",
-              "IDLE = \"IDLE\"",
-              "RUNNING = \"RUNNING\"",
-              "",
-              "g = {",
-              "    COUNT: 0,",
-              "    MODE: IDLE  # IDLE or RUNNING",
-              "}"
             ]
           }
         },
@@ -553,7 +94,11 @@
           "items": [
             "Do NOT use type annotations like \"key: str\" -- just \"key\" is fine.",
             {
-              "rule": "Functions should have 0, 1, 2, or at most 3 arguments.",
+              "rule": "Functions should have 0, 1, or 2 data arguments, with an optional final flags argument. Total arity must not exceed 3.",
+              "model": {
+                "base_arity": "Functions take 0, 1, or 2 arguments that carry data.",
+                "flags": "Any function may optionally accept a final flags argument, bringing total arity to at most 3."
+              },
               "cases": [
                 {
                   "arity": 0,
@@ -561,17 +106,23 @@
                   "meaning": "the function simply does something.",
                   "examples": [
                     "refresh()",
-                    "reset()"
+                    "reset()",
+                    "refresh(\"f\")"
                   ]
                 },
                 {
                   "arity": 1,
-                  "meaning": "the argument should be something that actually varies.",
+                  "meaning": "the argument should be a value that genuinely varies per call.",
                   "examples": [
                     {
                       "example": "say(\"hello\")",
                       "valid": true,
                       "reason": "the message changes each call."
+                    },
+                    {
+                      "example": "say(\"hello\", \"c\")",
+                      "valid": true,
+                      "reason": "flags modify behavior (output to console)."
                     },
                     {
                       "example": "doit(system_configuration)",
@@ -582,7 +133,7 @@
                 },
                 {
                   "arity": 2,
-                  "meaning": "either a key/value pair, or a main argument + flags",
+                  "meaning": "either a key/value pair, or two meaningful data arguments.",
                   "examples": [
                     {
                       "example": "set_color(\"background\", \"blue\")",
@@ -590,30 +141,34 @@
                       "reason": "key/value."
                     },
                     {
+                      "example": "set_color(\"background\", \"blue\", \".\")",
+                      "valid": true,
+                      "reason": "flags modify behavior (dot stipple pattern)."
+                    },
+                    {
                       "example": "say(\"hello\", console)",
                       "valid": false,
                       "reason": "second argument is contextual."
-                    },
-                    {
-                      "example": "say(\"hello\", \"c\")",
-                      "valid": true,
-                      "reason": "last argument is a flags parameter (here \"c\" directs output to console)"
                     }
                   ]
-                },
-                {
-                  "arity": 3,
-                  "meaning": "the third argument must be used for flags that alter behavior.",
-                  "examples": [
-                    {
-                      "example": "set_color(\"background\", \"blue\", \".\")",
-                      "valid": true,
-                      "reason": "\".\" means \"dot stipple pattern.\""
-                    }
-                  ],
-                  "note": "Most functions will never need this."
                 }
-              ]
+              ],
+              "flags": {
+                "position": "Flags, if present, must be the final argument.",
+                "representation": "Flags are represented as single-character strings.",
+                "semantics": "Flags are order-independent and must be treated as a set, not a sequence.",
+                "combination": "Multiple flags may be combined by concatenating characters into a single string."
+              },
+              "mutual_exclusion": {
+                "rule": "Some flags may be mutually exclusive.",
+                "behavior": "If mutually exclusive flags are provided together, this is a runtime error and must raise an exception.",
+                "validation": "Functions should explicitly test for invalid flag combinations when such exclusions exist."
+              },
+              "helpers": {
+                "guidance": "If validation of mutually exclusive flags becomes common, introduce a shared helper function to validate flag sets.",
+                "policy": "Do not introduce helper infrastructure preemptively; add it only when repetition justifies it."
+              },
+              "note": "Flags modify behavior only. They do not carry data. Parameters carry data; globals carry context."
             }
           ]
         },
@@ -1151,33 +706,6 @@
             "Avoid ad hoc widget color settings; define palette constants or theme styles instead.",
             "Ensure consistent padding, font, and border usage across all widgets."
           ]
-        }
-      ]
-    },
-    {
-      "id": "X",
-      "title": "DOCUMENTATION PRACTICES",
-      "date": "2025-11-18",
-      "sections": [
-        {
-          "title": "Docstrings",
-          "rules": [
-            "Do not document short functions (1-2 lines long) that are easily understandable at a glance.",
-            "Always document longer functions.",
-            "Do not fear docstrings becoming stale: Docstrings can now be trivially generated by AI.",
-            "If in doubt, error on the side of verbosity."
-          ],
-          "docstring_should_explain": [
-            "What the function does.",
-            "When or why it may be called (if not obvious).",
-            "What commands or events it handles.",
-            "What program state it modifies.",
-            "The shape of the data it touches, if it isn't documented elsewhere."
-          ],
-          "example": {
-            "status": "PENDING",
-            "label": "[EXAMPLE PENDING]"
-          }
         }
       ]
     }

@@ -1,4 +1,9 @@
 {
+  "document": {
+    "document_id": "lionsphilosophyofprogramming.2025.part1",
+    "title": "Lion's Python Programming Guidelines (2025) -- Part I",
+    "purpose": "a JSON-ification of my full Python Programming guidelines"
+  },
   "metadata": {
     "title": "Lion’s Philosophy of Programming",
     "version": "v2025-10-28",

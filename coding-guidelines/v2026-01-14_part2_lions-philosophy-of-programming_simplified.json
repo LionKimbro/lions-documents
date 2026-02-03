@@ -1,9 +1,14 @@
 {
+  "document": {
+    "document_id": "lionsphilosophyofprogramming.2025.simplified",
+    "title": "Lion's Python Programming Guidelines (2025) -- Simplified Edition",
+    "purpose": "simplified JSON version, for use by LLM programming agents"
+  },
+  "document_id": "lionsphilosophyofprogramming.2025.simplified",
   "doc_type": "wingcat_python_style_compact",
   "inspired_by": "Lion's Python Programming Guidelines (2025)",
   "purpose": "A short, structural rule-set for building simple, readable, castle-style procedural systems.",
   "tone": "practical, procedural, narrative-first",
-
   "core_beliefs": [
     "Clarity beats cleverness.",
     "Structure should be visible from a distance.",
@@ -11,7 +16,6 @@
     "Inside the system, assumptions are trusted.",
     "Outside the system, data is normalized before entry."
   ],
-
   "design_principles": [
     {
       "name": "Minimal Construction",
@@ -56,7 +60,6 @@
       ]
     }
   ],
-
   "state_and_globals": {
     "philosophy": "Globals are acceptable and often preferable.",
     "rules": [
@@ -66,11 +69,14 @@
       "Prefer one canonical global bundle named 'g'."
     ]
   },
-
   "functions": {
     "arguments": {
       "max_args": 3,
-      "preferred": [0, 1, 2],
+      "preferred": [
+        0,
+        1,
+        2
+      ],
       "rules": [
         "Only pass what truly varies.",
         "Contextual state belongs in globals.",
@@ -86,17 +92,26 @@
       ]
     }
   },
-
   "naming_conventions": {
     "primitives": {
       "pattern": "single_word",
       "use": "very frequent operations",
-      "examples": ["send", "recv", "log", "push", "pop"]
+      "examples": [
+        "send",
+        "recv",
+        "log",
+        "push",
+        "pop"
+      ]
     },
     "general_functions": {
       "pattern": "verb_object",
       "use": "normal reusable actions",
-      "examples": ["send_message", "store_photo", "lookup_key"]
+      "examples": [
+        "send_message",
+        "store_photo",
+        "lookup_key"
+      ]
     },
     "one_off_functions": {
       "pattern": "long_descriptive_names",
@@ -109,7 +124,12 @@
     },
     "predicates": {
       "short_system": {
-        "prefixes": ["is_", "has_", "should_", "may_"],
+        "prefixes": [
+          "is_",
+          "has_",
+          "should_",
+          "may_"
+        ],
         "use": "reusable state or policy checks"
       },
       "long_contextual": {
@@ -118,7 +138,10 @@
       }
     },
     "callbacks": {
-      "prefix": ["handle_", "on_"],
+      "prefix": [
+        "handle_",
+        "on_"
+      ],
       "rule": "always long and descriptive",
       "meaning": "this is where the outside world enters"
     },
@@ -126,7 +149,6 @@
       "rule": "same naming rules, but start with '_'"
     }
   },
-
   "classes": {
     "default_position": "avoid",
     "acceptable_uses": [
@@ -135,7 +157,6 @@
     ],
     "reflection_rule": "Before using a class, ask how to express this procedurally."
   },
-
   "threads_and_concurrency": {
     "default_position": "avoid",
     "acceptable_cases": [
@@ -149,7 +170,6 @@
       "separate processes"
     ]
   },
-
   "multi_process_coordination": {
     "preferred_model": "file-based message passing (FileTalk style)",
     "rules": [
@@ -161,7 +181,6 @@
     ],
     "philosophy": "Programs live in an ecosystem, not in isolation."
   },
-
   "data_management": {
     "storage": [
       "Prefer JSON.",
@@ -181,11 +200,13 @@
     "file_io_separation": "serialization is not business logic",
     "atomic_writes": "always"
   },
-
   "tkinter_guidelines": {
     "threads": {
       "model": "exactly two",
-      "roles": ["GUI thread", "worker thread"],
+      "roles": [
+        "GUI thread",
+        "worker thread"
+      ],
       "communication": "queues only"
     },
     "layout": {
@@ -198,7 +219,10 @@
     },
     "root_window": {
       "rule": "store in g[TK]",
-      "defaults": ["withdraw root", "disable tear-off menus"]
+      "defaults": [
+        "withdraw root",
+        "disable tear-off menus"
+      ]
     },
     "style": [
       "prefer ttk",
@@ -207,7 +231,6 @@
       "consistent spacing and fonts"
     ]
   },
-
   "documentation": {
     "docstrings": {
       "skip": "very short obvious functions",
@@ -221,7 +244,6 @@
     },
     "philosophy": "Code should read like a story even without comments."
   },
-
   "closing": [
     "The goal is not theoretical purity.",
     "The goal is momentum, legibility, and trust in the system.",
