@@ -1,3 +1,5 @@
+date: 2026-02-26
+development: https://chatgpt.com/c/69a10bdb-f72c-832b-9dd0-0591cce2f112
 
 # **Transformers as Machines**
 
