@@ -72,6 +72,38 @@
         "Patchboard and related transport layers may impose additional structure, but these are not intrinsic to FileTalk."
       ]
     },
+    "g-dictionary": {
+      "id": "g-dictionary",
+      "identity": {
+        "tags": [
+          "python",
+          "programming",
+          "state-management",
+          "global-state",
+          "coding-discipline"
+        ],
+        "hook": "a constrained shared dictionary ('g') used instead of Python's 'global' keyword to hold small, scalar program-wide control state",
+        "origin": "Coding discipline developed by Lion Kimbro to avoid the Python global keyword while maintaining explicit shared state.",
+        "entry-developed-in": "https://chatgpt.com/c/69965d4f-8414-832a-8fee-8b3561c5468e"
+      },
+      "outline": [
+        "Provides explicit shared state without using Python's 'global' keyword.",
+        "Holds primarily scalar values (strings, numbers, booleans, None) representing program control or orientation state.",
+        "Global lists and dictionaries are allowed but are defined as directly named globals rather than stored inside 'g'.",
+        "'g' may contain references when necessary, but does not serve as a container for structured operational state.",
+        "Designed to remain small, readable, and quickly scannable."
+      ],
+      "constraints": [
+        "Values should remain short and human-readable; long or complex data does not belong in 'g'.",
+        "'g' functions as a control surface, not a general-purpose container.",
+        "Structured or thematic state should be extracted into dedicated named globals (e.g., widgets = {}, registers = {}).",
+        "Grouping related globals into thematic dictionaries is encouraged when collective inspection aids debugging."
+      ],
+      "design-principles": [
+        "Maintain a minimal, inspectable global control context.",
+        "Prefer explicit named globals for structured state."
+      ]
+    },
     "intraflow": {
       "id": "intraflow",
       "identity": {
