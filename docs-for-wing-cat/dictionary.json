@@ -2,7 +2,24 @@
   "document": {
     "document-id": "lions_dictionary_for_llms",
     "title": "Lion's Dictionary for LLMs",
-    "purpose": "Give LLMs a detailed but high-level dictionary of concepts in Lion's world."
+    "tags": [
+      "lionkimbro",
+      "language",
+      "dictionary",
+      "llm",
+      "conceptmap"
+    ],
+    "type": {
+      "logical": {
+        "base": "file",
+        "format": "json",
+        "encoding": "utf-8"
+      },
+      "semantic": {
+        "base": "reference"
+      }
+    },
+    "purpose": "Give LLMs a detailed but high-level dictionary of concepts in Lion's world.\n"
   },
   "llm-orientation": {
     "purpose": "This document is a dictionary: a compact semantic dictionary of recurring concepts used in collaboration with Lion, intended to provide quick grounding rather than full specs.",
@@ -30,7 +47,7 @@
       }
     },
     "optional-fields": {
-      "identity.origin": "Provenance or origin description.",
+      "origin": "Conceptual provenance indicating how or where the idea emerged",
       "coordinates": "Key/value references to external resources (repos, specs, paths, URLs, etc.).",
       "coordinates.github": "URL to the github repository for the thing.",
       "related-entries": "List of concept ids referencing other dictionary entries."
@@ -48,9 +65,9 @@
           "distributed-systems"
         ],
         "hook": "a primitive inter-process communication model where independent programs communicate by reading and writing structured files on the filesystem",
-        "origin": "Concept and evolving system designed by Lion Kimbro; central to FileTalk 2025.",
         "entry-developed-in": "https://chatgpt.com/c/699634d2-bac8-8330-8102-d2ebb102fe1b"
       },
+      "origin": "Concept and evolving system designed by Lion Kimbro; central to FileTalk 2025.",
       "outline": [
         "Programs communicate only via files (no sockets, no shared memory).",
         "Messages are structured (typically JSON).",
@@ -83,9 +100,9 @@
           "coding-discipline"
         ],
         "hook": "a constrained shared dictionary ('g') used instead of Python's 'global' keyword to hold small, scalar program-wide control state",
-        "origin": "Coding discipline developed by Lion Kimbro to avoid the Python global keyword while maintaining explicit shared state.",
         "entry-developed-in": "https://chatgpt.com/c/69965d4f-8414-832a-8fee-8b3561c5468e"
       },
+      "origin": "Coding discipline developed by Lion Kimbro to avoid the Python global keyword while maintaining explicit shared state.",
       "outline": [
         "Provides explicit shared state without using Python's 'global' keyword.",
         "Holds primarily scalar values (strings, numbers, booleans, None) representing program control or orientation state.",
@@ -102,6 +119,9 @@
       "design-principles": [
         "Maintain a minimal, inspectable global control context.",
         "Prefer explicit named globals for structured state."
+      ],
+      "related-entries": [
+        "symbols"
       ]
     },
     "intraflow": {
@@ -117,9 +137,9 @@
           "python"
         ],
         "hook": "a Python package that implements the Patchboard routing model entirely in-process, in memory",
-        "origin": "Developed by Lion Kimbro as an in-memory counterpart to patchboard-router.",
         "entry-developed-in": "https://chatgpt.com/c/699634d2-bac8-8330-8102-d2ebb102fe1b"
       },
+      "origin": "Developed by Lion Kimbro as an in-memory counterpart to patchboard-router.",
       "outline": [
         "Single-process execution.",
         "Defines in-memory components, each with an inbox, an outbox, and an activation function.",
@@ -144,9 +164,9 @@
           "cli"
         ],
         "hook": "a structured CLI framework emphasizing declarative JSON configuration, phase-based execution, and minimized argument parsing friction",
-        "origin": "Python project by Lion Kimbro, developed with Wing-Cat.",
         "entry-developed-in": "https://chatgpt.com/c/69960e50-12a0-8333-8d75-8b8f31b31dd0"
       },
+      "origin": "Python project by Lion Kimbro, developed with Wing-Cat.",
       "coordinates": {
         "github": "https://github.com/LionKimbro/lionscliapp",
         "library": "F:\\lion\\github\\lionscliapp\\inventory.json"
@@ -171,9 +191,9 @@
           "architecture"
         ],
         "hook": "an external routing fabric that maps message channels between endpoints without components knowing each other",
-        "origin": "Evolved from FileTalk routing needs; inspired by modular synthesizer patch panels.  Developed by Lion Kimbro with Wing-Cat.",
         "entry-developed-in": "https://chatgpt.com/c/699634d2-bac8-8330-8102-d2ebb102fe1b"
       },
+      "origin": "Evolved from FileTalk routing needs; inspired by modular synthesizer patch panels.  Developed by Lion Kimbro with Wing-Cat.",
       "outline": [
         "Routing is defined externally to components.",
         "Channels function as wire labels.",
@@ -227,9 +247,9 @@
           "transport"
         ],
         "hook": "a FileTalk program that executes Patchboard routing rules by draining source folders and delivering rewritten message copies to destination folders",
-        "origin": "Developed by Lion Kimbro and Wing-Cat as the file-based runtime implementation of the Patchboard model.",
         "entry-developed-in": "https://chatgpt.com/c/699634d2-bac8-8330-8102-d2ebb102fe1b"
       },
+      "origin": "Developed by Lion Kimbro and Wing-Cat as the file-based runtime implementation of the Patchboard model.",
       "outline": [
         "Consumes messages from source endpoints.",
         "Duplicates envelopes per matching route.",
@@ -256,14 +276,44 @@
           "agentic-workflow"
         ],
         "hook": "a layered specification approach where simplified seed specs generate or modify more detailed downstream specs",
-        "origin": "Concept developed by Lion Kimbro in collaboration with Wing-Cat.",
         "entry-developed-in": "https://chatgpt.com/c/69960e50-12a0-8333-8d75-8b8f31b31dd0"
       },
+      "origin": "Concept developed by Lion Kimbro in collaboration with Wing-Cat.",
       "outline": [
         "Higher layers describe intent; lower layers describe implementation.",
         "Specs can generate or transform other specs.",
         "Changing root assumptions propagates structurally.",
         "Features equivalent of 'skip connections', providing details at appropriate levels."
+      ]
+    },
+    "symbols": {
+      "id": "symbols",
+      "identity": {
+        "tags": [
+          "python",
+          "coding-discipline",
+          "symbols",
+          "correctness",
+          "state-modeling"
+        ],
+        "hook": "identifier-bound string constants used to represent discrete symbolic values with typo-detection and semantic clarity",
+        "entry-developed-in": "https://chatgpt.com/c/69a389ef-ddac-8325-98f6-3d09c6c4b4ae"
+      },
+      "origin": "Coding practice developed by Lion Kimbro to emulate symbolic identifiers while retaining Python simplicity.",
+      "outline": [
+        "Symbols are declared as identifier-equals-string pairs (e.g., BOOTING = \"BOOTING\").",
+        "Used primarily for enumerated or discrete state values."
+      ],
+      "design-intent": [
+        "Prevent silent errors caused by mistyped string literals.",
+        "Achieve many benefits of symbols/enums without added infrastructure."
+      ],
+      "example": {
+        "definition": "BOOTING = \"BOOTING\"",
+        "usage": "if g[\"run-state\"] == BOOTING:"
+      },
+      "related-entries": [
+        "g-dictionary"
       ]
     },
     "tkintertester": {
@@ -277,9 +327,9 @@
           "tkinter"
         ],
         "hook": "a tiny deterministic test runner embedded inside the Tk mainloop",
-        "origin": "Python project by Lion Kimbro, developed with Wing-Cat.",
         "entry-developed-in": "https://chatgpt.com/c/69960e50-12a0-8333-8d75-8b8f31b31dd0"
       },
+      "origin": "Python project by Lion Kimbro, developed with Wing-Cat.",
       "coordinates": {
         "github": "https://github.com/LionKimbro/tkintertester",
         "spec": "F:\\lion\\github\\tkintertester\\docs\\spec\\tkintertester_spec.json"
@@ -297,6 +347,45 @@
       },
       "related-entries": [
         "lionscliapp"
+      ]
+    },
+    "command-deck-engineering": {
+      "id": "command-deck-engineering",
+      "identity": {
+        "tags": [
+          "development",
+          "methodology",
+          "artemis",
+          "programming",
+          "practice",
+          "engineering"
+        ],
+        "hook": "a software development methodology that organizes engineers, tools, and information flows around a command-deck-style environment to maintain intense focus while sharing situational awareness during the rapid construction of complex systems",
+        "core-documents": [
+          "command-deck-engineering.dictionary"
+        ]
+      },
+      "origin": "Concept developed by Lion Kimbro, inspired by Artemis Bridge Simulation and the Mythical Man Month's surgeon team model, on 2026-03-07.",
+      "outline": [
+        "Software is developed in a shared operational environment, resembling a starship's bridge.",
+        "Everybody has a role.",
+        "Everybody is involved simultaneously in the development of the software.",
+        "The system being built is continuously visible to everybody.",
+        "The environment integrates human and computational analysis."
+      ],
+      "design-principles": [
+        "Filesystem as universal bus.",
+        "Loose coupling via file boundaries.",
+        "Human-debuggable artifacts.",
+        "Crash resilience through replayable logs."
+      ],
+      "design-intent": [
+        "Absolutely minimize downtime, maintain laser focus and excitement in a live development environment for making software.",
+        "Amplify command through distributed cognition -- Individual roles contribute to a larger synergy.",
+        "Take advantage of the various diverse skills and proclivities that people have, in a way that adds up magnificently.",
+        "Write software systems faster, more comprehensively, with fewer bugs than ever before, with great joy and social engagement in a meaningful and serious task.",
+        "Make visualization a first-rate actor in software development.",
+        "Take advantage of everything we know about the importance of continuous testing in software development."
       ]
     }
   }
