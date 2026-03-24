@@ -1,0 +1,232 @@
+{
+  "document": {
+    "document-id": "lions-docs.description.json-document-format-for-llms.v1",
+    "title": "JSON Document Format for LLM-Oriented Project Documentation",
+    "tags": [
+      "documentation",
+      "json",
+      "llm",
+      "format",
+      "conventions",
+      "description"
+    ],
+    "purpose": "Describe the intended structure, conventions, and philosophy of the JSON documentation format used in this project, especially for interpretation by LLMs and humans.",
+    "type": {
+      "logical": {
+        "base": "file",
+        "format": "json",
+        "encoding": "utf-8"
+      },
+      "semantic": {
+        "base": "description"
+      }
+    },
+    "author": ["Lion Kimbro", "Wing-Cat (Chat-GPT)"],
+    "development": "https://chatgpt.com/c/69c232f5-81b0-83e8-b1a6-70f34a99d711"
+  },
+
+  "overview": {
+    "summary": "This document describes a JSON-based documentation format used for project materials such as specifications, descriptions, plans, schemas, notes, and inventories. The format is designed to be friendly to both humans and LLMs. It provides a stable metadata header for orientation and identification, while leaving the main body of the document flexible and expressive.",
+    "why-this-exists": [
+      "To make documents easy to identify, classify, retrieve, and interpret.",
+      "To give LLMs a predictable header they can use for rapid orientation.",
+      "To preserve flexibility in the body of the document rather than over-constraining every file.",
+      "To support a documentation ecosystem that is machine-readable without becoming stiff or unnatural for human authors."
+    ]
+  },
+
+  "core-idea": {
+    "summary": "Each document is a JSON object with a top-level key named \"document\". The value under \"document\" is the metadata header. All other top-level keys belong to the body of the document and contain its actual content.",
+    "shape": {
+      "top-level-object": {
+        "document": "required metadata header",
+        "other-keys": "free-form content sections"
+      }
+    }
+  },
+
+  "document-header": {
+    "summary": "The document header is the stable, predictable part of the format. It is the first place an LLM or human reader should look in order to understand what the file is, why it exists, and how to interpret it.",
+    "required-fields": {
+      "document-id": "A stable identifier for the document, typically dot-notated, with the project at the front and version at the end.",
+      "title": "A human-readable title.",
+      "tags": "An array of descriptive tags used for grouping, filtering, and retrieval.",
+      "purpose": "A concise statement of why the document exists."
+    },
+    "recommended-fields": {
+      "type": "A structured type record describing the logical and semantic kind of the document.",
+      "status": "Lifecycle state such as draft, active, deprecated, or final.",
+      "author": {
+        "summary": "Identifies the author or authors of the document.",
+        "preferred-form": "array of strings",
+        "example": [
+          "Lion Kimbro",
+          "Wing-Cat (ChatGPT)"
+        ],
+        "notes": [
+          "This field is typically collaborative rather than singular.",
+          "In this documentation system, documents are often authored by Lion and ChatGPT together."
+        ]
+      },
+      "created": "Creation date.",
+      "updated": "Most recent update date.",
+      "audience": "Intended readers or consumers.",
+      "depends-on": "Other documents or resources this one depends on.",
+      "supersedes": "A prior document replaced by this one."
+    }
+  },
+
+  "document-id-conventions": {
+    "summary": "Document identifiers should be stable, readable, and structurally informative.",
+    "guidelines": [
+      "Use dot notation.",
+      "Place the project or system name at the front.",
+      "Place the document kind and subject in the middle.",
+      "Place the version marker at the end.",
+      "Prefer explicit versions such as v1, v2, v3."
+    ],
+    "examples": [
+      "project.spec.foo.v1",
+      "project.description.bar.v2",
+      "patchboard.schema.routes.v1",
+      "lions-docs.description.json-document-format-for-llms.v1"
+    ]
+  },
+
+  "type-system": {
+    "summary": "The optional type field allows the document to declare both its logical structure and its semantic role.",
+    "logical-type": {
+      "purpose": "Describe what kind of resource this is in structural or technical terms.",
+      "example": {
+        "base": "file",
+        "format": "json",
+        "encoding": "utf-8"
+      }
+    },
+    "semantic-type": {
+      "purpose": "Describe what kind of thing this document means conceptually.",
+      "example": {
+        "base": "description"
+      }
+    },
+    "notes": [
+      "Logical type answers questions like: what kind of thing is this technically?",
+      "Semantic type answers questions like: what is this document for conceptually?"
+    ]
+  },
+
+  "body-sections": {
+    "summary": "The body of the document is intentionally free-form. Different document families may adopt different section structures. The format does not attempt to rigidly standardize all content.",
+    "examples-of-common-sections": [
+      "overview",
+      "context",
+      "requirements",
+      "design",
+      "schema-notes",
+      "examples",
+      "notes",
+      "open-questions",
+      "appendix",
+      "references"
+    ],
+    "interpretation-guidance": [
+      "Do not assume that all documents will have the same body keys.",
+      "Use the document header to orient first, then inspect the body sections.",
+      "Treat unknown body keys as valid content unless there is evidence otherwise."
+    ]
+  },
+
+  "naming-conventions": {
+    "summary": "Keys should generally be lower-case and use kebab-hyphenation.",
+    "preferred-style": [
+      "lower-case",
+      "kebab-case"
+    ],
+    "examples": [
+      "document-id",
+      "open-questions",
+      "design-notes",
+      "type"
+    ],
+    "notes": [
+      "Underscores are tolerated but discouraged.",
+      "Underscore naming feels too much like source code naming.",
+      "Kebab-hyphenation is preferred as the house style for document keys."
+    ]
+  },
+
+  "guidance-for-llms": {
+    "summary": "An LLM reading one of these files should treat the document header as the primary orientation layer and the remainder of the file as the document body.",
+    "instructions": [
+      "Read the document header first.",
+      "Use document-id, title, tags, purpose, and type to infer what kind of document this is.",
+      "Do not assume that the rest of the document follows a universal schema.",
+      "Interpret remaining top-level sections according to their names and contents.",
+      "Prefer the stated purpose of the document over guesses based on file name alone.",
+      "Treat the format as semi-structured: rigid in the header, flexible in the body."
+    ]
+  },
+
+  "philosophy": {
+    "summary": "This format is designed to balance discipline with freedom.",
+    "principles": [
+      "Make identity and purpose explicit.",
+      "Keep the orienting metadata predictable.",
+      "Allow the content body to remain expressive and natural.",
+      "Support both human authorship and machine interpretation.",
+      "Avoid over-formalizing documents whose body content benefits from flexibility."
+    ],
+    "formula": "Rigid where rigidity helps; loose where looseness helps."
+  },
+
+  "examples": {
+    "minimal-example": {
+      "document": {
+        "document-id": "project.spec.foo.v1",
+        "title": "Foo Specification",
+        "tags": ["foo", "spec"],
+        "purpose": "Defines the structure and behavior of foo.",
+        "type": {
+          "logical": {
+            "base": "file",
+            "format": "json",
+            "encoding": "utf-8"
+          },
+          "semantic": {
+            "base": "spec"
+          }
+        }
+      }
+    },
+    "richer-example": {
+      "document": {
+        "document-id": "project.description.bar.v2",
+        "title": "Bar System Description",
+        "tags": ["bar", "description", "architecture"],
+        "purpose": "Describe the architecture and intent of the bar subsystem.",
+        "type": {
+          "logical": {
+            "base": "file",
+            "format": "json",
+            "encoding": "utf-8"
+          },
+          "semantic": {
+            "base": "description"
+          }
+        },
+        "status": "draft"
+      },
+      "overview": {
+        "summary": "The bar subsystem manages ..."
+      },
+      "design-notes": [
+        "The subsystem is intentionally modular.",
+        "It is expected to evolve over time."
+      ]
+    }
+  },
+
+  "closing-note": {
+    "summary": "This is a descriptive format document, not a validator. It exists to help humans and LLMs understand how to read, write, and interpret documents in this ecosystem."
+  }
+}

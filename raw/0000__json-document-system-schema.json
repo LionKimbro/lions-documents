@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tag:lionkimbro@gmail.com,2026-03-23:schemas/lions-json-documentation-system",
+  "title": "JSON Documentation System",
+  "description": "Schema for JSON-based documentation files with a required document header and flexible free-form body sections.",
+  "type": "object",
+
+  "required": ["document"],
+
+  "properties": {
+    "document": {
+      "$ref": "#/$defs/document-header"
+    }
+  },
+
+  "patternProperties": {
+    "^(?!document$)[a-z][a-z0-9-]*$": true
+  },
+
+  "additionalProperties": false,
+
+  "$defs": {
+    "document-header": {
+      "type": "object",
+      "description": "Required metadata header for the document.",
+      "required": [
+        "document-id",
+        "title",
+        "tags",
+        "purpose"
+      ],
+      "properties": {
+        "document-id": {
+          "type": "string",
+          "description": "Stable identifier for the document. Typically dot-notated, beginning with the project name and ending with a version marker.",
+          "pattern": "^[a-z][a-z0-9]*(\\.[a-z0-9-]+)*\\.v[0-9]+$",
+          "examples": [
+            "project.spec.foo.v1",
+            "project.description.bar.v2",
+            "patchboard.schema.routes.v1"
+          ]
+        },
+
+        "title": {
+          "type": "string",
+          "description": "Human-readable title of the document.",
+          "minLength": 1
+        },
+
+        "tags": {
+          "type": "array",
+          "description": "Tags associated with the document.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+
+        "purpose": {
+          "type": "string",
+          "description": "Short explanation of why the document exists.",
+          "minLength": 1
+        },
+
+        "type": {
+          "$ref": "#/$defs/document-type"
+        },
+
+        "status": {
+          "type": "string",
+          "description": "Optional lifecycle status for the document."
+        },
+
+        "author": {
+          "type": "string",
+          "description": "Optional author or responsible party."
+        },
+
+        "created": {
+          "type": "string",
+          "description": "Optional creation date, typically in YYYY-MM-DD format."
+        },
+
+        "updated": {
+          "type": "string",
+          "description": "Optional last-updated date, typically in YYYY-MM-DD format."
+        },
+
+        "audience": {
+          "type": "array",
+          "description": "Optional intended audiences for the document.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+
+        "depends-on": {
+          "type": "array",
+          "description": "Optional list of document identifiers that this document depends on.",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+
+        "supersedes": {
+          "type": "string",
+          "description": "Optional identifier of a document superseded by this one.",
+          "minLength": 1
+        }
+      },
+
+      "patternProperties": {
+        "^[a-z][a-z0-9-]*$": true
+      },
+
+      "additionalProperties": false
+    },
+
+    "document-type": {
+      "type": "object",
+      "description": "Combined logical and semantic type information for the document.",
+      "properties": {
+        "logical": {
+          "$ref": "#/$defs/logical-type"
+        },
+        "semantic": {
+          "$ref": "#/$defs/semantic-type"
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "logical-type": {
+      "type": "object",
+      "description": "Structural or technical classification of the resource.",
+      "properties": {
+        "base": {
+          "type": "string",
+          "description": "Primary structural kind of resource.",
+          "enum": ["file", "folder", "url", "program"]
+        },
+        "format": {
+          "type": "string",
+          "description": "Format of the content.",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "examples": ["json", "txt", "md", "pdf", "py"]
+        },
+        "encoding": {
+          "type": "string",
+          "description": "Encoding of the content, where relevant.",
+          "pattern": "^[a-zA-Z0-9._-]+$",
+          "examples": ["utf-8", "binary"]
+        }
+      },
+      "additionalProperties": true
+    },
+
+    "semantic-type": {
+      "type": "object",
+      "description": "Conceptual or semantic classification of the resource.",
+      "properties": {
+        "base": {
+          "type": "string",
+          "description": "Primary semantic role of the resource.",
+          "enum": [
+            "spec",
+            "description",
+            "schema",
+            "notes",
+            "plan",
+            "inventory",
+            "proposal",
+            "reference"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+
+  "examples": [
+    {
+      "document": {
+        "document-id": "project.spec.documentation-system.v1",
+        "title": "Documentation System Specification",
+        "tags": ["documentation", "json", "spec", "schema"],
+        "purpose": "Defines the structure and conventions for JSON-based project documents.",
+        "type": {
+          "logical": {
+            "base": "file",
+            "format": "json",
+            "encoding": "utf-8"
+          },
+          "semantic": {
+            "base": "spec"
+          }
+        },
+        "status": "draft",
+        "author": "Lion"
+      },
+      "overview": {
+        "summary": "This document describes the standard structure used for project documentation files."
+      },
+      "rules": {
+        "header-required": true,
+        "document-key-first": true,
+        "body-free-form": true,
+        "preferred-key-style": "kebab-case"
+      },
+      "notes": [
+        "The header is standardized.",
+        "The body is intentionally flexible.",
+        "Tools should rely on the document header for identification and orientation."
+      ]
+    }
+  ]
+}
