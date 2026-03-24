@@ -1,0 +1,451 @@
+{
+  "DOCUMENT-ID": "interaction-architecture-blackboard-judge-v1",
+  "TITLE": "Interaction Architecture: Tokenizers, Organisms, Judge, Coordination Field",
+  "STATUS": "working-architecture",
+  "DATE": "2026-03-23",
+  "CONVERSATION": "https://chatgpt.com/c/69c0c5eb-1a64-83e8-90d4-448d00b86dcb",
+  "AUTHORS": [
+    "Lion",
+    "ChatGPT"
+  ],
+  "PURPOSE": "To describe a modular architecture for interactive systems in which raw input is transformed into a derived perceptual field, stateful organisms recognize and pursue interaction episodes over time, a judge maintains authoritative coordination state, and emitted effects are routed to world, projection, and outer systems.",
+  "THESIS": "Interactive systems can be organized as a society of stateful interaction organisms operating over a shared world model and a structured perceptual field, with a distinct coordination layer maintained by a judge. This coordination layer is what makes modularity possible, because it centralizes ownership, arbitration, and lawful interaction rather than forcing each organism to privately defend itself against all others.",
+  "PROBLEM-STATEMENT": {
+    "CORE-PROBLEM": "Interactive systems are difficult to modularize because recognition of user action unfolds over time, multiple candidate behaviors may compete for the same gesture or resource, and ordinary event-callback architectures tend to entangle perception, coordination, mutation, and rendering.",
+    "COMMON-FAILURE-MODES": [
+      "Each behavior privately inspects or guesses what all others might be doing.",
+      "Ownership and exclusivity are encoded implicitly and inconsistently.",
+      "Gesture recognition logic is duplicated across features.",
+      "Rendering concerns leak into interaction concerns.",
+      "State becomes monolithic or callback-driven rather than episodic and explicit.",
+      "Reusable interaction mechanics become hard to port across programs."
+    ],
+    "ARCHITECTURAL-GOAL": "Find an arch: a powerful mechanism by which a broad range of interface activity can be modeled as instances or subsets of one underlying construction."
+  },
+  "WHY-THIS-APPROACH": {
+    "OVERVIEW": "This approach treats interaction as temporal episodes recognized and carried by stateful organisms. It separates perception from coordination, coordination from mutation, and mutation from projection. It also makes law explicit: organisms do not authoritatively grant themselves ownership. They petition a judge, and the judge writes authoritative coordination state.",
+    "WHY-TOKENIZERS": [
+      "Raw input should not be consumed directly by every higher-level behavior.",
+      "Low-level temporal digestion simplifies higher-level logic.",
+      "Derived perceptual structure such as moving, motionless-duration, just-pressed, entered-target, and drag-threshold-crossed should be computed once and shared."
+    ],
+    "WHY-ORGANISMS": [
+      "Many UI behaviors are not single events but episodes: press-move-release, dwell, hover, drag, lasso, resize, long-press, etc.",
+      "A stateful organism can remain simple if it only recognizes its own local conditions and follows its own path over time.",
+      "Behaviors become reusable when expressed as independent state machines with standardized inputs and outputs."
+    ],
+    "WHY-THE-COORDINATION-FIELD": [
+      "Without a coordination field, each organism must defensively inspect what all others might be doing.",
+      "Without it, organisms privately enforce exclusions and embed hidden assumptions.",
+      "Without it, collisions, duplicated locking logic, and accidental interference proliferate.",
+      "The coordination field makes modularity possible by centralizing ownership, exclusivity, priority, holds, and interaction law.",
+      "With the coordination field, organisms can be direct and innocent. They need not carry the whole social burden of the system."
+    ],
+    "WHY-THE-JUDGE": [
+      "Claims should not be untrusted self-assertions written by organisms themselves.",
+      "The judge provides authoritative legitimacy: organisms request permission, the judge grants or denies, and the judge writes the official coordination record.",
+      "The judge can maintain lawful consistency by cleaning stale holds and reconciling coordination state with organism public state.",
+      "Different programs may use different judges, allowing different coordination laws or styles of arbitration."
+    ],
+    "WHY-SEPARATE-EFFECTS-FROM-WORLD": [
+      "An organism should emit intended consequences without needing to mutate every target subsystem directly.",
+      "Effects can be routed into a reducer/core engine, projection layer, or outer GUI system.",
+      "Transient projection artifacts and durable world mutations should both be possible, without conflating them with coordination state."
+    ],
+    "WHY-SEPARATE-PROJECTION": [
+      "Rendering should be downstream of world, coordination, and transient preview effects rather than mixed directly into interaction recognition.",
+      "The same interaction architecture can therefore support multiple projection systems."
+    ]
+  },
+  "TOP-LEVEL-MODEL": {
+    "SUMMARY": "The system maintains world state, raw input, previous raw and derived snapshots, a structured derived perceptual field, a coordination field, emitted effects, tokenizers, organisms, and a judge. Each cycle, raw input is updated, tokenizers enrich the derived perceptual field, the judge performs maintenance, organisms are evaluated one by one, effects are emitted, and projection/rendering happens downstream.",
+    "FORMULA": "RAW -> DERIVED -> JUDGE-MAINTAIN -> ORGANISMS + JUDGE-ADJUDICATION -> EFFECTS -> WORLD/PROJECTION/OUTER-SYSTEMS"
+  },
+  "TERMS": {
+    "WORLD": "Durable application reality: logical objects, geometry, selection sets, modes, document state, and other persistent modeled truth.",
+    "RAW": "Immediate frame/tick input and inserted facts such as pointer coordinates, button states, current time, and toolkit-fed facts such as mouse-over target if available.",
+    "RAW-PREV": "The previous cycle's RAW snapshot.",
+    "DERIVED": "A structured perceptual field containing interpreted facts derived from RAW, RAW-PREV, DERIVED-PREV, WORLD, and tokenizer state.",
+    "DERIVED-PREV": "The previous cycle's DERIVED snapshot.",
+    "TOKENIZER": "A lightweight processor that reads RAW, RAW-PREV, DERIVED, DERIVED-PREV, WORLD, and its own DATA, and writes structured entries into DERIVED.",
+    "ORGANISM": "A stateful interaction recognizer/actor that reads WORLD, RAW, DERIVED, and COORDINATION; keeps its own STATE, HELD, and DATA; petitions the judge; and emits EFFECTS.",
+    "COORDINATION": "The authoritative social/interaction field that records ownership, holds, exclusivity, priority outcomes, gesture legitimacy, and other adjudicated coordination facts.",
+    "JUDGE": "The active adjudicator that reads organism identity and public state, reads and writes COORDINATION, grants or denies permissions, and maintains lawful consistency over time.",
+    "HELD": "The public, judge-relevant holdings or resources currently associated with an organism, such as the object being dragged or the handle being resized.",
+    "DATA": "Private internal organism or tokenizer memory not intended as standardized public coordination state.",
+    "EFFECTS": "Emitted consequences to be routed to world mutation, projection, or outer systems."
+  },
+  "SYSTEM-SCHEMA": {
+    "SYSTEM": {
+      "WORLD": "<world state>",
+      "RAW": "<current raw snapshot>",
+      "RAW-PREV": "<previous raw snapshot>",
+      "DERIVED": "<current derived perceptual field>",
+      "DERIVED-PREV": "<previous derived perceptual field>",
+      "COORDINATION": "<authoritative coordination record>",
+      "EFFECTS": [
+        "<effect>",
+        "<effect>"
+      ],
+      "CURRENT-ORGANISM": "<organism id or null>",
+      "TOKENIZERS": [
+        "<tokenizer>",
+        "<tokenizer>"
+      ],
+      "ORGANISMS": [
+        "<organism>",
+        "<organism>"
+      ],
+      "JUDGE": "<judge subsystem>"
+    },
+    "RAW-EXAMPLE": {
+      "x": 385,
+      "y": 197,
+      "ms": 10584,
+      "button-1-down": true,
+      "button-2-down": false,
+      "button-3-down": false,
+      "mouse-over": [
+        "obj",
+        17
+      ]
+    },
+    "DERIVED-EXAMPLE": {
+      "moving": false,
+      "motionless-duration": 42,
+      "button-1-pressed": false,
+      "button-1-released": false,
+      "entered-target": null,
+      "left-target": null,
+      "drag-threshold-crossed": false
+    },
+    "COORDINATION-EXAMPLE": {
+      "pointer-owner": "resize-handle-organism",
+      "resource-holds": {
+        "obj:17": "resize-handle-organism"
+      },
+      "active-gesture": "resize-drag",
+      "priority-notes": {},
+      "leases": {
+        "resize-handle-organism": {
+          "resource": [
+            "obj",
+            17
+          ],
+          "kind": "exclusive",
+          "valid": true
+        }
+      }
+    }
+  },
+  "SCHEMAS": {
+    "TOKENIZER": {
+      "NAME": "<name>",
+      "ACTIVE": true,
+      "DATA": {},
+      "FN": "<callable>"
+    },
+    "ORGANISM": {
+      "NAME": "<name>",
+      "ACTIVE": true,
+      "STATE": "ENTRY",
+      "HELD": {},
+      "DATA": {},
+      "FN": "<callable>"
+    }
+  },
+  "DIVISION-OF-LABOR": {
+    "TOKENIZERS": [
+      "Perform low-level temporal digestion.",
+      "Compute structured interpreted perceptual facts once and share them.",
+      "Avoid burdening every organism with raw-delta logic."
+    ],
+    "ORGANISMS": [
+      "Recognize local activation conditions.",
+      "Maintain their own temporal path via STATE.",
+      "Expose judge-relevant public holdings via HELD.",
+      "Petition the judge when they want to begin or hold resources.",
+      "Emit effects."
+    ],
+    "JUDGE": [
+      "Maintain the authoritative coordination record.",
+      "Grant or deny requested permissions.",
+      "Interpret organism identity via CURRENT-ORGANISM.",
+      "Inspect organism public state such as STATE and HELD.",
+      "Clean stale holds and reconcile legality over time."
+    ],
+    "WORLD": [
+      "Store durable application truth."
+    ],
+    "PROJECTION": [
+      "Render from world, coordination, and transient preview effects."
+    ]
+  },
+  "PUBLIC-VS-PRIVATE-STATE": {
+    "PUBLIC-ORGANISM-SURFACE": [
+      "NAME",
+      "ACTIVE",
+      "STATE",
+      "HELD"
+    ],
+    "PRIVATE-ORGANISM-INTERIOR": [
+      "DATA"
+    ],
+    "RATIONALE": "The judge should not rummage through arbitrary private organism internals. By standardizing a small public surface, the judge can supervise coordination law without invasive coupling."
+  },
+  "COORDINATION-PHILOSOPHY": {
+    "CLAIM": "The coordination field is the thing that makes modularity possible.",
+    "EXPLANATION": [
+      "If organisms had to inspect each other directly, reuse would suffer and coupling would explode.",
+      "If each organism wrote authoritative coordination facts on its own, the system would rely on untrusted self-assertion.",
+      "By routing legitimacy through the judge, coordination becomes lawful, centralized, and comprehensible.",
+      "Organisms can then be written in a direct style: detect local conditions, ask the judge, proceed if permitted, emit effects."
+    ],
+    "SOCIAL-MODEL": "Organisms do not write law; they petition law. The judge writes law into the coordination field.",
+    "BENEFIT": "Behaviors become easier to port between programs because they depend on a stable interaction constitution rather than private knowledge of neighboring mechanics."
+  },
+  "JUDGE-PHILOSOPHY": {
+    "OVERVIEW": "The judge is both a policy mechanism and a maintenance mechanism.",
+    "PRINCIPLES": [
+      "The judge is the primary writer of COORDINATION.",
+      "The judge knows which organism is currently speaking via CURRENT-ORGANISM.",
+      "The judge may be hand-coded with knowledge of the actual organisms and resources present in the program.",
+      "The judge need only coordinate the actual mechanics in play, not all imaginable future mechanics.",
+      "Different judges may exist for different programs, interaction loads, or styles of arbitration."
+    ],
+    "WHY-HAND-CODED-IS-OK": "Early over-generalization would make the system abstract and muddy. A concrete judge that knows the real mechanics of a given ecology is a sane and modular starting point.",
+    "MAINTENANCE": "The judge may run scheduled maintenance once per cycle and may also perform reactive maintenance during specific permission requests."
+  },
+  "JUDGE-INTERFACE": {
+    "PRIMARY-CALLS": [
+      "get_permission(\"START\")",
+      "get_permission(\"HOLD-RESOURCE\")",
+      "maintain_judge()"
+    ],
+    "SEMANTICS": {
+      "get_permission(\"START\")": "The current organism asks whether it may begin its interaction path from its entry or idle condition under present circumstances.",
+      "get_permission(\"HOLD-RESOURCE\")": "The current organism asks whether it may hold the resource or resources implied by its public HELD state.",
+      "maintain_judge()": "The judge reconciles COORDINATION with organism public state and WORLD, releases stale or invalid holds, and restores lawful consistency."
+    },
+    "NOTES": [
+      "The judge reads CURRENT-ORGANISM to know who is asking.",
+      "The judge may inspect organism[\"STATE\"] and organism[\"HELD\"] when deciding or maintaining.",
+      "More specific entry points can be added later if needed."
+    ]
+  },
+  "CYCLE-ORDER": {
+    "OVERVIEW": "The system snapshots prior RAW and DERIVED, updates RAW, runs tokenizers, runs judge maintenance, evaluates organisms one by one, then routes effects and projects the result.",
+    "STEPS": [
+      {
+        "STEP": 1,
+        "NAME": "Preserve previous snapshots",
+        "DETAIL": [
+          "Set RAW-PREV := RAW",
+          "Set DERIVED-PREV := DERIVED"
+        ]
+      },
+      {
+        "STEP": 2,
+        "NAME": "Populate RAW",
+        "DETAIL": [
+          "Read pointer position, button states, time, key states, mouse-over facts, and other raw/toolkit-fed data."
+        ]
+      },
+      {
+        "STEP": 3,
+        "NAME": "Run tokenizers",
+        "DETAIL": [
+          "Initialize or refresh DERIVED.",
+          "Each tokenizer reads RAW, RAW-PREV, DERIVED, DERIVED-PREV, WORLD, and tokenizer DATA.",
+          "Each tokenizer writes structured interpreted perceptual facts into DERIVED."
+        ]
+      },
+      {
+        "STEP": 4,
+        "NAME": "Run judge maintenance",
+        "DETAIL": [
+          "Call maintain_judge().",
+          "Judge reconciles COORDINATION against organism public state and WORLD.",
+          "Judge removes stale, invalid, or expired holdings."
+        ]
+      },
+      {
+        "STEP": 5,
+        "NAME": "Evaluate organisms",
+        "DETAIL": [
+          "For each organism in turn, set CURRENT-ORGANISM.",
+          "Organism reads WORLD, RAW, DERIVED, and COORDINATION.",
+          "Organism checks local activation conditions.",
+          "Organism may call get_permission(\"START\") or get_permission(\"HOLD-RESOURCE\").",
+          "Judge may perform reactive maintenance if useful during adjudication.",
+          "If permitted, organism advances STATE, updates HELD or DATA, and emits EFFECTS."
+        ]
+      },
+      {
+        "STEP": 6,
+        "NAME": "Apply or route effects",
+        "DETAIL": [
+          "World mutation effects may be sent to a reducer/core engine.",
+          "Projection preview effects may be sent to the projection system.",
+          "Outer GUI effects such as menu opening may be routed outward."
+        ]
+      },
+      {
+        "STEP": 7,
+        "NAME": "Project/render",
+        "DETAIL": [
+          "Projection reads world, coordination, and preview effects or artifacts.",
+          "Rendering is downstream of interaction and coordination rather than fused with them."
+        ]
+      }
+    ]
+  },
+  "TOKENIZER-DESIGN": {
+    "ROLE": "Tokenizers are the equivalent of interaction tokenizers or low-level perceptual preprocessors.",
+    "INPUTS": [
+      "RAW",
+      "RAW-PREV",
+      "DERIVED",
+      "DERIVED-PREV",
+      "WORLD",
+      "tokenizer DATA"
+    ],
+    "OUTPUTS": [
+      "Structured entries in DERIVED"
+    ],
+    "EXAMPLES": [
+      "button-pressed/button-released derivation",
+      "moving vs not moving",
+      "motionless-duration",
+      "entered-target / left-target",
+      "drag-threshold-crossed",
+      "multi-click timing",
+      "keyset simulation or chord recognition"
+    ],
+    "WHY-DATA-IS-KEPT": "Although RAW-PREV and DERIVED-PREV cover many cases, tokenizers may still need local memory for rolling counters, debounce windows, segmentation, smoothing, or specialized simulations."
+  },
+  "ORGANISM-DESIGN": {
+    "ROLE": "Organisms are the main behavioral agents of the interface.",
+    "MENTAL-MODEL": "Each organism is a state machine that watches for its local activation conditions, asks the judge whether it may begin or hold resources, and then follows its path over time while emitting effects.",
+    "INPUTS": [
+      "WORLD",
+      "RAW",
+      "DERIVED",
+      "COORDINATION",
+      "organism STATE",
+      "organism HELD",
+      "organism DATA"
+    ],
+    "OUTPUTS": [
+      "Changes to STATE",
+      "Changes to HELD",
+      "Changes to DATA",
+      "permission requests to the judge",
+      "EFFECTS"
+    ],
+    "EXAMPLES": [
+      "drag object",
+      "resize handle",
+      "rubber-band selection",
+      "tooltip",
+      "hover highlight",
+      "panning",
+      "context menu activation",
+      "text selection drag"
+    ],
+    "GUIDING-STYLE": "Keep organisms innocent of global law. Let them recognize their own activation conditions and rely on the judge for social legitimacy and protection."
+  },
+  "EFFECTS-AND-ROUTING": {
+    "OVERVIEW": "Effects are emitted consequences, not coordination facts.",
+    "KINDS": {
+      "WORLD-MUTATION": [
+        "move object logically",
+        "set selection",
+        "commit undoable action",
+        "create or delete an item"
+      ],
+      "PROJECTION-PREVIEW": [
+        "draw drag rectangle",
+        "show hover highlight",
+        "show provisional resize outline"
+      ],
+      "OUTER-SYSTEM": [
+        "open menu",
+        "show tooltip window outside canvas",
+        "notify outer GUI subsystem"
+      ]
+    },
+    "RATIONALE": "This allows the same interaction core to serve both durable changes and transient preview artifacts without confusing them with the coordination record."
+  },
+  "IMPLEMENTATION-GUIDANCE": {
+    "START-SMALL": [
+      "Implement a tiny world with a few objects and one pointer.",
+      "Add RAW and DERIVED with a handful of tokenizers.",
+      "Write a simple judge that knows only a few permissions and holds.",
+      "Create one or two organisms, such as drag-object and tooltip, and test the pattern."
+    ],
+    "KEEP-JUDGE-CONCRETE": [
+      "Do not build a universal law engine first.",
+      "Hand-code the judge with knowledge of the actual organisms and resources present.",
+      "Generalize only after repeated concrete successes."
+    ],
+    "NORMALIZE-PUBLIC-SURFACES": [
+      "Keep organism STATE and HELD standardized enough that the judge can supervise them.",
+      "Keep private internals in DATA."
+    ],
+    "PRESERVE-SEPARATIONS": [
+      "Do not let rendering become the same thing as interaction recognition.",
+      "Do not let coordination become the same thing as world mutation.",
+      "Do not force organisms to inspect each other directly when coordination facts suffice."
+    ],
+    "DYNAMIC-MODULARITY": [
+      "The architecture is amenable to plugging in tokenizers and organisms dynamically.",
+      "As judge sophistication grows, dynamic loading and broader modular ecosystems become more feasible."
+    ]
+  },
+  "WHAT-THIS-ARCHITECTURE-GAINS": {
+    "MODULARITY": [
+      "Behaviors can be reused because they depend on structured shared layers rather than hard-coded neighbor awareness."
+    ],
+    "CLARITY": [
+      "Perception, coordination, mutation, and projection become distinct concerns."
+    ],
+    "REUSE": [
+      "Tokenizers and organisms become portable building blocks."
+    ],
+    "SAFETY": [
+      "The judge reduces accidental interference and stale ownership bugs."
+    ],
+    "EXTENSIBILITY": [
+      "New organisms can be introduced with less fear of silent collision."
+    ],
+    "GENERALITY": [
+      "The pattern applies beyond tkinter or Canvas and may generalize across interaction systems broadly."
+    ],
+    "DYNAMIC-LOADING": [
+      "A more sophisticated judge could coordinate dynamically added or removed mechanics."
+    ],
+    "EXPERIMENTAL-POWER": [
+      "Different judges can support different styles of coordination, making the architecture a platform for experimenting with interaction constitutions."
+    ]
+  },
+  "OPEN-QUESTIONS": [
+    "Exactly how should priority rules be represented inside the judge?",
+    "Which coordination facts should be persistent versus recomputed each cycle?",
+    "How much should the judge infer from organism STATE versus HELD?",
+    "How should projection preview artifacts be represented and expired?",
+    "What is the cleanest routing path for world mutation versus projection-only effects?",
+    "How should organism ordering interact with judge arbitration and fairness?",
+    "How much can be generalized before the judge becomes abstract mush?",
+    "How should dynamic loading and unloading of organisms affect judge policy registration?"
+  ],
+  "SLOGANS": [
+    "Tokenizers perceive.",
+    "Organisms recognize and pursue paths.",
+    "The judge legitimizes and protects.",
+    "Effects change the world or projection.",
+    "The coordination field makes modularity possible.",
+    "Organisms do not write law; they petition law."
+  ],
+  "CONCLUSION": "This architecture proposes a programmable ecology of interaction. It treats interfaces not as piles of callbacks, but as societies of stateful organisms operating over structured perception, lawful coordination, and explicit effects. Its core claim is that modularity in interaction systems becomes feasible when coordination is made explicit, authoritative, and separate from both raw perception and world mutation. The architecture is intended as a practical experiment platform as well as a general design pattern for interactive software."
+}
