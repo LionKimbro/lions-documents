@@ -1,14 +1,16 @@
 {
-  "DOCUMENT-ID": "interaction-architecture-blackboard-judge-v1",
-  "TITLE": "Interaction Architecture: Tokenizers, Organisms, Judge, Coordination Field",
-  "STATUS": "working-architecture",
-  "DATE": "2026-03-23",
+  "document": {
+    "document-id": "interaction-architecture-blackboard-judge.v1",
+    "title": "Interaction Architecture: Tokenizers, Organisms, Judge, Coordination Field",
+    "date": "2026-03-23",
+    "purpose": "To describe a modular architecture for interactive systems in which raw input is transformed into a derived perceptual field, stateful organisms recognize and pursue interaction episodes over time, a judge maintains authoritative coordination state, and emitted effects are routed to world, projection, and outer systems.",
+    "status": "working-architecture",
+    "authors": [
+      "Lion",
+      "Wing-Cat (Chat-GPT)"
+    ]
+  },
   "CONVERSATION": "https://chatgpt.com/c/69c0c5eb-1a64-83e8-90d4-448d00b86dcb",
-  "AUTHORS": [
-    "Lion",
-    "ChatGPT"
-  ],
-  "PURPOSE": "To describe a modular architecture for interactive systems in which raw input is transformed into a derived perceptual field, stateful organisms recognize and pursue interaction episodes over time, a judge maintains authoritative coordination state, and emitted effects are routed to world, projection, and outer systems.",
   "THESIS": "Interactive systems can be organized as a society of stateful interaction organisms operating over a shared world model and a structured perceptual field, with a distinct coordination layer maintained by a judge. This coordination layer is what makes modularity possible, because it centralizes ownership, arbitration, and lawful interaction rather than forcing each organism to privately defend itself against all others.",
   "PROBLEM-STATEMENT": {
     "CORE-PROBLEM": "Interactive systems are difficult to modularize because recognition of user action unfolds over time, multiple candidate behaviors may compete for the same gesture or resource, and ordinary event-callback architectures tend to entangle perception, coordination, mutation, and rendering.",
