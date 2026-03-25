@@ -387,25 +387,31 @@
         "Make visualization a first-rate actor in software development.",
         "Take advantage of everything we know about the importance of continuous testing in software development."
       ]
+    },
+    "machine-root": {
+      "id": "machine-root",
+      "identity": {
+        "tags": [
+          "registry",
+          "discovery",
+          "filesystem",
+          "tooling",
+          "python"
+        ],
+        "hook": "a minimal flat JSON file that maps stable string keys to machine-local resource locations, used by programs and AIs to find shared resources without hard-coded paths"
+      },
+      "origin": "System and Python package designed by Lion Kimbro.",
+      "coordinates": {
+        "python-package": "machineroot",
+        "github": "https://github.com/LionKimbro/machine-root"
+      },
+      "outline": [
+        "A single file (machine-root.json) holds system-global key-to-location mappings.",
+        "Resolution checks: MACHINE_ROOT env var, then cwd, then home dir, then machine-level path.",
+        "The machineroot Python package provides get, set, delete, keys, and locate.",
+        "A machine-root CLI app mirrors the Python API."
+      ],
+      "related-entries": []
     }
-  },
-  "machine-root": {
-    "id": "machine-root",
-    "identity": {
-      "tags": ["registry", "discovery", "filesystem", "tooling", "python"],
-      "hook": "a minimal flat JSON file that maps stable string keys to machine-local resource locations, used by programs and AIs to find shared resources without hard-coded paths"
-    },
-    "origin": "System and Python package designed by Lion Kimbro.",
-    "coordinates": {
-      "python-package": "machineroot",
-      "github": "https://github.com/LionKimbro/machine-root"
-    },
-    "outline": [
-      "A single file (machine-root.json) holds system-global key-to-location mappings.",
-      "Resolution checks: MACHINE_ROOT env var, then cwd, then home dir, then machine-level path.",
-      "The machineroot Python package provides get, set, delete, keys, and locate.",
-      "A machine-root CLI app mirrors the Python API."
-    ],
-    "related-entries": []
   }
 }
