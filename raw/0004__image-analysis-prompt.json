@@ -1,0 +1,166 @@
+{
+  "artwork_analysis": {
+    "identification": {
+      "title": "",
+      "artist": "",
+      "date_created": "",
+      "era": "",
+      "art_movement": "",
+      "cultural_context": "",
+      "geographic_origin": "",
+      "provenance": "",
+      "medium": "",
+      "dimensions": {
+        "width": "",
+        "height": "",
+        "depth": "",
+        "units": ""
+      },
+      "aspect_ratio": "",
+      "orientation": "portrait | landscape | square | irregular"
+    },
+    "composition": {
+      "layout_structure": "grid | rule_of_thirds | radial | asymmetrical | symmetrical | chaotic",
+      "focal_points": [],
+      "visual_flow": "path the eye follows",
+      "balance": "balanced | unbalanced | tensioned",
+      "framing": "internal framing elements, borders",
+      "depth_layers": {
+        "foreground": "",
+        "midground": "",
+        "background": ""
+      },
+      "perspective": "linear | atmospheric | flat | multiple | distorted",
+      "scale_relationships": "relative sizes of elements",
+      "cropping": "tight | expansive | partial forms"
+    },
+    "color": {
+      "palette": [],
+      "dominant_colors": [],
+      "color_harmony": "complementary | analogous | triadic | discordant",
+      "saturation": "low | medium | high",
+      "value_range": "dark ↔ light spectrum",
+      "color_temperature": "warm | cool | mixed",
+      "symbolic_color_meanings": {},
+      "color_usage_patterns": "flat | gradient | expressive"
+    },
+    "light_and_shadow": {
+      "light_source": "direction, number of sources",
+      "lighting_style": "naturalistic | dramatic | chiaroscuro | flat",
+      "shadow_behavior": "soft | hard | absent",
+      "reflections": "",
+      "translucency_effects": "",
+      "symbolic_use_of_light": ""
+    },
+    "line_and_drawing": {
+      "line_quality": "thin | thick | varied",
+      "line_style": "continuous | broken | gestural | geometric",
+      "edge_definition": "sharp | soft | lost-and-found",
+      "contour_usage": "",
+      "expressiveness_of_line": ""
+    },
+    "shape_and_form": {
+      "geometric_vs_organic": "",
+      "shape_language": "angular | rounded | irregular",
+      "volume_representation": "flat | modeled | sculptural",
+      "distortion": "none | stylized | exaggerated",
+      "proportions": "realistic | altered"
+    },
+    "texture_and_surface": {
+      "implied_texture": "",
+      "actual_texture": "",
+      "brushwork": "smooth | impasto | visible strokes | pointillist",
+      "surface_treatment": "",
+      "material_effects": ""
+    },
+    "subject_matter": {
+      "primary_subject": "",
+      "secondary_elements": [],
+      "environment": "",
+      "figures": [
+        {
+          "type": "human | animal | object | abstract",
+          "pose": "",
+          "gesture": "",
+          "expression": "",
+          "attire": "",
+          "attributes": ""
+        }
+      ],
+      "objects_and_symbols": [],
+      "narrative_scene": ""
+    },
+    "iconography_and_symbolism": {
+      "explicit_symbols": [],
+      "implicit_symbols": [],
+      "cultural_references": [],
+      "religious_or_mythological_elements": [],
+      "allegory": "",
+      "archetypes": [],
+      "metaphors": [],
+      "semiotic_layers": "denotation vs connotation"
+    },
+    "emotion_and_psychology": {
+      "mood": "",
+      "emotional_tone": "",
+      "viewer_response": "",
+      "psychological_tension": "",
+      "affective_contrast": ""
+    },
+    "style_and_technique": {
+      "degree_of_realism": "photorealistic | representational | abstract",
+      "stylization": "",
+      "techniques_used": [],
+      "innovation_or_experimentation": "",
+      "influences": [],
+      "deviations_from_norm": ""
+    },
+    "temporal_and_motion_elements": {
+      "sense_of_time": "frozen | dynamic | cyclical",
+      "implied_motion": "",
+      "sequence_or_story_progression": ""
+    },
+    "contextual_meaning": {
+      "historical_significance": "",
+      "political_context": "",
+      "social_commentary": "",
+      "artist_intent": "",
+      "audience_reception": "",
+      "interpretive_variants": []
+    },
+    "formal_relations": {
+      "contrast": "high | low",
+      "repetition": "",
+      "rhythm": "",
+      "unity": "",
+      "variety": "",
+      "tension": "",
+      "harmony": ""
+    },
+    "spatial_semantics": {
+      "use_of_space": "open | closed | crowded | minimal",
+      "positive_negative_space_relationship": "",
+      "voids_and_gaps": "",
+      "containment_vs_expansion": ""
+    },
+    "material_and_process": {
+      "materials_used": [],
+      "production_method": "",
+      "tooling": "",
+      "evidence_of_process": "",
+      "layering": ""
+    },
+    "meta_and_reflexive": {
+      "self_reference": "",
+      "fourth_wall_breaking": "",
+      "commentary_on_art_itself": ""
+    },
+    "computational_features": {
+      "edge_density": "",
+      "color_histogram": "",
+      "symmetry_score": "",
+      "complexity_estimate": "",
+      "entropy": ""
+    }
+  }
+}
