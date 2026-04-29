@@ -80,7 +80,8 @@
         "Crash resilience through replayable logs."
       ],
       "related-entries": [
-        "patchboard"
+        "patchboard",
+        "silk-road"
       ],
       "clarifications": [
         "FileTalk does NOT require an inbox/outbox model.",
@@ -207,6 +208,7 @@
         "Enable deterministic, inspectable dataflow.",
         "Support both file-based and in-memory runtimes."
       ],
+      "communication-mode": "data-flow",
       "message-model": {
         "envelope": {
           "channel": "<string>",
@@ -412,6 +414,117 @@
         "A machine-root CLI app mirrors the Python API."
       ],
       "related-entries": []
+    },
+    "m1": {
+      "id": "m1",
+      "identity": {
+        "tags": [
+          "data-model",
+          "distributed-systems",
+          "graph",
+          "identity",
+          "knowledge-representation",
+          "lattice"
+        ],
+        "hook": "a non-authoritative, identity-centered distributed graph where entities accumulate meaning through aspects and merge across systems via shared identity"
+      },
+      "origin": "Concept and system developed by Lion Kimbro as a general-purpose data model for interoperable, identity-driven knowledge systems.",
+      "outline": [
+        "Entities are defined solely by stable identity (UUID or Tag URI).",
+        "All meaning, structure, and relationships are expressed through aspects attached to entities.",
+        "Links are first-class entities, typically recognized by a link aspect.",
+        "Data is distributed across transport units that contribute partial knowledge.",
+        "Multiple sources may describe the same entity without centralized authority."
+      ],
+      "design-principles": [
+        "Identity is stable; structure is fluid.",
+        "No single source is authoritative.",
+        "Meaning emerges through accumulation and interpretation of aspects.",
+        "Core data is intentionally ambiguous to allow early and flexible use.",
+        "Precision is introduced incrementally through specialized aspects."
+      ],
+      "mental-model": [
+        "Think of M1 as a shared global graph that is never fully assembled in one place.",
+        "Each file (.m1) is a contribution, not a complete dataset.",
+        "Entities are anchors; aspects are perspectives.",
+        "The system forms a lattice, not a hierarchy — multiple overlapping structures coexist."
+      ],
+      "coordinates": {
+        "philosophy": "m1lattice.philosophy",
+        "core-spec": "m1lattice.spec.core.v2",
+        "transport-spec": "m1lattice.spec.transport.v2"
+      },
+      "related-entries": [
+        "filetalk"
+      ],
+      "clarifications": [
+        "M1 does not define storage, runtime, or merge strategy — only the conceptual model.",
+        "Entities have no intrinsic structure beyond identity; all structure is externalized into aspects.",
+        "Conflicting data is expected and must be handled by consuming systems.",
+        "Tables provide resolution (where things are), not meaning (what things are)."
+      ]
+    },
+    "silk-road": {
+      "id": "silk-road",
+      "identity": {
+        "tags": [
+          "filetalk",
+          "distributed-systems",
+          "asynchronous",
+          "discovery"
+        ],
+        "hook": "a FileTalk communication pattern where messages move through the filesystem via discovery and roaming agents rather than fixed routing"
+      },
+      "origin": "Concept developed by Lion Kimbro as an alternative to direct or preconfigured routing models.",
+      "outline": [
+        "Programs emit JSON artifacts into shared directories (WayStations).",
+        "WayStations passively hold messages and directives.",
+        "Couriers traverse the filesystem, discovering WayStations and moving messages.",
+        "Routing is not predefined; it emerges through traversal and interpretation."
+      ],
+      "mental-model": [
+        "Silk Road resembles a trade network: roads, markets, rumors, caravans, and delayed arrival of goods."
+      ],
+      "communication-mode": "data-drift",
+      "design-principles": [
+        "Prefer discovery over configuration.",
+        "Prefer persistence over immediacy.",
+        "Keep infrastructure passive; place intelligence in agents."
+      ],
+      "related-entries": [
+        "filetalk"
+      ]
+    },
+    "battery-runner": {
+      "id": "battery-runner",
+      "identity": {
+        "tags": [
+          "runtime",
+          "orchestration",
+          "filetalk",
+          "agents",
+          "python"
+        ],
+        "hook": "a lightweight Python runtime that executes many small, dynamically loaded programs ('bprocs') within a single process"
+      },
+      "origin": "Developed by Lion Kimbro as an orchestration system for running small task agents in support of FileTalk and Silk Road systems.",
+      "outline": [
+        "Runs multiple small Python modules ('bprocs', short for 'battery-runner processes') in a single process.",
+        "Bprocs are dynamically loaded, reloadable, and editable without restarting the system.",
+        "Each bproc is a tiny task-oriented program that runs on a schedule.",
+        "Bprocs share a common runtime context and optional shared memory.",
+        "Used to implement roaming agents ('sherpas') and other background behaviors."
+      ],
+      "design-principles": [
+        "Favor many small, focused programs over monolithic processes.",
+        "Allow live editing and rapid iteration without restart.",
+        "Keep execution simple, single-process, and inspectable.",
+        "Support asynchronous, loosely coordinated behaviors."
+      ],
+      "related-entries": [
+        "filetalk",
+        "silk-road"
+      ]
     }
   }
 }
