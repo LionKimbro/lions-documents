@@ -1,0 +1,440 @@
+{
+  "document": {
+    "document-id": "simple-task-system.softspec.v1",
+    "title": "Simple Task / Wait Coordination System",
+    "tags": [
+      "tasks",
+      "coordination",
+      "json",
+      "softspec",
+      "productivity"
+    ],
+    "purpose": "Describe a minimal, append-friendly task system and define the soft structure of a task record.",
+    "author": [
+      "Lion Kimbro",
+      "Wing-Cat"
+    ],
+    "status": "draft",
+    "created": "2026-04-26"
+  },
+  "conversations": {
+    "defining-conversation-with-chat-gpt": "https://chatgpt.com/c/69ee4e66-f8bc-83e8-8742-449559148b9c",
+    "coordination-decision-to-act-to-create-it": "https://chatgpt.com/c/69ee8d67-2610-83e8-b8c1-58d3204bf701"
+  },
+  "overview": {
+    "description": "This project defines a simple, file-friendly task coordination system. Tasks are represented as JSON dictionaries. Updates may be written as partial records, allowing append-only logs and multi-program interaction.",
+    "core-ideas": [
+      "Each task is identified by a UUID.",
+      "Each record is a dictionary that may partially update a task.",
+      "Records include a timestamp (`ts`) indicating when the record was created.",
+      "Tasks include a `created_at` field indicating when the task itself was created.",
+      "Priority is relative to the project context.",
+      "Urgency is derived from deadline and estimated effort, not stored.",
+      "The system is designed to be simple, human-writable, and compatible with programmatic use."
+    ],
+    "core-principles": [
+      "This system is append-only and record-based.",
+      "Tasks are never mutated directly; all changes are expressed as records.",
+      "Current task state is derived by replaying records in timestamp order."
+    ]
+  },
+  "conceptual-model": {
+    "notes": [
+      "This system is conceptually aligned with M1 (entities and aspects), but does not require M1 transport format.",
+      "Each task is an entity identified by a UUID.",
+      "Each JSON record is an assertion about that entity.",
+      "Latest values (by timestamp) determine current state.",
+      "History may be preserved by storing all records."
+    ]
+  },
+  "softspec": {
+    "types": {
+      "uuid": {
+        "type": "string",
+        "semantic_type": "uuid",
+        "description": "A globally unique identifier in hyphenated UUID format (8-4-4-4-12).",
+        "constraints": {
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "examples": [
+          "550e8400-e29b-41d4-a716-446655440000"
+        ],
+        "notes": [
+          "This is the standard hyphenated UUID representation.",
+          "Other identifier forms (e.g., tag URIs) are not included in this type.",
+          "Tools may validate the pattern, but are not required to enforce it."
+        ]
+      }
+    },
+    "schemas": {
+      "task-record": {
+        "title": "Task Record",
+        "description": "A task record is a JSON object representing either a full task or a partial update to a task.",
+        "structure": {
+          "type": "object",
+          "keys": {
+            "id": {
+              "type": "uuid",
+              "required": true,
+              "description": "Unique identifier for the task."
+            },
+            "ts": {
+              "type": "number",
+              "semantic_type": "timestamp",
+              "required": true,
+              "description": "Time when this record (update) was created."
+            },
+            "created_at": {
+              "type": "number",
+              "semantic_type": "timestamp",
+              "required": false,
+              "description": "Time when the task itself was originally created. Typically only set on initial creation."
+            },
+            "title": {
+              "type": "string",
+              "description": "Short human-readable description of the task.",
+              "required": false
+            },
+            "status": {
+              "type": "string",
+              "semantic_type": "task-status",
+              "description": "Current state of the task.",
+              "vocabulary": {
+                "ACTIVE": "Task is actionable now; it is currently the actor's responsibility to work on it.",
+                "WAITING": "Task is explicitly deferred. The actor is not currently responsible for it. Waiting may be time-based (a wait_until date is set, and the task becomes actionable when that date arrives) or dependency-based (waiting on another person, an event, or an external condition, with no specific date). WAITING is a meaningful status distinct from ACTIVE: it expresses that the task has been consciously set aside, not forgotten.",
+                "DONE": "Task has been completed.",
+                "CANCELED": "Task was deliberately dropped by an intentional decision. The actor chose to stop pursuing it.",
+                "EXPIRED": "The window for action on this task closed without the task being completed. A passive terminal state: the opportunity lapsed rather than being deliberately abandoned. Distinct from CANCELED in cause — CANCELED reflects a decision, EXPIRED reflects a missed window."
+              },
+              "notes": [
+                "WAITING vs ACTIVE+wait_until: a task may be ACTIVE and carry a wait_until date as a reminder, but WAITING explicitly signals that the task is not currently the actor's responsibility. WAITING is the correct status when the actor has consciously handed off, deferred, or blocked the task.",
+                "EXPIRED is a terminal state like DONE and CANCELED. It should not be automatically assigned by the system; it is set explicitly when the actor recognises that the opportunity has lapsed.",
+                "CANCELED and EXPIRED are both non-completion terminals, but carry different meaning in history: CANCELED means 'I chose not to do this', EXPIRED means 'I did not get to this in time'."
+              ],
+              "required": false
+            },
+            "project": {
+              "type": "object",
+              "description": "Reference to the project or context this task belongs to.",
+              "keys": {
+                "uuid": {
+                  "type": "uuid",
+                  "description": "Strong identifier for the project (if known)."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Human-readable project name."
+                },
+                "tag": {
+                  "type": "string",
+                  "description": "Lightweight tag used as project reference."
+                }
+              },
+              "additional_keys": false,
+              "required": false,
+              "notes": [
+                "The project reference may be partially specified.",
+                "It is valid to include only a tag, name, or UUID.",
+                "Resolvers may later map name or tag to a UUID.",
+                "This allows tasks to be created cheaply and refined over time."
+              ]
+            },
+            "priority": {
+              "type": "number",
+              "semantic_type": "priority-level",
+              "description": "Priority within the project context.",
+              "vocabulary": {
+                "1": "Not important",
+                "2": "Not very important",
+                "3": "Somewhat important",
+                "4": "Important",
+                "5": "Very important"
+              },
+              "required": false,
+              "notes": [
+                "Priority is conceptually an integer from 1 to 5.",
+                "JSON requires object keys to be strings, but these values should be interpreted numerically.",
+                "Priority is ordinal (tiered), not a precise scalar.",
+                "Priority is meaningful only within the context of a project."
+              ]
+            },
+            "deadline": {
+              "type": "number",
+              "semantic_type": "timestamp",
+              "description": "Time by which the task should be completed.",
+              "required": false
+            },
+            "wait_until": {
+              "type": "number",
+              "semantic_type": "timestamp",
+              "description": "If WAITING due to time, when the task becomes actionable.",
+              "required": false
+            },
+            "estimate_hours": {
+              "type": "number",
+              "description": "Estimated effort required to complete the task.",
+              "required": false
+            },
+            "logged_hours": {
+              "type": "number",
+              "description": "Total amount of time spent on the task so far.",
+              "required": false,
+              "notes": [
+                "This value represents a cumulative total, not a delta.",
+                "Changes over time may be inferred by comparing values across records.",
+                "This field is optional but recommended when tracking effort."
+              ]
+            },
+            "tags": {
+              "type": "array",
+              "items": "string",
+              "description": "Additional labels for filtering and grouping the task.",
+              "required": false
+            },
+            "note": {
+              "type": "string",
+              "description": "Optional human-readable notes.",
+              "required": false
+            },
+            "comment": {
+              "type": "string",
+              "semantic_type": "record-comment",
+              "description": "A note about this specific record (update), describing why the change was made or what happened at this time.",
+              "examples": [
+                "Customer replied, marking task done",
+                "Follow-up attempt, no response",
+                "Correcting status from DONE back to ACTIVE",
+                "Auto-update from scheduler"
+              ],
+              "notes": [
+                "This is not a persistent note about the task itself.",
+                "It is associated with the record timestamp (`ts`) and reflects the context of this specific update.",
+                "Multiple comments may exist across different records for the same task.",
+                "Comments are not merged into task state; they are part of the task's history."
+              ],
+              "required": false
+            },
+            "by": {
+              "type": "object",
+              "description": "Identifier of the author (human or program) making this record.",
+              "keys": {
+                "uuid": {
+                  "type": "uuid",
+                  "description": "Strong identifier for the entity (person or program), if known."
+                },
+                "person": {
+                  "type": "string",
+                  "description": "Human-readable name of the person making the record."
+                },
+                "program": {
+                  "type": "string",
+                  "description": "Name of the program generating the record."
+                }
+              },
+              "additional_keys": false,
+              "required": false,
+              "notes": [
+                "The UUID is preferred when available, as it provides stable identity.",
+                "The 'person' and 'program' fields provide lightweight identification when a UUID is not available.",
+                "This structure mirrors the 'project' reference pattern: start simple, refine later."
+              ]
+            },
+            "resources": {
+              "type": "array",
+              "description": "A list of external resources associated with the task, such as folders, files, or URLs.",
+              "items": {
+                "type": "object",
+                "description": "A reference to a resource relevant to the task.",
+                "keys": {
+                  "uuid": {
+                    "type": "uuid",
+                    "description": "UUID for the resource being referenced.",
+                    "required": false
+                  },
+                  "resource": {
+                    "type": "string",
+                    "semantic_type": "resource-type",
+                    "description": "Type of resource being referenced.",
+                    "examples": [
+                      "folder",
+                      "file",
+                      "url"
+                    ],
+                    "required": true
+                  },
+                  "path": {
+                    "type": "string",
+                    "semantic_type": "file-path",
+                    "description": "Filesystem path to the resource.",
+                    "required": "required for resource-type 'folder' and resource-type 'file'",
+                    "notes": [
+                      "Used when the resource refers to a local file or folder.",
+                      "Interpretation of the path is environment-dependent."
+                    ]
+                  },
+                  "url": {
+                    "type": "string",
+                    "semantic_type": "url",
+                    "description": "Web URL of the resource.",
+                    "required": "required for resource-type url"
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Optional human-readable label for the resource.",
+                    "required": false
+                  }
+                },
+                "additional_keys": true,
+                "notes": [
+                  "The structure is intentionally flexible; additional keys may be included as needed.",
+                  "Different resource types may use different fields (e.g., 'path' for local resources, 'url' for web resources).",
+                  "Consumers should interpret fields based on the 'resource' type.",
+                  "Not all fields are required; partial descriptions are acceptable."
+                ]
+              },
+              "required": false
+            }
+          },
+          "additional_keys": true
+        }
+      }
+    }
+  },
+  "record-types": {
+    "notes": [
+      "A record may include all fields (full snapshot) or only a subset (partial update).",
+      "Partial updates override previous values for specified fields.",
+      "Unspecified fields remain unchanged when reconstructing task state."
+    ],
+    "examples": [
+      {
+        "description": "Task creation",
+        "record": {
+          "id": "666b0faf-6a67-49c8-a25d-d61da44c1d29",
+          "ts": 1714150000,
+          "by": {
+            "person": "lion"
+          },
+          "created_at": 1714150000,
+          "title": "Follow up with Sweet Shop",
+          "status": "ACTIVE",
+          "priority": 5
+        }
+      },
+      {
+        "description": "Mark task as done",
+        "record": {
+          "id": "f28ad9ff-f339-4fc5-91f6-f1e22b7e3666",
+          "ts": 1714155000,
+          "by": {
+            "person": "lion"
+          },
+          "status": "DONE"
+        }
+      },
+      {
+        "description": "Resources in a task",
+        "record": {
+          "id": "5103ac73-d10f-4405-aa0b-0907eba5f532",
+          "ts": 1777260550,
+          "by": {
+            "person": "lion"
+          },
+          "resources": [
+            {
+              "resource": "folder",
+              "path": "C:/projects/stickers",
+              "title": "Project Folder"
+            },
+            {
+              "resource": "url",
+              "url": "https://chat.openai.com/...",
+              "title": "Design Discussion"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "derived-concepts": {
+    "notes": [
+      "Urgency is not stored. It is computed from deadline and estimate_hours.",
+      "Next-task selection is based on project importance, priority, and urgency.",
+      "WAITING tasks may be surfaced based on wait_until and elapsed time.",
+      "A WAITING task whose wait_until has passed is 'expired-wait': it should be visually flagged as ready to activate, but its status remains WAITING until the actor explicitly changes it.",
+      "EXPIRED (the status) is distinct from an expired wait_until. An expired wait_until means the wait period has ended and the task is ready to activate. EXPIRED (status) means the task itself is permanently closed because its window has passed.",
+      "System behavior emerges from interpretation of records, not rigid structure."
+    ]
+  },
+  "merge-method": {
+    "description": "Defines how multiple task records are combined to produce the current state of each task.",
+    "core-rule": [
+      "Records are processed in ascending order of `ts` (timestamp).",
+      "For each task (`id`), later records overwrite earlier values for the same field.",
+      "The current state of a task is the result of applying all its records in time order."
+    ],
+    "algorithm": {
+      "steps": [
+        "Load all records from all input sources (e.g., JSONL files).",
+        "Sort all records by `ts` in ascending order.",
+        "Iterate through each record in order.",
+        "For each record, locate or create the task state for its `id`.",
+        "For each key in the record (except `id` and `ts`), assign the value to the task state.",
+        "Continue until all records have been processed."
+      ]
+    },
+    "field-rules": {
+      "notes": [
+        "Fields are overwritten by later records (latest value wins).",
+        "id is used to identify the task and is always present in the resulting task object.  It is not derived from field merging.",
+        "`ts` is a record-level field and is not merged into task state.",
+        "`comment` is a record-level field and is not merged into task state.",
+        "`created_at` should be set once and not overwritten if already present.",
+        "Fields not mentioned in a record remain unchanged in the task state.",
+        "Object-valued fields (e.g., `project`, `by`) are replaced as a whole; no deep merge is performed.",
+        "Setting a field to `null` may be used in the future to indicate clearing a value, but this behavior is not required initially."
+      ]
+    },
+    "example": {
+      "records": [
+        {
+          "id": "A",
+          "ts": 100,
+          "title": "Call shop",
+          "status": "ACTIVE"
+        },
+        {
+          "id": "A",
+          "ts": 200,
+          "priority": 5
+        },
+        {
+          "id": "A",
+          "ts": 300,
+          "status": "DONE"
+        }
+      ],
+      "result": {
+        "id": "A",
+        "title": "Call shop",
+        "status": "DONE",
+        "priority": 5
+      }
+    },
+    "history": {
+      "notes": [
+        "If desired, all records may be retained to preserve full history.",
+        "A history view may be constructed by grouping records by `id` and preserving their order.",
+        "Snapshots of task state may be stored or cached for convenience.",
+        "The canonical behavior of the system is defined by replaying records.",
+        "Snapshots, when used, should be treated as derived views and may be recomputed."
+      ]
+    },
+    "notes": [
+      "This method is intentionally simple and deterministic.",
+      "It supports append-only storage and multi-source input without coordination.",
+      "It is compatible with both human-written and program-generated records.",
+      "More advanced behaviors (e.g., conflict resolution, partial object merging) are intentionally omitted to preserve simplicity."
+    ]
+  }
+}
