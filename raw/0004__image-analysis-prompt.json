@@ -1,4 +1,23 @@
 {
+  "document": {
+    "document-id": "artwork-analysis.prompt.v1",
+    "title": "Artwork Analysis Prompt (with Template) for LLMs",
+    "tags": [
+      "art",
+      "analysis",
+      "llm",
+      "prompt",
+      "image",
+      "schema"
+    ],
+    "purpose": "Provide a reusable prompt and schema for analyzing an image and extracting rich symbolic, visual, and contextual information into structured JSON.",
+    "author": [
+      "Lion Kimbro",
+      "Wing-Cat (Chat-GPT)"
+    ],
+    "status": "draft"
+  },
+  "prompt": "Analyze the supplied image and produce a JSON document that conforms to the 'artwork_analysis' structure provided below.\n\nInterpret all fields as suggestive rather than restrictive. You may:\n- Add new keys where useful\n- Omit keys that are not applicable\n- Expand values into richer structures when appropriate\n\nYour goal is to capture as much meaningful structure as possible across:\n- visual perception (color, light, texture, composition)\n- subject matter and objects\n- symbolic and cultural meaning\n- emotional and psychological tone\n- stylistic and technical execution\n\nPrefer specificity over generality. Avoid vague statements when concrete observations can be made.\n\nIf uncertain, include your best interpretation and mark uncertainty where appropriate.\n\nReturn only valid JSON.\n\nPopulate the 'artwork_analysis' object below:",
   "artwork_analysis": {
     "identification": {
       "title": "",
@@ -8,68 +27,58 @@
       "art_movement": "",
       "cultural_context": "",
       "geographic_origin": "",
-      "provenance": "",
       "medium": "",
-      "dimensions": {
-        "width": "",
-        "height": "",
-        "depth": "",
-        "units": ""
-      },
+      "dimensions": {},
       "aspect_ratio": "",
-      "orientation": "portrait | landscape | square | irregular"
+      "orientation": ""
     },
     "composition": {
-      "layout_structure": "grid | rule_of_thirds | radial | asymmetrical | symmetrical | chaotic",
+      "layout_structure": "",
       "focal_points": [],
-      "visual_flow": "path the eye follows",
-      "balance": "balanced | unbalanced | tensioned",
-      "framing": "internal framing elements, borders",
-      "depth_layers": {
-        "foreground": "",
-        "midground": "",
-        "background": ""
-      },
-      "perspective": "linear | atmospheric | flat | multiple | distorted",
-      "scale_relationships": "relative sizes of elements",
-      "cropping": "tight | expansive | partial forms"
+      "visual_flow": "",
+      "balance": "",
+      "framing": "",
+      "depth_layers": {},
+      "perspective": "",
+      "scale_relationships": "",
+      "cropping": ""
     },
     "color": {
       "palette": [],
       "dominant_colors": [],
-      "color_harmony": "complementary | analogous | triadic | discordant",
-      "saturation": "low | medium | high",
-      "value_range": "dark ↔ light spectrum",
-      "color_temperature": "warm | cool | mixed",
+      "color_harmony": "",
+      "saturation": "",
+      "value_range": "",
+      "color_temperature": "",
       "symbolic_color_meanings": {},
-      "color_usage_patterns": "flat | gradient | expressive"
+      "color_usage_patterns": ""
     },
     "light_and_shadow": {
-      "light_source": "direction, number of sources",
-      "lighting_style": "naturalistic | dramatic | chiaroscuro | flat",
-      "shadow_behavior": "soft | hard | absent",
+      "light_source": "",
+      "lighting_style": "",
+      "shadow_behavior": "",
       "reflections": "",
       "translucency_effects": "",
       "symbolic_use_of_light": ""
     },
     "line_and_drawing": {
-      "line_quality": "thin | thick | varied",
-      "line_style": "continuous | broken | gestural | geometric",
-      "edge_definition": "sharp | soft | lost-and-found",
+      "line_quality": "",
+      "line_style": "",
+      "edge_definition": "",
       "contour_usage": "",
       "expressiveness_of_line": ""
     },
     "shape_and_form": {
       "geometric_vs_organic": "",
-      "shape_language": "angular | rounded | irregular",
-      "volume_representation": "flat | modeled | sculptural",
-      "distortion": "none | stylized | exaggerated",
-      "proportions": "realistic | altered"
+      "shape_language": "",
+      "volume_representation": "",
+      "distortion": "",
+      "proportions": ""
     },
     "texture_and_surface": {
       "implied_texture": "",
       "actual_texture": "",
-      "brushwork": "smooth | impasto | visible strokes | pointillist",
+      "brushwork": "",
       "surface_treatment": "",
       "material_effects": ""
     },
@@ -77,16 +86,7 @@
       "primary_subject": "",
       "secondary_elements": [],
       "environment": "",
-      "figures": [
-        {
-          "type": "human | animal | object | abstract",
-          "pose": "",
-          "gesture": "",
-          "expression": "",
-          "attire": "",
-          "attributes": ""
-        }
-      ],
+      "figures": [],
       "objects_and_symbols": [],
       "narrative_scene": ""
     },
@@ -98,7 +98,7 @@
       "allegory": "",
       "archetypes": [],
       "metaphors": [],
-      "semiotic_layers": "denotation vs connotation"
+      "semiotic_layers": ""
     },
     "emotion_and_psychology": {
       "mood": "",
@@ -108,7 +108,7 @@
       "affective_contrast": ""
     },
     "style_and_technique": {
-      "degree_of_realism": "photorealistic | representational | abstract",
+      "degree_of_realism": "",
       "stylization": "",
       "techniques_used": [],
       "innovation_or_experimentation": "",
@@ -116,7 +116,7 @@
       "deviations_from_norm": ""
     },
     "temporal_and_motion_elements": {
-      "sense_of_time": "frozen | dynamic | cyclical",
+      "sense_of_time": "",
       "implied_motion": "",
       "sequence_or_story_progression": ""
     },
@@ -129,7 +129,7 @@
       "interpretive_variants": []
     },
     "formal_relations": {
-      "contrast": "high | low",
+      "contrast": "",
       "repetition": "",
       "rhythm": "",
       "unity": "",
@@ -138,7 +138,7 @@
       "harmony": ""
     },
     "spatial_semantics": {
-      "use_of_space": "open | closed | crowded | minimal",
+      "use_of_space": "",
       "positive_negative_space_relationship": "",
       "voids_and_gaps": "",
       "containment_vs_expansion": ""
