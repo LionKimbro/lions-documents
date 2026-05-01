@@ -1,0 +1,430 @@
+{
+  "document": {
+    "document-id": "discourse_dynamics_dictionary",
+    "title": "Discourse Dynamics Dictionary",
+    "tags": [
+      "lionkimbro",
+      "language",
+      "dictionary",
+      "llm",
+      "discourse",
+      "sociology",
+      "history",
+      "politics",
+      "emergence",
+      "conceptmap"
+    ],
+    "type": {
+      "logical": {
+        "base": "file",
+        "format": "json",
+        "encoding": "utf-8"
+      },
+      "semantic": {
+        "base": "reference"
+      }
+    },
+    "purpose": "Provide LLMs and collaborators with a compact, high-signal dictionary for reasoning about sociological, historical, political, and discourse-level phenomena, including emergent group behavior, narrative formation, and phase shifts in collective understanding.\n"
+  },
+  "llm-orientation": {
+    "purpose": "This dictionary defines recurring concepts used when discussing large-scale human systems, discourse evolution, and emergent social patterns.",
+    "audience": "Wing-Cat or other LLM collaborators",
+    "design-goals": [
+      "Stabilize interpretation of high-level sociological claims.",
+      "Prevent derailment through semantic misinterpretation (e.g., 'not all X').",
+      "Provide shared vocabulary for discussing emergent, distributed phenomena.",
+      "Enable mapping from natural language statements to structured conceptual models."
+    ],
+    "interpretation-guidance": [
+      "Treat group-level statements (e.g., 'Men do X') as potential references to emergent alignment, directional pressure, or salient group narratives unless explicitly stated otherwise.",
+      "Do not collapse pattern-level claims into universal individual claims.",
+      "Prioritize structural and systemic interpretation over literal surface parsing.",
+      "Recognize that concepts here describe distributed systems, not coordinated actors unless explicitly noted."
+    ]
+  },
+  "dictionary": {
+    "phase-shift-through-discourse": {
+      "id": "phase-shift-through-discourse",
+      "identity": {
+        "tags": [
+          "discourse",
+          "emergence",
+          "social-dynamics",
+          "nonlinear",
+          "sensemaking"
+        ],
+        "hook": "a nonlinear transition where a group under shared pressure develops language and recognition over time, culminating in a high-trust convergence that rapidly reorients collective understanding"
+      },
+      "outline": [
+        "A group experiences persistent, shared suffering or pressure.",
+        "Members discuss, debate, and form factions with competing interpretations.",
+        "Over time, repeated patterns become recognizable and partially predictable.",
+        "A shared vocabulary emerges, increasing precision of recognition.",
+        "High-attention, high-trust participants (conversation elites) refine and test competing models.",
+        "At a critical moment, a synthesis or realization emerges within that elite layer.",
+        "Because the broader group has been primed, the realization spreads rapidly.",
+        "The collective understanding undergoes a sudden phase shift."
+      ],
+      "mechanism": [
+        "Distributed experience accumulates signal.",
+        "Language co-evolves with recognition capacity.",
+        "Elite convergence acts as crystallization point.",
+        "Propagation occurs through pre-primed social channels."
+      ],
+      "characteristics": [
+        "Appears sudden, but is preceded by long buildup.",
+        "Feels like discovery rather than persuasion.",
+        "High memetic efficiency (easy to transmit once formed).",
+        "Reorganizes prior observations into a coherent frame."
+      ],
+      "failure-modes": [
+        "False phase shift: compelling but incorrect synthesis spreads.",
+        "Fragmentation: multiple competing phase shifts form without convergence.",
+        "Premature crystallization: model locks before sufficient signal."
+      ],
+      "related-entries": [
+        "emergent-alignment",
+        "conversation-elites",
+        "salient-group-narrative",
+        "directional-pressure"
+      ]
+    },
+    "distributed-intentional-convergence": {
+      "id": "distributed-intentional-convergence",
+      "identity": {
+        "tags": [
+          "discourse",
+          "social-dynamics",
+          "intentionality",
+          "alignment",
+          "sensemaking",
+          "convergence",
+          "emergence"
+        ],
+        "hook": "a process where many individuals, each thinking and acting intentionally, progressively align on a shared understanding that produces large-scale directional outcomes"
+      },
+      "outline": [
+        "Individuals experience signals (events, patterns, pressures) within a shared domain.",
+        "They independently interpret, reason about, and discuss these signals.",
+        "Competing explanations and factions form and are iteratively tested through discourse.",
+        "Language and conceptual tools evolve, improving recognition and communication of the phenomenon.",
+        "Participants increasingly recognize the same patterns and refine similar models.",
+        "High-attention, high-trust participants (conversation elites) converge on a stable framing.",
+        "This convergence spreads outward through the broader population.",
+        "The system exhibits coherent, directional behavior as individuals, each acting with intent, converge on a shared understanding—without explicit command-and-control coordination; any coordination that does occur is informal, local, attraction-driven, and often partial or splintered."
+      ],
+      "mechanism": [
+        "Individual cognition and interpretation operate continuously across the population.",
+        "Social interaction (discussion, debate, signaling) propagates and filters ideas.",
+        "Reinforcement occurs when independent observations match shared models.",
+        "Elite convergence stabilizes and legitimizes a particular framing.",
+        "Adoption spreads through primed networks, producing large-scale alignment."
+      ],
+      "characteristics": [
+        "Preserves individual agency and intention at every level.",
+        "Produces outcomes that resemble coordinated action without explicit command-and-control structures.",
+        "Alignment forms through shared recognition, not prior agreement.",
+        "Coordination, where present, is informal, local, attraction-driven, and often imperfect or splintered.",
+        "Often culminates in a phase-shift-through-discourse."
+      ],
+      "clarifications": [
+        "Does not require explicit coordination or centralized planning.",
+        "Differs from 'emergence' by explicitly modeling the role of human intention and reasoning.",
+        "Does not imply unanimity; alignment can be partial but still produce strong directional effects.",
+        "Applies most strongly in domains with shared attention and repeated interaction (e.g., discourse environments)."
+      ],
+      "related-entries": [
+        "phase-shift-through-discourse",
+        "conversation-elites",
+        "distributed-sensemaking",
+        "directional-pressure",
+        "salient-group-narrative",
+        "conversation-elites",
+        "elite-convergence"
+      ]
+    },
+    "salient-group-narrative": {
+      "id": "salient-group-narrative",
+      "identity": {
+        "tags": [
+          "discourse",
+          "narrative",
+          "compression",
+          "group-model"
+        ],
+        "hook": "a simplified narrative that assigns actions or outcomes to a group, ignoring internal variation for communicative power"
+      }
+    },
+    "emergent-alignment": {
+      "id": "emergent-alignment",
+      "identity": {
+        "tags": [
+          "distributed-systems",
+          "social-dynamics",
+          "pattern"
+        ],
+        "hook": "coherent group-level directional behavior arising without explicit coordination"
+      }
+    },
+    "directional-pressure": {
+      "id": "directional-pressure",
+      "identity": {
+        "tags": [
+          "systems",
+          "emergence",
+          "trend"
+        ],
+        "hook": "aggregate effect of many aligned actions producing large-scale directional outcomes"
+      }
+    },
+    "conversation-elites": {
+      "id": "conversation-elites",
+      "identity": {
+        "tags": [
+          "discourse",
+          "influence",
+          "attention"
+        ],
+        "hook": "high-trust, high-attention participants whose convergence shapes narrative direction"
+      }
+    },
+    "moral-role-assignment": {
+      "id": "moral-role-assignment",
+      "identity": {
+        "tags": [
+          "discourse",
+          "morality",
+          "roles"
+        ],
+        "hook": "implicit casting of groups into roles such as agent (responsible) and victim (protected)"
+      }
+    },
+    "interpretive-asymmetry": {
+      "id": "interpretive-asymmetry",
+      "identity": {
+        "tags": [
+          "discourse",
+          "bias",
+          "interpretation"
+        ],
+        "hook": "similar statements about different groups are processed differently by audiences"
+      }
+    },
+    "frame-lock": {
+      "id": "frame-lock",
+      "identity": {
+        "tags": [
+          "rhetoric",
+          "control",
+          "discourse"
+        ],
+        "hook": "a move that fixes the interpretation of a discussion, making alternatives appear invalid"
+      }
+    },
+    "absolutization-move": {
+      "id": "absolutization-move",
+      "identity": {
+        "tags": [
+          "rhetoric",
+          "distortion"
+        ],
+        "hook": "reinterpreting a qualified statement as absolute, then attacking it"
+      }
+    },
+    "semantic-policing": {
+      "id": "semantic-policing",
+      "identity": {
+        "tags": [
+          "discourse",
+          "deflection"
+        ],
+        "hook": "shifting focus to wording precision instead of engaging the underlying claim"
+      }
+    },
+    "emergent-coherence": {
+      "id": "emergent-coherence",
+      "identity": {
+        "tags": [
+          "systems",
+          "alignment"
+        ],
+        "hook": "the appearance of unified behavior arising from distributed processes"
+      }
+    },
+    "narrative-compression": {
+      "id": "narrative-compression",
+      "identity": {
+        "tags": [
+          "discourse",
+          "communication"
+        ],
+        "hook": "collapsing complex phenomena into simple, memorable group-level stories"
+      }
+    },
+    "discourse-environment": {
+      "id": "discourse-environment",
+      "identity": {
+        "tags": [
+          "meta",
+          "context"
+        ],
+        "hook": "the implicit rules governing what can be said, how it is interpreted, and what responses are allowed"
+      }
+    },
+    "elite-convergence": {
+      "id": "elite-convergence",
+      "identity": {
+        "tags": [
+          "discourse",
+          "emergence"
+        ],
+        "hook": "alignment among high-trust participants that crystallizes a narrative shift"
+      },
+      "related-entries": [
+        "distributed-intentional-convergence"
+      ]
+    },
+    "primed-population": {
+      "id": "primed-population",
+      "identity": {
+        "tags": [
+          "systems",
+          "readiness"
+        ],
+        "hook": "a group that has accumulated enough shared context to rapidly adopt a new framing"
+      }
+    },
+    "distributed-sensemaking": {
+      "id": "distributed-sensemaking",
+      "identity": {
+        "tags": [
+          "cognition",
+          "systems"
+        ],
+        "hook": "collective understanding emerging from many individuals processing and sharing observations"
+      },
+      "related-entries": [
+        "distributed-intentional-convergence"
+      ]
+    },
+    "emergence": {
+      "id": "emergence",
+      "identity": {
+        "tags": [
+          "systems",
+          "complexity",
+          "emergence",
+          "observer-language",
+          "pattern"
+        ],
+        "hook": "an observer-level description where large-scale patterns arise from many smaller interactions without explicit central coordination"
+      },
+      "origin": "Common term in complex systems theory, physics, biology, and social science; widely used to describe macroscopic patterns arising from microscopic interactions.",
+      "outline": [
+        "Describes system-level behavior that is not directly specified by any single component.",
+        "Often used when no central planner or controller is visible.",
+        "Applies to domains such as traffic flow, flocking behavior, markets, and cultural trends.",
+        "Typically framed from an external or analytical perspective."
+      ],
+      "design-intent": [
+        "Provide a way to talk about large-scale order without requiring central coordination.",
+        "Allow analysis of systems where global behavior differs from local rules."
+      ],
+      "characteristics": [
+        "Observer-oriented framing (external vantage point).",
+        "Does not require explicit coordination or command structures.",
+        "Focuses on pattern rather than intention.",
+        "Often abstracts away individual cognition or reasoning."
+      ],
+      "limitations": [
+        "Can obscure or minimize the role of individual intention, reasoning, and strategic behavior.",
+        "May give the impression that patterns 'just happen' without meaningful agency.",
+        "Can weaken moral or responsibility-based analysis by shifting attention to system behavior.",
+        "May flatten differences between passive processes (e.g., physics) and active human cognition.",
+        "Often used in cooperative or dialogic frameworks; may underrepresent adversarial or strategic dynamics present in real-world discourse."
+      ],
+      "lion-position": [
+        "Emergence is accepted as a descriptive term but is insufficient for modeling human social dynamics involving active reasoning.",
+        "In Lion's framework, many phenomena described as 'emergent' are better understood as distributed-intentional-convergence.",
+        "Preference is to preserve agency, cognition, and intentional alignment when modeling human systems."
+      ],
+      "related-entries": [
+        "distributed-intentional-convergence",
+        "emergent-alignment",
+        "directional-pressure",
+        "distributed-sensemaking"
+      ],
+      "clarifications": [
+        "Emergence does not imply absence of intelligence; it reflects a particular descriptive stance.",
+        "Use with care when analyzing human systems where participants are actively reasoning.",
+        "Tag retained for searchability and compatibility with existing discourse."
+      ]
+    },
+    "crystallization-event": {
+      "id": "crystallization-event",
+      "identity": {
+        "tags": [
+          "discourse",
+          "emergence",
+          "convergence",
+          "sensemaking",
+          "phase-transition",
+          "narrative-formation"
+        ],
+        "hook": "the moment a diffuse, widely sensed pattern is articulated in a clear, portable form that enables rapid recognition and spread across a population"
+      },
+      "outline": [
+        "A pattern exists in distributed form across many individuals (observations, intuitions, partial models).",
+        "Multiple people independently approach similar conclusions without a dominant shared formulation.",
+        "Language is unstable or fragmented; explanations vary.",
+        "A participant (often a conversation-elite) synthesizes and expresses the pattern in a clear, compact, and transmissible form.",
+        "The articulation resonates immediately with others who were already primed by prior exposure.",
+        "The formulation spreads rapidly, often without attribution.",
+        "The concept becomes part of shared language and common-sense reasoning."
+      ],
+      "mechanism": [
+        "Accumulated distributed-intentional-convergence provides the underlying signal.",
+        "The crystallizing articulation compresses the signal into a cognitively efficient form.",
+        "Recognition cascades through primed populations (people feel 'this explains it').",
+        "Adoption is driven by explanatory power and communicability, not authority alone."
+      ],
+      "characteristics": [
+        "Appears sudden but is preceded by long buildup.",
+        "Feels like discovery rather than persuasion.",
+        "High memetic efficiency (easy to repeat, reuse, and apply).",
+        "Often associated with a specific phrasing, term, or framing that becomes canonical.",
+        "Triggers a phase-shift-through-discourse when widely adopted."
+      ],
+      "signals": [
+        "Independent sources begin using similar language without coordination.",
+        "Statements shift from tentative ('maybe') to confident ('obviously').",
+        "The idea explains multiple previously disconnected observations.",
+        "Usage spreads beyond the origin community into adjacent groups.",
+        "People use the concept without defining it, assuming shared understanding."
+      ],
+      "failure-modes": [
+        "False crystallization: a compelling but incorrect formulation spreads widely.",
+        "Competing crystallizations: multiple formulations prevent convergence.",
+        "Overcompression: nuance is lost, leading to misapplication.",
+        "Attribution fixation: focus shifts to the person rather than the distributed formation."
+      ],
+      "roles": [
+        "crystallizing-elite",
+        "primed-population",
+        "conversation-elites"
+      ],
+      "related-entries": [
+        "distributed-intentional-convergence",
+        "phase-shift-through-discourse",
+        "salient-group-narrative",
+        "narrative-compression",
+        "distributed-sensemaking"
+      ],
+      "clarifications": [
+        "A crystallization-event does not imply the idea was created at that moment; it was made legible and transmissible.",
+        "The articulator is not the sole originator, but the synthesizer of distributed insight.",
+        "Crystallization can occur multiple times for the same underlying pattern, with one formulation becoming dominant."
+      ]
+    }
+  }
+}
