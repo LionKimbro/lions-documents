@@ -169,8 +169,7 @@
       },
       "origin": "Python project by Lion Kimbro, developed with Wing-Cat.",
       "coordinates": {
-        "github": "https://github.com/LionKimbro/lionscliapp",
-        "library": "F:\\lion\\github\\lionscliapp\\inventory.json"
+        "github": "https://github.com/LionKimbro/lionscliapp"
       },
       "outline": [
         "Configuration-first design.",
@@ -333,8 +332,7 @@
       },
       "origin": "Python project by Lion Kimbro, developed with Wing-Cat.",
       "coordinates": {
-        "github": "https://github.com/LionKimbro/tkintertester",
-        "spec": "F:\\lion\\github\\tkintertester\\docs\\spec\\tkintertester_spec.json"
+        "github": "https://github.com/LionKimbro/tkintertester"
       },
       "invariants": [
         "Single-threaded execution.",
@@ -524,6 +522,123 @@
       "related-entries": [
         "filetalk",
         "silk-road"
+      ]
+    },
+    "eco": {
+      "id": "eco",
+      "identity": {
+        "tags": [
+          "runtime",
+          "execution",
+          "filesystem",
+          "runner",
+          "python",
+          "reproducibility",
+          "lionscliapp"
+        ],
+        "hook": "a filesystem-native execution runner that copies an executable directory tree into a timestamped run directory and executes it there"
+      },
+      "origin": "Python project by Lion Kimbro, developed with Wing-Cat and sibling Chat-GPT instances as a small crystallization runner for executable directory trees.",
+      "coordinates": {
+        "python-package": "lions_eco"
+      },
+      "outline": [
+        "Treats a source directory tree as an ecology: an opaque executable environment containing an ecology.json file.",
+        "Allocates a timestamped run directory under a configured run parent directory.",
+        "Deep-copies the entire ecology into the run directory before execution.",
+        "Runs the declared command from inside the copied directory, never from inside the source ecology.",
+        "Writes ECO-RUN.json metadata into the run directory before and after execution.",
+        "Uses lionscliapp for CLI dispatch, persistent configuration, and automatic execpath.* path coercion."
+      ],
+      "execution-model": {
+        "source": "A directory containing ecology.json and arbitrary supporting files.",
+        "copy": "The full source ecology is copied into a fresh run directory.",
+        "run-directory-format": "yyyy-mm-dd_run-####, with numbering restarting each local calendar day.",
+        "entrypoint": "ecology.json declares execution.entry-type, execution.cwd, command, and optional environment variables.",
+        "current-entry-type": "subprocess",
+        "metadata": "ECO-RUN.json records run id, source ecology, creation time, execution command, status, completion time, and return code."
+      },
+      "design-principles": [
+        "Filesystem-native execution.",
+        "Source ecologies are templates and are not mutated by execution.",
+        "Run directories are complete inspectable artifacts.",
+        "Execution state should be understandable by opening folders and JSON files.",
+        "Avoid orchestration semantics in the core runner.",
+        "Keep the system small enough to understand at a glance."
+      ],
+      "design-intent": [
+        "Provide a simple substrate for reproducible script, tool, experiment, or asset-processing runs.",
+        "Make every run leave behind a concrete directory that can be inspected, archived, compared, or debugged.",
+        "Support richer systems above it without embedding workflow, graph, pipeline, or agent semantics into eco itself.",
+        "Separate the preparation of an executable environment from the execution of the copied instance."
+      ],
+      "clarifications": [
+        "eco is not a workflow engine.",
+        "eco does not interpret the ecology beyond ecology.json.",
+        "eco does not define pipelines, dependency graphs, scheduling, or distributed execution.",
+        "The copied run directory is the execution environment.",
+        "The source ecology should be considered read-only during a run.",
+        "ecology.json describes how to execute the ecology; it does not describe what the ecology means."
+      ],
+      "related-entries": [
+        "lionscliapp",
+        "filetalk",
+        "battery-runner"
+      ]
+    },
+    "mill": {
+      "id": "mill",
+      "identity": {
+        "tags": [
+          "runtime",
+          "filesystem",
+          "transformation",
+          "workflow",
+          "orchestration",
+          "python",
+          "eco"
+        ],
+        "hook": "a filesystem-native staged transformation runtime that runs inside an eco run directory and coordinates component subprocesses through inboxes, outboxes, and explicit wiring"
+      },
+      "origin": "Python project by Lion Kimbro, developed with Wing-Cat as a small staged transformation layer built to run inside eco-created execution directories.",
+      "coordinates": {
+        "github": "https://github.com/LionKimbro/mill",
+        "spec": "F:\\lion\\github\\mill\\docs\\raw\\010__mill-spec.json",
+        "component-spec": "F:\\lion\\github\\mill\\docs\\raw\\020__mill-component-spec.json"
+      },
+      "outline": [
+        "Runs entirely inside a copied eco run directory.",
+        "Reads wiring.json to determine component dependencies and filesystem routes.",
+        "Executes each component as a subprocess with its own component directory as the working directory.",
+        "Routes files by copying artifacts from component outboxes into downstream inboxes.",
+        "Provides a shared procedural component harness so component run.py files can stay small."
+      ],
+      "execution-model": {
+        "components": "Directories containing run.py, conventionally with conf/, inbox/, outbox/, tmp/, status.json, and log.json.",
+        "wiring": "wiring.json separates dependency edges from filesystem routes.",
+        "ordering": "Dependencies are topologically sorted for deterministic staged execution.",
+        "routing": "Routes copy files after the trigger component completes.",
+        "component-runtime": "runtime.component and runtime.ctx provide lifecycle, logging, path helpers, JSON/text helpers, image helpers, and Gemini helpers."
+      },
+      "design-principles": [
+        "Filesystem-native transformation.",
+        "Inspectable intermediate artifacts.",
+        "Small procedural components.",
+        "Explicit wiring rather than hidden dataflow.",
+        "Run directories serve as execution records."
+      ],
+      "clarifications": [
+        "mill is not a package manager or project build system.",
+        "mill does not launch the run directory; eco handles copying and invocation.",
+        "mill does not define the semantic meaning of transformations.",
+        "Dependencies determine execution order; routes determine file propagation.",
+        "Components communicate through files, not imports or shared memory."
+      ],
+      "related-entries": [
+        "eco",
+        "filetalk",
+        "patchboard",
+        "lionscliapp"
       ]
     }
   }
