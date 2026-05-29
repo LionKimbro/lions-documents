@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catchbasket - Tag Brush</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Catchbasket</span></a>
+    <nav class="nav" aria-label="Report pages">
+      <a href="index.html">Overview</a>
+      <a href="concept.html">Concept</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="tag-brush.html" aria-current="page">Tag Brush</a>
+      <a href="data-model.html">Data Model</a>
+      <a href="provenance.html">Provenance</a>
+      <a href="implementation.html">Build Plan</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Interaction model</p>
+        <h1>The Tag Brush</h1>
+      </div>
+      <div class="prose">
+        <p>The tag brush is the center of the user experience. Instead of editing each record one by one, Lion sets a current set of tags and paints them onto selected captures.</p>
+        <p>The interface should feel closer to sorting a tray than filling out a database form.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Mock interface</p>
+      <div class="brush-demo">
+        <div class="brush-bar">
+          <span class="brush-label">Current brush</span>
+          <span class="tag">programming</span>
+          <span class="tag">visual-language</span>
+          <span class="tag">cira</span>
+          <button class="mock-button" type="button">Apply Tags</button>
+          <button class="mock-button" type="button">Accept Link</button>
+          <button class="mock-button" type="button">Archive</button>
+        </div>
+        <div class="artifact-row">
+          <span class="artifact-icon url">URL</span>
+          <div><strong>Essay about spatial hypertext</strong><br><span>chrome-bookmark - staged</span></div>
+          <div class="tag-list"><span class="tag">read-later</span></div>
+        </div>
+        <div class="artifact-row">
+          <span class="artifact-icon img">IMG</span>
+          <div><strong>moth-wing.jpg</strong><br><span>downloads-folder - suggested source page</span></div>
+          <div class="tag-list"><span class="tag">beautiful</span><span class="tag">interface</span></div>
+        </div>
+        <div class="artifact-row">
+          <span class="artifact-icon pdf">PDF</span>
+          <div><strong>paper-on-keysets.pdf</strong><br><span>downloads-folder - staged</span></div>
+          <div class="tag-list"><span class="tag formal">HCI</span></div>
+        </div>
+        <div class="suggestion-card">
+          <h3>Possible source page</h3>
+          <p><strong>Beautiful moths of North America</strong> was captured 72 seconds before <strong>moth-wing.jpg</strong>. Suggested relation: downloaded shortly after page capture.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Controls</p>
+        <h2>Fast enough to use while browsing</h2>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item">
+          <div>
+            <h3>Set the brush</h3>
+            <p>Type tags, pick recent tags, or tap common tag presets such as read-later, beautiful, project, or quote.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3>Select captures</h3>
+            <p>Use checkboxes, keyboard selection, or select-all for a batch that shares a current association.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3>Apply tags</h3>
+            <p>The brush tags merge into the selected records without replacing existing tags.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3>Accept or reject source links</h3>
+            <p>Suggested parents and capture groups become explicit only after Lion approves them.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3>Archive selected</h3>
+            <p>Finished records append to JSONL and leave staging, while skipped records remain available.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Principle</p>
+        <h2>Do not interrupt the noticing</h2>
+      </div>
+      <div class="prose">
+        <p>The tagger should ask for only what the user can give cheaply in the moment. A title, URL, file path, timestamp, and rough tags are enough.</p>
+        <p>Descriptions, quotes, project links, and formal categories can wait for a later curation pass.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Next: <a href="data-model.html">Data Model</a></footer>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catchbasket Report</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Catchbasket</span></a>
+      <nav class="nav" aria-label="Report pages">
+        <a href="index.html" aria-current="page">Overview</a>
+        <a href="concept.html">Concept</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="tag-brush.html">Tag Brush</a>
+        <a href="data-model.html">Data Model</a>
+        <a href="provenance.html">Provenance</a>
+        <a href="implementation.html">Build Plan</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">A report on the Memory Intake System</p>
+          <h1>Catchbasket</h1>
+          <p class="dek">A lightweight capture inbox for the Internet: URLs, images, tweets, downloads, and other artifacts that Lion noticed before knowing exactly what they should become.</p>
+          <div class="credit-box">
+            <strong>Created by Codex.</strong> Seeded from Lion's recorded ChatGPT/Wing-Cat conversation:
+            <a href="https://chatgpt.com/c/6a19f510-a2f0-83e8-8370-ec7cedd793ae">chatgpt.com/c/6a19f510-a2f0-83e8-8370-ec7cedd793ae</a>.
+          </div>
+        </div>
+        <figure class="hero-figure">
+          <img src="assets/capture-basket-hero.png" alt="A digital capture basket holding internet artifacts and tag chips">
+          <figcaption class="caption-ribbon">The system preserves the noticed thing, the moment of noticing, and enough rough meaning that future-you can find it again.</figcaption>
+        </figure>
+      </section>
+
+      <div class="content">
+        <section class="section split">
+          <div>
+            <p class="eyebrow">Central thesis</p>
+            <h2>A pre-archive attentional buffer</h2>
+          </div>
+          <div class="prose">
+            <p>Catchbasket is not primarily a bookmark manager, a notes app, or a final archive. It is the small holding area between noticing and deciding.</p>
+            <p>The design goal is simple: capture now, tag enough now, decide later. The act being preserved is not merely the URL or file. It is the fact that Lion noticed something in the stream and wanted that attention to survive.</p>
+            <div class="quote-band">The primary object is: <strong>"Lion noticed this."</strong></div>
+          </div>
+        </section>
+
+        <section class="section">
+          <p class="eyebrow">Report chapters</p>
+          <div class="chapter-grid">
+            <a class="chapter-card" href="concept.html">
+              <span class="chapter-number">01 Concept</span>
+              <h3>Why this is not just bookmarks</h3>
+              <p>The philosophical and practical shape of a memory intake system.</p>
+            </a>
+            <a class="chapter-card" href="architecture.html">
+              <span class="chapter-number">02 Architecture</span>
+              <h3>Capture inbox to archive</h3>
+              <p>Folders, staging records, archive assets, and the flow between them.</p>
+            </a>
+            <a class="chapter-card" href="tag-brush.html">
+              <span class="chapter-number">03 Tag Brush</span>
+              <h3>Painting meaning onto captures</h3>
+              <p>A fast UI model for applying current tags to multiple remembered things.</p>
+            </a>
+            <a class="chapter-card" href="data-model.html">
+              <span class="chapter-number">04 Data Model</span>
+              <h3>The universal remembered thing</h3>
+              <p>JSONL records, source metadata, capture tags, and curated tags.</p>
+            </a>
+            <a class="chapter-card" href="provenance.html">
+              <span class="chapter-number">05 Provenance</span>
+              <h3>The browsing moment</h3>
+              <p>Source URLs, framing pages, suggested parents, and capture groups.</p>
+            </a>
+            <a class="chapter-card" href="implementation.html">
+              <span class="chapter-number">06 Build Plan</span>
+              <h3>The first version</h3>
+              <p>Small scripts, clear boundaries, and a path toward a useful prototype.</p>
+            </a>
+            <a class="chapter-card" href="architecture.html#lifecycle">
+              <span class="chapter-number">Appendix</span>
+              <h3>Lifecycle states</h3>
+              <p>Captured, staged, tagged, archived, curated, used, or deleted.</p>
+            </a>
+          </div>
+        </section>
+
+        <section class="section">
+          <p class="eyebrow">System at a glance</p>
+          <div class="flow" aria-label="Capture flow">
+            <div class="flow-step"><b>Notice</b><span>URL, image, PDF, tweet, screenshot</span></div>
+            <div class="flow-step"><b>Capture</b><span>Downloads folder or Chrome bookmark drop</span></div>
+            <div class="flow-step"><b>Context</b><span>Suggest source page or capture group</span></div>
+            <div class="flow-step"><b>Tag</b><span>Apply the current tag brush</span></div>
+            <div class="flow-step"><b>Archive</b><span>Append JSONL and store assets</span></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer">Catchbasket report. Static HTML, designed as a build brief and concept map.</footer>
+  </div>
+</body>
+</html>

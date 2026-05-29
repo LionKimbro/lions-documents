@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catchbasket - Data Model</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Catchbasket</span></a>
+    <nav class="nav" aria-label="Report pages">
+      <a href="index.html">Overview</a>
+      <a href="concept.html">Concept</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="tag-brush.html">Tag Brush</a>
+      <a href="data-model.html" aria-current="page">Data Model</a>
+      <a href="provenance.html">Provenance</a>
+      <a href="implementation.html">Build Plan</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Data model</p>
+        <h1>The universal remembered thing</h1>
+      </div>
+      <div class="prose">
+        <p>Every capture source should produce the same basic record. This gives the tagger one object shape to understand, even when the source is a bookmark, file, screenshot, tweet URL, or pasted text.</p>
+        <p>JSONL is the recommended archive format because it is append-friendly, repairable, and easy to process with small scripts.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Example record</p>
+      <div class="code-panel"><pre>{
+  "GUID": "7f7c1a2e-9b45-4ad5-86f2-0a3edab4057c",
+  "CREATED": 1780000000,
+  "HUMAN_TIME": "2026-05-29 13:42:10 PDT",
+  "SOURCE": "chrome-bookmark",
+  "KIND": "url",
+  "TITLE": "Interesting Article About Spatial Hypertext",
+  "URL": "https://example.com/article",
+  "FILE": null,
+  "SOURCE_URL": null,
+  "FRAMING_URL": "https://example.com/article",
+  "PARENT_GUID": null,
+  "SUGGESTED_PARENT_GUID": null,
+  "SUGGESTED_PARENT_REASON": null,
+  "CAPTURE_GROUP": "2026-05-29T13-42-10",
+  "TAGS": ["read-later", "engelbart-vibe"],
+  "MNEMONIC_TAGS": ["cool", "maybe-use"],
+  "BONA_FIDE_TAGS": ["HCI", "VISUAL-LANGUAGE"],
+  "DESCRIPTION": "",
+  "STATUS": "staged"
+}</pre></div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Fields</p>
+      <table class="schema-table">
+        <thead>
+          <tr><th>Field</th><th>Purpose</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>GUID</code></td><td>Stable identity</td><td>Used for staging filenames and asset filenames.</td></tr>
+          <tr><td><code>CREATED</code></td><td>Machine timestamp</td><td>Unix time or another sortable machine format.</td></tr>
+          <tr><td><code>HUMAN_TIME</code></td><td>Readable capture time</td><td>Useful for browsing and repair without tooling.</td></tr>
+          <tr><td><code>SOURCE</code></td><td>Input channel</td><td>Examples: downloads-folder, chrome-bookmark, pasted, screenshot.</td></tr>
+          <tr><td><code>KIND</code></td><td>Artifact type</td><td>Examples: url, image, pdf, text, html, unknown.</td></tr>
+          <tr><td><code>URL</code></td><td>Origin link</td><td>Null when the captured thing is only local.</td></tr>
+          <tr><td><code>SOURCE_URL</code></td><td>Direct artifact URL</td><td>For images, this may be the raw image URL when known.</td></tr>
+          <tr><td><code>FRAMING_URL</code></td><td>Page context</td><td>The page where the artifact was seen; often more valuable than the raw file URL.</td></tr>
+          <tr><td><code>FILE</code></td><td>Local asset path</td><td>Relative archive path, usually under assets.</td></tr>
+          <tr><td><code>PARENT_GUID</code></td><td>Accepted parent record</td><td>Child points to parent; children can be computed later by scanning records.</td></tr>
+          <tr><td><code>SUGGESTED_PARENT_GUID</code></td><td>Possible parent</td><td>Used for non-destructive, user-approved associations.</td></tr>
+          <tr><td><code>CAPTURE_GROUP</code></td><td>Shared encounter ID</td><td>Groups a page, images, PDFs, and notes from the same browsing moment.</td></tr>
+          <tr><td><code>TAGS</code></td><td>Simple combined tags</td><td>Optional convenience field for tools that do not care about tag class.</td></tr>
+          <tr><td><code>MNEMONIC_TAGS</code></td><td>Capture-time associations</td><td>Fast, rough, local memory handles.</td></tr>
+          <tr><td><code>BONA_FIDE_TAGS</code></td><td>Curated categories</td><td>Cleaner tags applied later.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Record types</p>
+      <div class="record-grid">
+        <article class="record-card">
+          <h3>URL</h3>
+          <p>Title, URL, capture time, optional source domain, and rough tags.</p>
+        </article>
+        <article class="record-card">
+          <h3>Image</h3>
+          <p>Asset path, inferred filename title, source folder, source URL, framing URL, and suggested parent if timing implies one.</p>
+        </article>
+        <article class="record-card">
+          <h3>PDF</h3>
+          <p>Asset path, file title, optional URL if known, later metadata extraction.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Next: <a href="provenance.html">Provenance</a></footer>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catchbasket - Build Plan</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Catchbasket</span></a>
+    <nav class="nav" aria-label="Report pages">
+      <a href="index.html">Overview</a>
+      <a href="concept.html">Concept</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="tag-brush.html">Tag Brush</a>
+      <a href="data-model.html">Data Model</a>
+      <a href="provenance.html">Provenance</a>
+      <a href="implementation.html" aria-current="page">Build Plan</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Implementation</p>
+        <h1>A small first version</h1>
+      </div>
+      <div class="prose">
+        <p>The first build should be intentionally small. It should prove the capture-to-stage-to-tag-to-archive loop before adding search, sync, OCR, previews, browser automation, or formal taxonomy tools.</p>
+        <p>The success criterion is not elegance in the abstract. It is whether Lion can save things while browsing and later find them by rough tags.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Minimum components</p>
+      <div class="timeline">
+        <article class="timeline-item">
+          <div>
+            <h3><code>scan_bookmarks.py</code></h3>
+            <p>Reads Chrome bookmark drop files, writes normalized records into staging, and refreshes the rolling recent page context.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3><code>scan_downloads.py</code></h3>
+            <p>Finds new downloaded files, copies assets into the archive area, and stages records with suggested parent context when timing supports it.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3><code>state/recent_context.json</code></h3>
+            <p>Stores the most recent page-like capture for a short window so downloads can inherit a suggested framing page.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3><code>tagger_window.py</code></h3>
+            <p>Displays staged records, manages the tag brush, accepts or rejects source suggestions, opens items, and archives selected records.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <div>
+            <h3><code>remembered-stuff.jsonl</code></h3>
+            <p>Stores one complete remembered thing per line, suitable for append-only capture and later indexing.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">First milestone</p>
+        <h2>Make the loop real</h2>
+      </div>
+      <div class="prose">
+        <p>Milestone one should avoid fancy intelligence. Watch a known folder. Convert bookmark drops. Keep recent context. Suggest parent pages for nearby downloads. Apply tags. Append JSONL. Move processed staging files aside.</p>
+        <p>Once that loop is pleasant, it becomes meaningful to add richer previews, duplicate detection, OCR, source-page snapshots, tag suggestions, and curation views.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Version path</p>
+      <div class="record-grid">
+        <article class="record-card">
+          <h3>v0.1 Intake</h3>
+          <p>Folder scan, bookmark scan, staging records, recent-context suggestions, manual tag brush, JSONL archive.</p>
+        </article>
+        <article class="record-card">
+          <h3>v0.2 Preview</h3>
+          <p>Image thumbnails, URL opening, PDF/file launching, and basic record editing.</p>
+        </article>
+        <article class="record-card">
+          <h3>v0.3 Chrome Extension</h3>
+          <p>Capture page, capture image, capture both, and preserve page URL, image URL, alt text, selected text, and current tags.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Guiding rule</p>
+        <h2>Useful before comprehensive</h2>
+      </div>
+      <div class="prose">
+        <p>The system should be allowed to begin as a practical little machine. A durable intake loop will teach the later archive what it wants to be.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Return to <a href="index.html">Overview</a></footer>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catchbasket - Concept</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Catchbasket</span></a>
+    <nav class="nav" aria-label="Report pages">
+      <a href="index.html">Overview</a>
+      <a href="concept.html" aria-current="page">Concept</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="tag-brush.html">Tag Brush</a>
+      <a href="data-model.html">Data Model</a>
+      <a href="provenance.html">Provenance</a>
+      <a href="implementation.html">Build Plan</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Concept</p>
+        <h1>Memory Intake System</h1>
+      </div>
+      <div class="prose">
+        <p>Catchbasket exists because the Internet produces more interesting material than a person can classify in the moment. The system gives those sparks a temporary body.</p>
+        <p>Its promise is deliberately modest: preserve the artifact, preserve the moment, and allow quick tagging without requiring a final decision.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">What it is</p>
+      <div class="principle-grid">
+        <article class="principle">
+          <h3>A holding pen</h3>
+          <p>It keeps useful, beautiful, strange, or maybe-useful things from vanishing before they have a proper home.</p>
+        </article>
+        <article class="principle">
+          <h3>A low-friction ritual</h3>
+          <p>The user should never have to write a careful note just to save a thing. Rough tags are enough.</p>
+        </article>
+        <article class="principle">
+          <h3>A fossil of attention</h3>
+          <p>The record says: this artifact crossed Lion's attention at this time, with these immediate associations.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Design distinction</p>
+        <h2>Capture tags are not curated tags</h2>
+      </div>
+      <div class="artifact-board">
+        <div class="artifact-row">
+          <span class="artifact-icon note">1</span>
+          <div><strong>Mnemonic tags</strong><br><span class="muted">Fast, local, emotional, and messy.</span></div>
+          <div class="tag-list"><span class="tag">cool</span><span class="tag">maybe-use</span><span class="tag">engelbart-vibe</span></div>
+        </div>
+        <div class="artifact-row">
+          <span class="artifact-icon pdf">2</span>
+          <div><strong>Bona fide tags</strong><br><span class="muted">Formal categories applied later when the thing has settled.</span></div>
+          <div class="tag-list"><span class="tag formal">HCI</span><span class="tag formal">RESEARCH</span><span class="tag formal">VISUAL-LANGUAGE</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Boundary</p>
+        <h2>What this system should resist becoming</h2>
+      </div>
+      <div class="prose">
+        <p><strong>It should not require writing.</strong> Optional descriptions are useful, but mandatory descriptions make capture brittle.</p>
+        <p><strong>It should not demand taxonomy at the door.</strong> The user is often saving an impression, not filing a document.</p>
+        <p><strong>It should not become search-first too early.</strong> Search matters once the basket contains hundreds of records. Before that, reliable intake matters more.</p>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">New layer</p>
+        <h2>Attention happens in clusters</h2>
+      </div>
+      <div class="prose">
+        <p>A saved image is often not self-explanatory. Its meaning may live in the page around it, the article that led to it, the search trail that produced it, or the other things captured nearby.</p>
+        <p>That makes provenance part of memory, not metadata trivia. Catchbasket should preserve the object and the browsing moment that framed it.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Next: <a href="architecture.html">Architecture</a></footer>
+</body>
+</html>

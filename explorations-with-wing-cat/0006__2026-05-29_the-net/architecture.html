@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catchbasket - Architecture</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Catchbasket</span></a>
+    <nav class="nav" aria-label="Report pages">
+      <a href="index.html">Overview</a>
+      <a href="concept.html">Concept</a>
+      <a href="architecture.html" aria-current="page">Architecture</a>
+      <a href="tag-brush.html">Tag Brush</a>
+      <a href="data-model.html">Data Model</a>
+      <a href="provenance.html">Provenance</a>
+      <a href="implementation.html">Build Plan</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Architecture</p>
+        <h1>From stream to staging to archive</h1>
+      </div>
+      <div class="prose">
+        <p>The architecture should be file-first and boring in the best way: folders for intake, JSON files for staging, JSONL for the archive, and assets stored by stable IDs.</p>
+        <p>Each capture source gets normalized into the same remembered thing format before it reaches the tagger window.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Zones</p>
+      <div class="code-panel"><pre>capture_inbox/
+  downloads/
+  bookmarks/
+  pasted/
+  screenshots/
+
+state/
+  recent_context.json
+
+staging/
+  7f7c1a2e.json
+  9d2a4b91.json
+
+archive/
+  remembered-stuff.jsonl
+  assets/
+    9d2a4b91.png
+    f31c8190.pdf
+  processed/</pre></div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Capture sources</p>
+      <div class="source-grid">
+        <article class="source-card">
+          <div class="source-symbol" aria-hidden="true"></div>
+          <h3>Downloads</h3>
+          <p>New files copied or moved into assets, then represented by staging records.</p>
+        </article>
+        <article class="source-card">
+          <div class="source-symbol" aria-hidden="true"></div>
+          <h3>Bookmarks</h3>
+          <p>Chrome bookmark drop files become URL records with title, URL, and timestamp.</p>
+        </article>
+        <article class="source-card">
+          <div class="source-symbol" aria-hidden="true"></div>
+          <h3>Pasted</h3>
+          <p>Manual URLs, quotes, snippets, and notes can enter the same staging lane.</p>
+        </article>
+        <article class="source-card">
+          <div class="source-symbol" aria-hidden="true"></div>
+          <h3>Screenshots</h3>
+          <p>Screenshots behave like images but can later gain OCR, source URL, or context.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Rolling context</p>
+        <h2>Recently captured page as source clue</h2>
+      </div>
+      <div class="context-callout">
+        <h3>Heuristic</h3>
+        <p>When a page is captured, Catchbasket writes a small <code>state/recent_context.json</code> file. If an image is downloaded shortly afterward, the download scanner can suggest that recent page as the image's framing context.</p>
+        <p>The system should show this as a suggestion for Lion to accept or reject, not as a silent fact.</p>
+      </div>
+    </section>
+
+    <section class="section" id="lifecycle">
+      <p class="eyebrow">Lifecycle</p>
+      <div class="flow" aria-label="Record lifecycle">
+        <div class="flow-step"><b>Captured</b><span>Detected in an input source</span></div>
+        <div class="flow-step"><b>Staged</b><span>Converted to shared JSON</span></div>
+        <div class="flow-step"><b>Associated</b><span>Source context accepted or rejected</span></div>
+        <div class="flow-step"><b>Tagged</b><span>Brush tags applied</span></div>
+        <div class="flow-step"><b>Archived</b><span>Written to JSONL</span></div>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Archive operation</p>
+        <h2>Append, then move aside</h2>
+      </div>
+      <div class="prose">
+        <p>The basic archive operation should be append-only. For each selected staged record, write one JSON object as one line in <code>remembered-stuff.jsonl</code>, then move the staging file into <code>processed/</code>.</p>
+        <p>This keeps the archive grep-friendly, repairable, and compatible with later tools that may build indexes or views.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Next: <a href="tag-brush.html">Tag Brush</a></footer>
+</body>
+</html>

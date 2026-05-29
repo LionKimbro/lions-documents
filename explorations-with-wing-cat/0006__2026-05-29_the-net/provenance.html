@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catchbasket - Provenance</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"></span><span>Catchbasket</span></a>
+    <nav class="nav" aria-label="Report pages">
+      <a href="index.html">Overview</a>
+      <a href="concept.html">Concept</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="tag-brush.html">Tag Brush</a>
+      <a href="data-model.html">Data Model</a>
+      <a href="provenance.html" aria-current="page">Provenance</a>
+      <a href="implementation.html">Build Plan</a>
+    </nav>
+  </header>
+
+  <main class="content">
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Provenance</p>
+        <h1>The browsing moment matters</h1>
+      </div>
+      <div class="prose">
+        <p>Downloaded images need more than a filename. They need the URL of the image when known, the page that framed the image, and sometimes the nearby captures that explain why the image mattered.</p>
+        <p>This turns Catchbasket from a pile of objects into a map of encounters.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">URL distinctions</p>
+      <div class="record-grid">
+        <article class="record-card">
+          <h3><code>SOURCE_URL</code></h3>
+          <p>The direct artifact URL, such as the raw image file address. Useful, but often context-poor.</p>
+        </article>
+        <article class="record-card">
+          <h3><code>FRAMING_URL</code></h3>
+          <p>The page where the artifact was seen. This often carries the meaning, caption, author, and surrounding argument.</p>
+        </article>
+        <article class="record-card">
+          <h3><code>REFERRER_URL</code></h3>
+          <p>The browser's reported source of a download, when available from a future extension or browser integration.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Near-term heuristic</p>
+        <h2>Recently captured page plus new download</h2>
+      </div>
+      <div class="association-panel">
+        <div class="suggestion-card">
+          <h3>Rule</h3>
+          <p>If Lion captures a page and downloads an image within the next few minutes, suggest that the image belongs with that page.</p>
+        </div>
+        <div class="suggestion-card">
+          <h3>UI wording</h3>
+          <p>This image may belong with "Green caterpillar identification," captured 42 seconds before the download.</p>
+        </div>
+        <div class="suggestion-card">
+          <h3>Actions</h3>
+          <p>Accept Link, Reject, Open Page, Open Image. The suggestion stays visible and editable.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Suggested context record</p>
+      <div class="code-panel"><pre>{
+  "GUID": "image-guid",
+  "KIND": "image",
+  "FILE": "assets/image-guid.png",
+  "SOURCE_URL": null,
+  "FRAMING_URL": null,
+  "SUGGESTED_CONTEXTS": [
+    {
+      "GUID": "page-guid",
+      "URL": "https://example.com/inchworm-identification",
+      "TITLE": "Green caterpillar identification",
+      "REASON": "captured 42 seconds before image download",
+      "CONFIDENCE": 0.82
+    }
+  ],
+  "ASSOCIATION_STATUS": "suggested"
+}</pre></div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Relationship model</p>
+        <h2>Parent links and capture groups</h2>
+      </div>
+      <div class="prose">
+        <p>A strict parent-child link is useful when a downloaded image clearly came from a captured page. The child record should point to the parent with <code>PARENT_GUID</code>; children can be computed later by scanning records.</p>
+        <p>A <code>CAPTURE_GROUP</code> is looser and often more honest. It can bind a page, three images, a PDF, and a note into one encounter without insisting that the page is the parent of everything.</p>
+      </div>
+    </section>
+
+    <section class="section split">
+      <div>
+        <p class="eyebrow">Later extension</p>
+        <h2>Chrome capture plugin</h2>
+      </div>
+      <div class="prose">
+        <p>A future Chrome extension can do the clean version: capture this page, capture this image, capture both, or capture image plus selected text and the current tag brush.</p>
+        <p>That extension could send page URL, page title, image URL, alt text, selected text, and timestamp directly into the same staging format. The humble timing heuristic still makes sense first because it gets much of the value with little machinery.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Next: <a href="implementation.html">Build Plan</a></footer>
+</body>
+</html>
