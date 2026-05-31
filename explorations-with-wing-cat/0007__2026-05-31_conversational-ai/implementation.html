@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Implementation | Conversational AI</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">Conversational AI</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Overview</a>
+        <a href="architecture.html">Architecture</a>
+        <a aria-current="page" href="implementation.html">Implementation</a>
+        <a href="glossary.html">Glossary</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title">
+        <p class="eyebrow">Implementation</p>
+        <h1>A solo-builder roadmap from microphone to social presence</h1>
+        <p class="lead">
+          The practical path is not training a giant model. It is orchestrating existing pieces:
+          audio, transcription, <a class="glossary-link" href="glossary.html#diarization">diarization</a>, <a class="glossary-link" href="glossary.html#voice-recognition">voice recognition</a>, <a class="glossary-link" href="glossary.html#event-log">event logs</a>, memory, reasoning, queueing,
+          and social arbitration.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Minimum Viable System</p>
+          <h2>Start with a research instrument</h2>
+        </div>
+        <div class="file-tree">
+          <pre><code>conversational_ai/
+  main.py
+  audio_input.py
+  vad.py
+  transcriber.py
+  voiceprint.py
+  speaker_tracker.py
+  event_log.py
+  surface_mind.py
+  deep_mind.py
+  musing_queue.py
+  social_governor.py
+  speaker_output.py
+  cockpit.py
+  config.json
+  logs/</code></pre>
+        </div>
+      </section>
+
+      <section class="section band">
+        <div class="section-heading">
+          <p class="eyebrow">Learning Areas</p>
+          <h2>What must be learned</h2>
+        </div>
+        <div class="feature-grid compact">
+          <article class="feature">
+            <h3>Real-time audio</h3>
+            <p>Microphone capture, chunking, latency, sample rates, echo cancellation, device routing.</p>
+          </article>
+          <article class="feature">
+            <h3>Transcription</h3>
+            <p><a class="glossary-link" href="glossary.html#speech-recognition">Speech-to-text</a> or realtime speech models, timestamps, confidence, transcript fidelity.</p>
+          </article>
+          <article class="feature">
+            <h3><a class="glossary-link" href="glossary.html#diarization">Diarization</a></h3>
+            <p>Segment the stream by distinct voices: Speaker A spoke here, Speaker B overlapped there.</p>
+          </article>
+          <article class="feature">
+            <h3><a class="glossary-link" href="glossary.html#voice-recognition">Voice recognition</a></h3>
+            <p>Identify who is speaking through consent-based <a class="glossary-link" href="glossary.html#voiceprint">voice profiles</a>, enrollment, and confidence scoring.</p>
+          </article>
+          <article class="feature">
+            <h3>Turn-taking</h3>
+            <p>Pause detection, direct address, speaker identity, interruption risk, <a class="glossary-link" href="glossary.html#backchannel">backchannels</a>, and repair moves.</p>
+          </article>
+          <article class="feature">
+            <h3><a class="glossary-link" href="glossary.html#llm">LLM</a> orchestration</h3>
+            <p><a class="glossary-link" href="glossary.html#surface-mind">Surface</a>/<a class="glossary-link" href="glossary.html#deep-mind">deep</a> split, structured events, tool use, private wonders, candidate <a class="glossary-link" href="glossary.html#musing">musings</a>.</p>
+          </article>
+          <article class="feature">
+            <h3>Observability</h3>
+            <p>A cockpit showing transcript, events, active wonders, standing score, and suppressed speech.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Technology Reality Check</p>
+          <h2>The pieces exist; the social organism does not</h2>
+        </div>
+        <p class="section-lead">
+          As of 2026-05-31, most component technologies needed for this project already exist.
+          The missing part is the integrated participation layer: the system that combines recognition,
+          timing, memory, turn-taking, consent, and social judgment into one coherent room presence.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>Status Today</th>
+                <th>Why It Matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a class="glossary-link" href="glossary.html#speech-recognition">Speech-to-text</a></td>
+                <td>Available and mature</td>
+                <td>Streaming transcription can turn live speech into text; OpenAI's Realtime API also supports realtime audio transcription.</td>
+              </tr>
+              <tr>
+                <td>Word and segment timestamps</td>
+                <td>Available</td>
+                <td>Timing data is the raw material for pauses, overlap, interruptions, and turn-taking decisions.</td>
+              </tr>
+              <tr>
+                <td><a class="glossary-link" href="glossary.html#diarization">Speaker diarization</a></td>
+                <td>Available</td>
+                <td>Toolkits and services can answer "who spoke when," usually with generic speaker labels at first.</td>
+              </tr>
+              <tr>
+                <td>Real-time diarization</td>
+                <td>Partly available</td>
+                <td>Microsoft Azure documents real-time diarization, but low-latency accuracy in noisy, overlapping rooms is still harder than offline analysis.</td>
+              </tr>
+              <tr>
+                <td><a class="glossary-link" href="glossary.html#voice-recognition">Known-speaker identification</a></td>
+                <td>Available with enrollment</td>
+                <td>Voiceprints can match audio against known speakers, but this should be explicit, consent-based, and confidence-scored.</td>
+              </tr>
+              <tr>
+                <td>Realtime speech-to-speech conversation</td>
+                <td>Available</td>
+                <td>OpenAI's Realtime API supports low-latency speech-to-speech interaction with multimodal inputs and outputs.</td>
+              </tr>
+              <tr>
+                <td>Slang, prosody, intonation, emotion</td>
+                <td>Partly available</td>
+                <td>Audio-native models can preserve or respond to more nuance than text-only pipelines, but fine-grained social interpretation remains uneven.</td>
+              </tr>
+              <tr>
+                <td>Human-grade interruption judgment</td>
+                <td>Partly available</td>
+                <td>APIs can handle interruptions mechanically; deciding when interruption is socially right is still an orchestration problem.</td>
+              </tr>
+              <tr>
+                <td>Full room-aware social presence</td>
+                <td>Not off the shelf</td>
+                <td>The system described in this report still requires custom integration: social governor, musing queue, speaker awareness, memory boundaries, and modes.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="source-list" aria-label="Sources for technology reality check">
+          <p>Sources</p>
+          <a href="https://platform.openai.com/docs/guides/realtime/">OpenAI Realtime API</a>
+          <a href="https://openai.com/index/advancing-voice-intelligence-with-new-models-in-the-api/">OpenAI voice models announcement, 2026-05-07</a>
+          <a href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/conversation-transcription">Microsoft Azure real-time diarization</a>
+          <a href="https://docs.pyannote.ai/">pyannote diarization and identification</a>
+          <a href="https://docs.pyannote.ai/tutorials/identification-with-voiceprints">pyannote voiceprint identification</a>
+        </div>
+        <div class="callout tight">
+          <p>
+            The key distinction is recognition versus participation. Recognition can say "Speaker 1 said
+            these words." Participation needs to infer "Lion is talking to Robert, not me; this is banter;
+            I have a useful thought, but I should wait."
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Phases</p>
+          <h2>The build ladder</h2>
+        </div>
+        <div class="timeline">
+          <article>
+            <span>Phase 0</span>
+            <h3>Define the first tiny target</h3>
+            <p>Mic to <a class="glossary-link" href="glossary.html#vad">VAD</a> to transcription to <a class="glossary-link" href="glossary.html#llm">LLM</a> to text response. No <a class="glossary-link" href="glossary.html#diarization">diarization</a>, no social subtlety.</p>
+            <strong>About 1 week</strong>
+            <p class="phase-detail">
+              The first version should only prove the basic signal path: capture sound from the microphone,
+              detect when speech is happening, turn the spoken audio into text, send that text to a language
+              model, and display a short reply. It will not yet know whether Lion or Robert is speaking, and
+              it will not know whether it is socially appropriate to answer. This phase is deliberately crude:
+              it confirms that the audio plumbing, transcript, model call, and output loop all work.
+            </p>
+          </article>
+          <article>
+            <span>Phase 1</span>
+            <h3>Live transcript machine</h3>
+            <p>Show speech started, <a class="glossary-link" href="glossary.html#transcript-segment">transcript segment</a>, speech ended, and save events to <a class="glossary-link" href="glossary.html#jsonl">JSONL</a>.</p>
+            <strong>2-4 weeks</strong>
+            <p class="phase-detail">
+              This phase turns the rough demo into an observable instrument. The system should show when
+              speech begins, what text was recognized, when speech ends, and what timing metadata belongs
+              to each segment. The saved event log becomes the black box recorder for debugging everything
+              that follows.
+            </p>
+          </article>
+          <article>
+            <span>Phase 2</span>
+            <h3>Address detection</h3>
+            <p>Notice names, questions, long pauses, and whether the AI was likely addressed.</p>
+            <strong>2-4 weeks</strong>
+            <p class="phase-detail">
+              The goal here is restraint. The system starts learning the difference between nearby speech
+              and speech directed at it. Simple cues such as names, question forms, explicit requests, and
+              pauses after questions let the agent answer less often but more appropriately.
+            </p>
+          </article>
+          <article>
+            <span>Phase 3</span>
+            <h3>Surface and deep mind split</h3>
+            <p>Create private <a class="glossary-link" href="glossary.html#wonder-packet">wonder packets</a> and let the <a class="glossary-link" href="glossary.html#deep-mind">deep mind</a> return <a class="glossary-link" href="glossary.html#musing">musings</a> instead of direct speech.</p>
+            <strong>1-2 months</strong>
+            <p class="phase-detail">
+              This is where the architecture stops being a simple voice chatbot. The fast surface layer can
+              raise private questions while the slower reasoning layer works in the background. The important
+              shift is that thinking and speaking become separate operations.
+            </p>
+          </article>
+          <article>
+            <span>Phase 4</span>
+            <h3><a class="glossary-link" href="glossary.html#musing-queue">Musing queue</a> and <a class="glossary-link" href="glossary.html#social-governor">social governor</a></h3>
+            <p>Score importance, urgency, standing, social risk, and decide speak/wait/drop/compress.</p>
+            <strong>2-4 months</strong>
+            <p class="phase-detail">
+              Candidate thoughts now become managed objects. A useful idea can wait, shrink, expire, or be
+              suppressed if the conversational moment is wrong. This phase proves that the agent can have
+              something to say without automatically saying it.
+            </p>
+          </article>
+          <article>
+            <span>Phase 5</span>
+            <h3>Voice-aware speaker tracking</h3>
+            <p>Add <a class="glossary-link" href="glossary.html#diarization">diarization</a> first, then consent-based <a class="glossary-link" href="glossary.html#voice-recognition">voice recognition</a> so the system can distinguish distinct voices and map known voices to people.</p>
+            <strong>3-9 months</strong>
+            <p class="phase-detail">
+              The system begins to understand that a room has multiple human participants. First it separates
+              voices into Speaker A, Speaker B, and so on; later it can map enrolled voices to names with
+              confidence scores. This is what lets it distinguish “Lion is talking to me” from “Lion is
+              talking to Robert.”
+            </p>
+          </article>
+          <article>
+            <span>Phase 6</span>
+            <h3>Backchannels and interruption</h3>
+            <p>Add restrained social acts such as "I am with you" or "I have a thought when there is room."</p>
+            <strong>2-6 months</strong>
+            <p class="phase-detail">
+              Participation becomes more nuanced than full answers. The system can acknowledge, briefly
+              repair, ask for a repeat, or signal that it has a thought waiting. This phase is delicate:
+              small social moves should make the agent feel present, not noisy.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section band">
+        <div class="section-heading">
+          <p class="eyebrow">Risks</p>
+          <h2>Complexity traps to avoid</h2>
+        </div>
+        <div class="risk-list">
+          <p><strong>Separate the voice problems.</strong> Transcription finds words; <a class="glossary-link" href="glossary.html#diarization">diarization</a> separates speakers; <a class="glossary-link" href="glossary.html#voice-recognition">voice recognition</a> identifies known people.</p>
+          <p><strong>Do not start with automatic identity recognition.</strong> Begin with Speaker A/B, manual labels, and explicit voice enrollment.</p>
+          <p><strong>Do not train models first.</strong> The invention is the coordination architecture.</p>
+          <p><strong>Make the first version too quiet.</strong> Polite silence beats brilliant interruption.</p>
+          <p><strong>Build observability early.</strong> You need to see why it spoke, waited, or suppressed a thought.</p>
+          <p><strong>Evaluate social behavior, not just accuracy.</strong> Track false interruptions, missed invitations, awkward latency, and unwanted memory use.</p>
+          <p><strong>Design mode boundaries.</strong> Quiet, companion, meeting, teaching, and brainstorming modes should change speaking rights explicitly.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Time Horizon</p>
+          <h2>One-person estimates</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Milestone</th>
+                <th>Time from start</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Basic mic to transcript to LLM reply</td><td>2-4 weeks</td></tr>
+              <tr><td>Live transcript logger with events</td><td>1-2 months</td></tr>
+              <tr><td>Address detection and controlled reply</td><td>2-3 months</td></tr>
+              <tr><td>Surface/deep mind split</td><td>3-5 months</td></tr>
+              <tr><td>Musing queue and social governor</td><td>5-8 months</td></tr>
+              <tr><td>Basic multi-speaker <a class="glossary-link" href="glossary.html#diarization">diarization</a></td><td>6-10 months</td></tr>
+              <tr><td>Consent-based <a class="glossary-link" href="glossary.html#voice-recognition">voice recognition</a> for known speakers</td><td>8-14 months</td></tr>
+              <tr><td>Usable personal room companion prototype</td><td>9-15 months</td></tr>
+              <tr><td>Strong personal prototype</td><td>18-24 months</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="glossary.html">Glossary</a>
+    </footer>
+  </body>
+</html>

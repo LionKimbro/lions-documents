@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Conversational AI: A Socially Aware Voice Agent</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">Conversational AI</a>
+      <nav class="nav" aria-label="Primary">
+        <a aria-current="page" href="index.html">Overview</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="implementation.html">Implementation</a>
+        <a href="glossary.html">Glossary</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Exploration With Wing-Cat</p>
+          <h1>A voice-native AI that knows when it has standing to speak.</h1>
+          <p class="lead">
+            The central idea is not a better dictation interface. It is a conversational presence:
+            an AI that can listen to live speech, understand social timing, form private thoughts,
+            and decide whether to speak, wait, defer, or stay silent.
+          </p>
+          <div class="source-card" aria-label="Source conversation">
+            <p class="source-title">Source conversation</p>
+            <a href="https://chatgpt.com/c/6a1baa08-c1b4-83e8-8442-950f6825bf8a">Lion Kimbro with Wing-Cat</a>
+            <dl>
+              <div>
+                <dt>Date</dt>
+                <dd>2026-05-31</dd>
+              </div>
+              <div>
+                <dt>URL</dt>
+                <dd>https://chatgpt.com/c/6a1baa08-c1b4-83e8-8442-950f6825bf8a</dd>
+              </div>
+            </dl>
+            <p class="source-note">Personal tracking link; it may not be accessible outside Lion's ChatGPT account.</p>
+          </div>
+          <div class="hero-actions">
+            <a class="button" href="architecture.html">View Architecture</a>
+          </div>
+        </div>
+        <div class="signal-panel" aria-label="Concept summary">
+          <div class="signal-row active">
+            <span>Perceive</span>
+            <strong>live speech, silence, overlap</strong>
+          </div>
+          <div class="signal-row">
+            <span>Wonder</span>
+            <strong>private questions and hypotheses</strong>
+          </div>
+          <div class="signal-row">
+            <span>Reason</span>
+            <strong>deep thoughts, memory, tools</strong>
+          </div>
+          <div class="signal-row">
+            <span>Govern</span>
+            <strong>speak, wait, defer, suppress</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Core Idea</p>
+          <h2>From prompt-response to polite presence</h2>
+        </div>
+        <div class="two-column">
+          <p>
+            Most chat systems treat conversation as a sequence of prompts and replies. The imagined
+            system treats conversation as a live social scene. It tracks who is speaking, whether a
+            pause is an opening or a thinking silence, whether the AI was addressed, and whether a
+            candidate thought deserves to become speech.
+          </p>
+          <p>
+            This requires more than transcription. It needs <a class="glossary-link" href="glossary.html#paralinguistic-understanding">paralinguistic understanding</a>: timing,
+            hesitation, interruption, laughter, emphasis, emotional tone, and social direction. The
+            output is also broader than text. Sometimes the right move is a short answer, sometimes
+            a <a class="glossary-link" href="glossary.html#backchannel">backchannel</a>, sometimes a deferred note, and often silence.
+          </p>
+        </div>
+      </section>
+
+      <section class="section band">
+        <div class="section-heading">
+          <p class="eyebrow">System Shape</p>
+          <h2>The layered organism</h2>
+        </div>
+        <div class="feature-grid">
+          <article class="feature">
+            <h3>Surface Mind</h3>
+            <p>Fast, socially attentive, and always listening. It handles <a class="glossary-link" href="glossary.html#turn-taking">turn-taking</a>, speaker state, voice identity signals, brief acknowledgments, and immediate repair moves.</p>
+          </article>
+          <article class="feature">
+            <h3>Deep Mind</h3>
+            <p>Slower and more reflective. It reasons, retrieves context, uses tools, compares interpretations, and produces candidate musings.</p>
+          </article>
+          <article class="feature">
+            <h3>Social Governor</h3>
+            <p>Judges whether a <a class="glossary-link" href="glossary.html#musing">musing</a> has standing to be spoken. It can compress, delay, suppress, ask permission, or let the thought expire.</p>
+          </article>
+          <article class="feature">
+            <h3>Musing Queue</h3>
+            <p>Holds possible things to say with metadata such as urgency, importance, confidence, expiration, speaker relevance, and social risk.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Why It Matters</p>
+          <h2>The hard problem is social coordination</h2>
+        </div>
+        <div class="callout">
+          <p>
+            The leap is not simply “bigger model.” A smaller system with better conversational organs
+            could feel more present than a brilliant model that interrupts, over-explains, or misses
+            the difference between being addressed and merely overhearing.
+          </p>
+        </div>
+        <div class="metrics">
+          <div>
+            <strong>Weeks</strong>
+            <span>toy demo</span>
+          </div>
+          <div>
+            <strong>3-6 months</strong>
+            <span>useful personal prototype</span>
+          </div>
+          <div>
+            <strong>1-2 years</strong>
+            <span>strong solo room companion</span>
+          </div>
+          <div>
+            <strong>3-5+ years</strong>
+            <span>commercially reliable system</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>Conversational AI report</span>
+      <a href="implementation.html">Implementation roadmap</a>
+      <a href="glossary.html">Glossary</a>
+    </footer>
+  </body>
+</html>

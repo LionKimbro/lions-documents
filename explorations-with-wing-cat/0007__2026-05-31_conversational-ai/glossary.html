@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Glossary | Conversational AI</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">Conversational AI</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Overview</a>
+        <a href="architecture.html">Architecture</a>
+        <a href="implementation.html">Implementation</a>
+        <a aria-current="page" href="glossary.html">Glossary</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title">
+        <p class="eyebrow">Glossary</p>
+        <h1>Terms used in the report</h1>
+        <p class="lead">
+          Short definitions for the technical language behind the conversational AI architecture.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="glossary-grid">
+          <article id="vad" class="glossary-entry">
+            <h2>VAD</h2>
+            <p>Voice Activity Detection. A small audio system that decides whether someone is currently speaking or whether the microphone is hearing silence, background noise, or non-speech sound.</p>
+          </article>
+
+          <article id="llm" class="glossary-entry">
+            <h2>LLM</h2>
+            <p>Large Language Model. The text reasoning model that can answer questions, summarize, classify, plan, or produce structured data from prompts and context.</p>
+          </article>
+
+          <article id="speech-recognition" class="glossary-entry">
+            <h2>Speech Recognition</h2>
+            <p>Technology that turns spoken audio into written words. It answers “what was said?” rather than “who said it?”</p>
+          </article>
+
+          <article id="diarization" class="glossary-entry">
+            <h2>Diarization</h2>
+            <p>Speaker separation over time. It labels audio segments as Speaker A, Speaker B, and so on, without necessarily knowing those speakers’ real identities.</p>
+          </article>
+
+          <article id="voice-recognition" class="glossary-entry">
+            <h2>Voice Recognition</h2>
+            <p>Technology that tries to identify a known speaker from their voice. In this report, it should be consent-based: people enroll voice profiles, and the system reports confidence rather than pretending certainty. It is different from speech recognition, which identifies words rather than people.</p>
+          </article>
+
+          <article id="voiceprint" class="glossary-entry">
+            <h2>Voiceprint / Voice Profile</h2>
+            <p>A compact representation of a person’s voice used for matching later speech to an enrolled speaker. It should be treated as sensitive biometric-adjacent data.</p>
+          </article>
+
+          <article id="transcript-segment" class="glossary-entry">
+            <h2>Transcript Segment</h2>
+            <p>A short chunk of transcript with timing metadata, such as start time, end time, speaker label, recognized text, and confidence.</p>
+          </article>
+
+          <article id="jsonl" class="glossary-entry">
+            <h2>JSONL</h2>
+            <p>JSON Lines. A log format where each line is its own JSON object. It is useful for append-only event logs because new events can be written one at a time.</p>
+          </article>
+
+          <article id="event-log" class="glossary-entry">
+            <h2>Event Log</h2>
+            <p>An append-only record of what the system observed, inferred, decided, said, delayed, or suppressed. It makes the conversational machinery inspectable and replayable.</p>
+          </article>
+
+          <article id="surface-mind" class="glossary-entry">
+            <h2>Surface Mind</h2>
+            <p>The fast layer that stays close to the live conversation. It tracks speech activity, turn-taking, speaker state, and short social responses.</p>
+          </article>
+
+          <article id="deep-mind" class="glossary-entry">
+            <h2>Deep Mind</h2>
+            <p>The slower reasoning layer. It can think, retrieve memory, use tools, compare interpretations, and return candidate thoughts to the surface system.</p>
+          </article>
+
+          <article id="wonder-packet" class="glossary-entry">
+            <h2>Wonder Packet</h2>
+            <p>A private internal question created by the surface mind, such as “Was that directed at me?” or “Is this the moment to mention the architecture analogy?”</p>
+          </article>
+
+          <article id="musing" class="glossary-entry">
+            <h2>Musing</h2>
+            <p>A candidate thought produced by the deep mind. A musing is not automatically spoken; it waits for social evaluation.</p>
+          </article>
+
+          <article id="musing-queue" class="glossary-entry">
+            <h2>Musing Queue</h2>
+            <p>The working list of candidate thoughts waiting to be spoken, compressed, deferred, expired, or suppressed.</p>
+          </article>
+
+          <article id="social-governor" class="glossary-entry">
+            <h2>Social Governor</h2>
+            <p>The layer that decides whether the system has standing to speak. It weighs urgency, importance, interruption risk, addressee, mode, and consent boundaries.</p>
+          </article>
+
+          <article id="turn-taking" class="glossary-entry">
+            <h2>Turn-Taking</h2>
+            <p>The conversational skill of knowing who has the floor, whether a pause is an opening, and whether speaking now would be helpful or interruptive.</p>
+          </article>
+
+          <article id="backchannel" class="glossary-entry">
+            <h2>Backchannel</h2>
+            <p>A small response that shows attention without taking over the conversation, such as “mm-hm,” “right,” or “I’m with you.”</p>
+          </article>
+
+          <article id="paralinguistic-understanding" class="glossary-entry">
+            <h2>Paralinguistic Understanding</h2>
+            <p>Understanding meaning carried by how something is said: timing, hesitation, laughter, stress, tone, pace, overlap, and emotional color.</p>
+          </article>
+
+          <article id="standing-to-speak" class="glossary-entry">
+            <h2>Standing to Speak</h2>
+            <p>The system’s estimate that it is socially appropriate to talk now. Direct address raises standing; overheard human-to-human conversation usually lowers it.</p>
+          </article>
+
+          <article id="recognition-vs-participation" class="glossary-entry">
+            <h2>Recognition vs. Participation</h2>
+            <p>Recognition identifies signals such as words, speakers, timestamps, or voices. Participation decides what to do with those signals in a live social scene: answer, wait, backchannel, remember, ask permission, or stay silent.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="index.html">Overview</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="implementation.html">Implementation roadmap</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Architecture | Conversational AI</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html">Conversational AI</a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html">Overview</a>
+        <a aria-current="page" href="architecture.html">Architecture</a>
+        <a href="implementation.html">Implementation</a>
+        <a href="glossary.html">Glossary</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-title">
+        <p class="eyebrow">Architecture</p>
+        <h1>Conversation as an event ecology</h1>
+        <p class="lead">
+          The system is best understood as a shared conversational workspace. Perception, memory,
+          reasoning, and speaking authority are separated so the AI can think without blurting.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="flow" aria-label="Conversational AI architecture flow">
+          <div class="flow-node">Audio / room stream</div>
+          <div class="flow-arrow" aria-hidden="true">&#8595;</div>
+          <div class="flow-node">Surface listener</div>
+          <div class="flow-arrow" aria-hidden="true">&#8595;</div>
+          <div class="flow-node">Shared conversational state</div>
+          <div class="flow-arrow" aria-hidden="true">&#8595;</div>
+          <div class="flow-node split">Wonders, hypotheses, turn signals</div>
+          <div class="flow-arrow" aria-hidden="true">&#8595;</div>
+          <div class="flow-node">Deep reasoning / memory / tools</div>
+          <div class="flow-arrow" aria-hidden="true">&#8595;</div>
+          <div class="flow-node split"><a class="glossary-link" href="glossary.html#musing">Musings</a> and candidate utterances</div>
+          <div class="flow-arrow" aria-hidden="true">&#8595;</div>
+          <div class="flow-node emphasis"><a class="glossary-link" href="glossary.html#social-governor">Social governor</a></div>
+          <div class="flow-arrow" aria-hidden="true">&#8595;</div>
+          <div class="flow-node">Speech, silence, backchannel, deferment</div>
+        </div>
+      </section>
+
+      <section class="section band">
+        <div class="section-heading">
+          <p class="eyebrow">Internal Vocabulary</p>
+          <h2>Events, not just messages</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Event</th>
+                <th>Meaning</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PERCEPT</td>
+                <td>Something noticed in the world.</td>
+                <td>Speaker S1 began talking; volume rose; laughter occurred.</td>
+              </tr>
+              <tr>
+                <td>WONDER</td>
+                <td>A private question raised by the <a class="glossary-link" href="glossary.html#surface-mind">surface mind</a>.</td>
+                <td>Is this question directed at the AI or at another person?</td>
+              </tr>
+              <tr>
+                <td>MUSING</td>
+                <td>A possible interpretation, answer, or contribution.</td>
+                <td>This resembles blackboard architecture plus turn-taking.</td>
+              </tr>
+              <tr>
+                <td>INTENTION</td>
+                <td>A selected communicative move.</td>
+                <td>Offer a brief answer when there is a pause.</td>
+              </tr>
+              <tr>
+                <td>SUPPRESSION</td>
+                <td>A deliberate choice not to speak.</td>
+                <td>The thought is correct but the humans are talking to each other.</td>
+              </tr>
+              <tr>
+                <td>DEFERMENT</td>
+                <td>A choice to hold a thought for later.</td>
+                <td>Save this as a note; mention it if the topic returns.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Voice Identity</p>
+          <h2>What was said is not the same as who said it</h2>
+        </div>
+        <div class="standing-grid">
+          <article>
+            <h3><a class="glossary-link" href="glossary.html#speech-recognition">Speech recognition</a></h3>
+            <p>Turns audio into words. It answers: what sentence was spoken?</p>
+          </article>
+          <article>
+            <h3><a class="glossary-link" href="glossary.html#diarization">Speaker diarization</a></h3>
+            <p>Segments the audio by voice. It answers: when did Speaker A, Speaker B, and Speaker C speak?</p>
+          </article>
+          <article>
+            <h3><a class="glossary-link" href="glossary.html#voice-recognition">Voice recognition</a></h3>
+            <p>Matches a voice to a known person or enrolled profile. It answers: is this Lion, Robert, or someone unknown?</p>
+          </article>
+        </div>
+        <div class="callout tight">
+          <p>
+            A socially aware agent needs at least <a class="glossary-link" href="glossary.html#diarization">diarization</a>, and eventually some form of consent-based
+            <a class="glossary-link" href="glossary.html#voice-recognition">voice recognition</a>. Without that layer, it can transcribe words but cannot reliably know whose
+            words they are, which makes turn-taking, memory use, and social standing much weaker.
+          </p>
+        </div>
+        <p class="section-lead">
+          These recognition technologies exist today in separate systems and APIs. The architectural challenge
+          is turning them into participation: knowing whether the AI was addressed, whether it should remember
+          the moment, and whether it has standing to speak.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Social Standing</p>
+          <h2>The right to speak is computed</h2>
+        </div>
+        <div class="standing-grid">
+          <article>
+            <h3>High standing</h3>
+            <p>Direct address, explicit question, safety issue, requested explanation, or a long pause after a question.</p>
+          </article>
+          <article>
+            <h3>Low standing</h3>
+            <p>Two humans talking to each other, brief thinking silence, vulnerable moment, topic already moved on, or uncertain addressee.</p>
+          </article>
+          <article>
+            <h3>Conditional standing</h3>
+            <p>Useful thought with social risk. The system may ask permission, backchannel lightly, or save the idea for later.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section band">
+        <div class="section-heading">
+          <p class="eyebrow">Example Data</p>
+          <h2>A musing with social metadata</h2>
+        </div>
+        <pre class="code-sample"><code>{
+  "type": "MUSING",
+  "content": "This resembles a blackboard system with a social governor.",
+  "importance": 0.72,
+  "urgency": 0.35,
+  "standing_required": 0.60,
+  "speaker_relevance": ["Lion"],
+  "risk_of_interrupting": 0.68,
+  "expires": "after_topic_shift",
+  "decision": "wait"
+}</code></pre>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <p class="eyebrow">Essential Addition</p>
+          <h2>The social contract is part of the system</h2>
+        </div>
+        <div class="two-column">
+          <p>
+            Ambient conversational AI should make its listening state, memory behavior, and participation
+            mode legible. The user should know whether it is quiet, active, meeting-aware, private, logging,
+            or allowed to speak without being directly addressed.
+          </p>
+          <p>
+            Speaker identity should begin as declared context and consent-based enrollment, not surprise
+            biometric recognition. Manual labels, visible logs, <a class="glossary-link" href="glossary.html#voiceprint">voice profiles</a>, consent controls, and
+            session boundaries are not afterthoughts; they are what make the intelligence socially trustworthy.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="index.html">Overview</a>
+      <a href="implementation.html">Implementation roadmap</a>
+      <a href="glossary.html">Glossary</a>
+    </footer>
+  </body>
+</html>
