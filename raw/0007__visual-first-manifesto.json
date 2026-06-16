@@ -1,0 +1,48 @@
+{
+  "title": "Visual First Manifesto",
+  "quote": "The grid...\na digital frontier...\nI tried to picture, clusters of information,\nas they move through the computer...\nWhat did they look like?\nShips? Motorcycles?\nWere the circuits like freeways?\nI kept dreaming of a world, I thought I would never see...\nAnd then...\nOne day...\nI got in...",
+  "core_thesis": "Visual First is the belief that many software structures should be designed first as visual, spatial, human-legible artifacts, and only secondarily as text representations. It does not claim that all programming should become graphical. It argues instead that programming culture too often defaults to text even when human beings would understand, author, and operate the structure more naturally through vision.",
+  "intuition_model": "Programming, in this view, is fundamentally intuitive before it is symbolic. A programmer often understands a system first as stuff: modules, flows, handoffs, containers, routes, blockages, signals, regions, actors, and transformations. This is why people so naturally sketch boxes on napkins, draw arrows, and speak in spatial phrases such as 'this goes here,' 'that hands off to that,' or 'the data travels from here to here and stops there.' Before words and symbols, there is a sensorious imaginarium in which software is pictured as buildings, crates, forklifts, rivers, panels, roads, and moving parts. Visual First is an attempt to bridge from that intuitive world into the actual craft of making software.",
+  "problem_statement": "Many software tools force people to work in rows of symbols even when the underlying structure would be easier to understand visually. Text makes everything the same size, leaves shape mostly invisible, uses color only narrowly, makes placement and proximity weak, and removes icons, layering, and visible hierarchy from the primary authoring experience. As a result, software creation often feels less intuitive, less embodied, and less alive than other domains that already make rich use of visual cognition.",
+  "manifesto_claim": "When building tools, especially tools for structured data, configuration, orchestration, compositional systems, and other shaped artifacts, we should begin by asking how the thing can be perceived visually, authored visually, and operated visually. The manifesto is a call to action: do not go straight to text files just because they are familiar or easy for programmers to produce. Start by designing the visual operator experience where that experience belongs.",
+  "principles": [
+    "Human beings naturally understand many systems through shape, color, size, placement, proximity, iconography, and visible structure.",
+    "Many software objects deserve a visual body rather than only a textual encoding.",
+    "Visual organization can put the right things in view and leave the wrong things out of view.",
+    "Programming tools should make room for delight, sleekness, thematic coherence, and felt interactivity rather than treating these as decorative extras.",
+    "Visual systems and code should cooperate rather than compete.",
+    "The goal is not to abolish code, but to open a practical door between intuition and software construction."
+  ],
+  "anti_principles": [
+    "Visual First is not the claim that all programming should become graphical.",
+    "Visual First is not an attempt to eliminate code.",
+    "Visual First is not a demand that visual systems solve every problem that symbolic text already solves well.",
+    "Visual First is also a rejection of forcing textual systems to solve problems that belong more naturally to visual systems.",
+    "Visual First is not a requirement to invent a universal visual programming language before any progress can be made."
+  ],
+  "strategic_observations": [
+    "One practical difficulty in visual authoring is that many software structures allow open-ended scale, arbitrary lists, and dynamic multiplicity.",
+    "Trying to solve arbitrary infinity too early can make visual systems expensive, complex, and paralyzing to build.",
+    "For this reason, it is often strategically useful to begin with finite, bounded, strongly-shaped objects and interactions.",
+    "Hard limits, finite slots, and constrained forms are not the philosophy itself. They are practical tools that allow exploration of the philosophy without requiring every engineer to first become a specialist in dynamic visualization systems."
+  ],
+  "aspiration": "Visual First carries an ambitious hope: that making software can become more like entering and shaping a living world. Games and simulations often offer more immediate, expressive, and intuitive forms of creation than professional programming tools do. The manifesto points toward a future in which software may be inhabited more spatially and more playfully, perhaps even as rich constructed environments or little cities of process. It does not claim to already possess the full path to that world. It says only that we can begin moving toward it now by giving our software structures visible form and by letting people work directly with those forms.",
+  "practical_implications": [
+    "If a program depends on structured configuration, consider making a visual editor for that configuration first.",
+    "If a data structure has meaningful parts and relationships, consider making those parts visible and operable.",
+    "Use shape, color, position, grouping, iconography, scale, and motion intentionally as part of the authoring experience.",
+    "Let code remain available as a partner, a storage format, an export target, or an escape hatch where generality and scale are needed.",
+    "Treat bounded visual interfaces as valid and meaningful even when the underlying software ecosystem remains textual."
+  ],
+  "imagery_and_metaphors": [
+    "The Grid",
+    "a digital frontier",
+    "ships and motorcycles moving through circuits",
+    "freeways of information",
+    "control panels and faceplates",
+    "modules and handoffs",
+    "buildings, crates, forklifts, flows, and rivers",
+    "small worlds and little cities of computation"
+  ],
+  "summary": "Visual First is a manifesto for restoring intuition, legibility, and delight to software creation by designing suitable software structures as visual, spatial, human-facing artifacts first and as text second. It rejects both the idea that code should disappear and the habit of forcing text to carry the whole burden of understanding. Its wager is that by taking human visual cognition seriously, we can make software that is not only functional, but more intuitive to see, shape, and inhabit."
+}
