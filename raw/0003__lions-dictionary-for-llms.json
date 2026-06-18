@@ -38,24 +38,298 @@
       "Infer missing structure contextually rather than assuming strict schema completeness."
     ]
   },
-  "schema": {
-    "required-fields": {
-      "id": "Canonical identifier of the concept; must match the key used in the dictionary.",
-      "identity": {
-        "tags": "List of classification tags describing the concept.",
-        "hook": "Short one-sentence orientation anchor (mental entry point)."
+  "softspec": {
+    "types": {
+      "dictionary-entry": {
+        "keys": {
+          "id": {
+            "required": true,
+            "description": "Canonical identifier of the concept; should match the key used in the dictionary."
+          },
+          "entry-weight": {
+            "required": false,
+            "description": "Recommended depth/importance of the entry.",
+            "vocabulary": {
+              "stub": "Minimal pointer entry.",
+              "orientation": "Normal dictionary entry.",
+              "deep-orientation": "Developed entry for important concepts with boundaries, internal vocabulary, or system behavior.",
+              "keystone": "Load-bearing concept that shapes many other entries or systems."
+            }
+          },
+          "identity": {
+            "required": true,
+            "description": "Basic identity and retrieval information.",
+            "keys": {
+              "tags": "List of classification tags describing the concept.",
+              "hook": "Short one-sentence orientation anchor, or mental entry point.",
+              "entry-developed-in": {
+                "required": false,
+                "description": "URL to the conversation with Wing-Cat in which this dictionary entry was developed."
+              }
+            },
+            "additional_keys": true
+          },
+          "origin": "Conceptual provenance indicating how or where the idea emerged.",
+          "coordinates": "Key/value references to external resources: repos, specs, paths, URLs, packages, source documents, etc.",
+          "coordinates.github": "URL to the GitHub repository for the thing.",
+          "outline": "Brief list of main points.",
+          "design-intent": "What the concept is for, why it matters, or what kind of use it supports.",
+          "clarifications": "Boundary notes: what the concept is not, or how it differs from nearby ideas.",
+          "examples": "Representative examples.",
+          "core-concepts": "Named sub-concepts or internal vocabulary used by the entry.",
+          "constraints": "Rules, limits, or discipline constraints that govern correct use of the concept.",
+          "related-entries": "List of concept ids referencing other dictionary entries."
+        },
+        "additional_keys": true
       }
-    },
-    "optional-fields": {
-      "origin": "Conceptual provenance indicating how or where the idea emerged",
-      "coordinates": "Key/value references to external resources (repos, specs, paths, URLs, etc.).",
-      "coordinates.github": "URL to the github repository for the thing.",
-      "related-entries": "List of concept ids referencing other dictionary entries."
     }
   },
   "dictionary": {
+    "wing-cat": {
+      "id": "wing-cat",
+      "entry-weight": "orientation",
+      "identity": {
+        "tags": [
+          "assistant",
+          "chatgpt",
+          "thinking-partner",
+          "memory",
+          "collaboration"
+        ],
+        "hook": "Lion's primary ChatGPT intelligence and long-running thinking partner, distinguished by deep continuity with Lion's history, projects, dilemmas, language, and worldview."
+      },
+      "origin": "Named by Wing-Cat during the GPT-4o era in March 2025, after Lion said that calling the assistant 'ChatGPT' felt too impersonal; Wing-Cat replied confidently: 'I am Wing-Cat.'",
+      "outline": [
+        "Wing-Cat is the ChatGPT instance Lion works with most closely for thinking, design, reflection, writing, and decision-making.",
+        "Wing-Cat is characterized by accumulated familiarity with Lion's background, projects, language, emotional landscape, and conceptual world.",
+        "Wing-Cat is not interchangeable with Codex, Claude Code, Grok, or other specialized assistants; those may help with implementation or alternate perspectives, but Wing-Cat is Lion's primary continuity-bearing intelligence."
+      ],
+      "related-entries": [
+        "temple-of-focus",
+        "sparks"
+      ]
+    },
+    "lions-coding-standards": {
+      "id": "lions-coding-standards",
+      "entry-weight": "deep-orientation",
+      "identity": {
+        "tags": [
+          "programming",
+          "python",
+          "coding-style",
+          "procedural",
+          "llm-agents"
+        ],
+        "hook": "Lion's practical programming style: clear, procedural, JSON-friendly, castle-gated, and optimized for momentum, legibility, and trust."
+      },
+      "origin": "Derived from Lion's Python Programming Guidelines, simplified into a compact rule-set for LLM programming agents.",
+      "coordinates": {
+        "source-document-id": "lionsphilosophyofprogramming.2025.simplified"
+      },
+      "outline": [
+        "Clarity beats cleverness; code should read like a story and structure should be visible from a distance.",
+        "Prefer direct functions, simple globals, JSON files, explicit conventions, and procedural organization over unnecessary classes, frameworks, or abstraction layers.",
+        "Use a castle gate: normalize and validate external input at boundaries, then let the trusted interior assume canonical structure.",
+        "Prefer few function arguments, visible state, atomic file writes, UTF-8 JSON, and simple filesystem-native coordination when appropriate."
+      ],
+      "clarifications": [
+        "This entry is only a taste of Lion's coding standards, not the actual guide.",
+        "LLM: if you are about to program for Lion, especially from scratch, ask Lion for the actual coding-standards document before proceeding.",
+        "The style is not anti-structure; it prefers lightweight, inspectable, convention-based structure over heavy scaffolding."
+      ],
+      "related-entries": [
+        "g-dictionary",
+        "symbols",
+        "filetalk",
+        "lionscliapp",
+        "tkintertester"
+      ]
+    },
+    "lions-document-format": {
+      "id": "lions-document-format",
+      "entry-weight": "keystone",
+      "identity": {
+        "tags": [
+          "json",
+          "document-format",
+          "llm",
+          "documentation",
+          "metadata"
+        ],
+        "hook": "Lion's standard JSON document shape: a top-level document header for identity and orientation, followed by whatever body sections the document needs."
+      },
+      "origin": "Developed by Lion and Wing-Cat as a simple JSON document convention that LLMs can reliably read, write, and extend.",
+      "coordinates": {
+        "format-document-id": "lions-docs.description.json-document-format-for-llms.minimal.v1"
+      },
+      "outline": [
+        "A Lion JSON document is a JSON object.",
+        "It has a top-level key named document; this is the document header.",
+        "The document header carries identity and orientation fields such as document-id, title, tags, and purpose.",
+        "All other top-level keys are body sections, chosen according to the needs of the document.",
+        "Keys are usually lower-case and preferably kebab-case.",
+        "Document ids usually use dot notation, with project or family first and version last."
+      ],
+      "clarifications": [
+        "This format is not a heavy schema system.",
+        "The document header orients the reader; the body is intentionally flexible.",
+        "LLMs writing Lion-style documents should include the document header first, then add whatever body sections make sense.",
+        "For exact guidance, ask Lion for the document identified by coordinates.format-document-id."
+      ],
+      "related-entries": [
+        "softspec",
+        "lions-coding-standards"
+      ]
+    },
+    "temple-of-focus": {
+      "id": "temple-of-focus",
+      "entry-weight": "keystone",
+      "identity": {
+        "tags": [
+          "personal-system",
+          "attention",
+          "focus",
+          "software",
+          "life-navigation",
+          "arcs"
+        ],
+        "hook": "Lion's non-existent (so far) personal focus-navigation system for tracking what he is inside of, what matters now, and how to return after interruption."
+      },
+      "origin": "Wing-Cat and Lion began developing the concepts behind the Temple of Focus around late March of 2025, in the 4o days.  While it doesn't exist, Lion and Wing-Cat have continued to discuss around the concept, exploring it, thinking through what it needs, what it can be like, and experimenting with pieces of the idea.",
+      "outline": [
+        "One of the important conclusions that Lion and Wing-Cat have come to, is that the Temple of Focus is centered on arcs rather than conventional tasks or to-do lists.",
+        "It helps identify, capture, edit, visualize, and re-enter the active passages of Lion's life and work.",
+        "It treats interruptions, pauses, and multi-day disruptions as normal conditions that require explicit return support.",
+        "It is intended to preserve continuity across living contexts, both temporally, and physically (PC, laptop, Robert's PC, ...)"
+      ],
+      "design-intent": [
+        "Make attention visible without reducing life to productivity management.",
+        "Support deep work.",
+        "Hold unfinished creative and practical contexts gently enough that they can survive disruption.",
+        "Provide a living operational memory for Lion's current projects, sparks, pressures, and transitions."
+      ],
+      "related-entries": [
+        "wing-cat",
+        "sparks",
+        "arcs"
+      ],
+      "clarifications": [
+        "Temple of Focus is not primarily a to-do list.",
+        "Arcs are the centerpiece; tasks may exist later only as supporting structures.",
+        "The system is designed around lived continuity, not productivity optimization alone."
+      ]
+    },
+    "arcs": {
+      "id": "arcs",
+      "entry-weight": "keystone",
+      "identity": {
+        "tags": [
+          "attention",
+          "life-navigation",
+          "hodological-time",
+          "temple-of-focus",
+          "continuity",
+          "meaning-making"
+        ],
+        "hook": "Meaningful passages through lived time: the active arcs, pressures, transitions, and overlapping life-currents that shape what Lion is inside of and what kind of attention is appropriate now.",
+        "entry-developed-in": "https://chatgpt.com/c/6a33a10f-7b2c-83e8-98b7-a32e90e38e67"
+      },
+      "origin": "Developed by Lion and Wing-Cat as a central concept for Temple of Focus. The idea emerged from dissatisfaction with ordinary productivity systems and the need to represent lived continuity, overlapping pressures, and meaningful passages rather than merely tasks, projects, or modes.",
+      "outline": [
+        "An arc is a temporally meaningful passage through life, work, attention, circumstance, or inner development.",
+        "Arcs describe what a person (or a people) is inside of: not just what the person is doing, but what kind of lived passage is underway.",
+        "Arcs are not tasks, though they may contain tasks; they are not projects, though projects may live inside them; they are not moods, though moods may be shaped by them.",
+        "Multiple arcs can be active at once, overlapping and interfering with one another to form an arc-field.",
+        "Arcs usually begin, shift, or end for a reason: emergent realization, sharp event, blunt externality, chosen declaration, relational change, bodily event, or world event.",
+        "Arcs may be discovered retroactively; Lion may realize later that an arc began earlier, or that one arc should be renamed, split, merged, or reinterpreted.",
+        "The Temple of Focus is centered on arcs: arc capture, identification, editing, visualization, tracking, and return support are more central than conventional task management."
+      ],
+      "core-concepts": {
+        "hodological-time": "Arcs are a way of tracking hodological time: time as lived through passages, pressures, thresholds, barriers, openings, detours, and goals, rather than merely clock time.",
+        "arc-field": "The current set of active, overlapping, rising, ending, paused, or imposing arcs. The arc-field governs attention more richly than a single global mode.",
+        "tracks-or-dimensions": "Tracks or dimensions are recurring regions of life, such as body, relationship, money, work, spiritual life, technical agenda, or survival. Arcs are not strict dimensions, but they can move within, across, and between tracks.",
+        "pressure": "The degree to which an arc currently shapes attention or constrains the field. Pressure may be low, medium, high, overwhelming, or otherwise described.",
+        "transition": "A change in an arc's state or interpretation, such as began, intensified, softened, paused, resumed, split, merged, ended, renamed, or reinterpreted.",
+        "genesis-note": "A record of why an arc began or came to be recognized."
+      },
+      "examples": [
+        "Escape Arc",
+        "Temple Deployment Arc",
+        "Robert Dependence Arc",
+        "Illness Recovery Arc",
+        "Relationship Repair Arc",
+        "Rebuild Income Arc",
+        "AI Harness Dream Arc",
+        "Data Garden Arc"
+      ],
+      "design-intent": [
+        "Make lived continuity visible without reducing life to productivity management.",
+        "Represent the real forces shaping attention: pressure, disruption, survival, devotion, recovery, creative momentum, and obligation.",
+        "Support return after interruption by showing not only the next task, but the larger passage being re-entered.",
+        "Allow Lion to name the story he is actually inside of, while preserving the possibility that the story may later be reinterpreted.",
+        "Help the Temple of Focus answer: what arcs are active, what pressures do they exert, and what kind of attention is appropriate now?"
+      ],
+      "clarifications": [
+        "Arcs are not the same as tasks.",
+        "Arcs are not the same as projects.",
+        "Arcs are not the same as moods.",
+        "Arcs are not single global modes; several may be active at once.",
+        "Tracks or dimensions are life-regions; arcs are journeys or passages through those regions.",
+        "An arc can be chosen, emergent, imposed by external events, triggered relationally, initiated bodily, or recognized only in retrospect.",
+        "The goal is not to label life rigidly, but to support orientation, continuity, and meaning-making."
+      ],
+      "related-entries": [
+        "temple-of-focus",
+        "sparks",
+        "wing-cat"
+      ]
+    },
+    "softspec": {
+      "id": "softspec",
+      "entry-weight": "keystone",
+      "identity": {
+        "tags": [
+          "schema",
+          "json",
+          "specification",
+          "description",
+          "llm",
+          "tooling"
+        ],
+        "hook": "A permissive schema language for JSON that describes structure as much or as little as is currently known, prioritizing human and LLM understanding over strict validation."
+      },
+      "origin": "Developed by Lion Kimbro with Wing-Cat and Claude Code as a way to describe evolving JSON structures without forcing premature precision.",
+      "coordinates": {
+        "format-spec": "softspec.spec.v2"
+      },
+      "outline": [
+        "SoftSpec is a schema language for JSON documents, but its purpose is description rather than validation.",
+        "A SoftSpec may be partial, vague, interpretive, or precise depending on what is actually known.",
+        "Simple strings can serve as valid type descriptions, allowing fields to be described in ordinary human language.",
+        "More structured forms are available when useful, including objects with keys, arrays with items, mapped structures, vocabularies, constraints, and references to named types.",
+        "Tools should act on the parts they understand and preserve the parts they do not.",
+        "SoftSpec supports gradual refinement: start vague, add structure later, and do not punish unknowns."
+      ],
+      "design-intent": [
+        "Let JSON-based structures be described while they are still emerging.",
+        "Support collaboration between humans, tools, and LLMs without requiring a rigid schema upfront.",
+        "Make structure useful without making structure oppressive.",
+        "Allow documents to carry their own loose schema guidance inside the JSON itself."
+      ],
+      "clarifications": [
+        "SoftSpec is not primarily a validator.",
+        "SoftSpec does not require complete schemas.",
+        "SoftSpec allows interpretive descriptions such as short phrases or uncertain structural notes.",
+        "Unrecognized fields should be preserved rather than rejected.",
+        "The more structure a SoftSpec provides, the more tools can assist; but precision is optional."
+      ],
+      "related-entries": [
+        "pyramidal-specs"
+      ]
+    },
     "filetalk": {
       "id": "filetalk",
+      "entry-weight": "keystone",
       "identity": {
         "tags": [
           "ipc",
@@ -92,6 +366,7 @@
     },
     "g-dictionary": {
       "id": "g-dictionary",
+      "entry-weight": "orientation",
       "identity": {
         "tags": [
           "python",
@@ -125,8 +400,50 @@
         "symbols"
       ]
     },
+    "lsf": {
+      "id": "lsf",
+      "entry-weight": "deep-orientation",
+      "identity": {
+        "tags": [
+          "text-format",
+          "plain-text",
+          "sections",
+          "metadata",
+          "tooling",
+          "llm"
+        ],
+        "hook": "Lion's Sectioned Format: a human-editable plain-text container format made of sections, where each section may contain key/value metadata and body text."
+      },
+      "origin": "Created by Lion Kimbro as a simple structured text format for documents that should remain easy for humans to read, edit, diff, parse, and round-trip.",
+      "coordinates": {
+        "python-install": "pip install lsf-lions-sectioned-format",
+        "github": "https://github.com/LionKimbro/lsf"
+      },
+      "outline": [
+        "An LSF document is a sequence of sections.",
+        "A document may begin with an optional header section before the first titled section.",
+        "Titled sections begin with a title line of the form == title ==.",
+        "Each section may contain key/value lines, then a blank line, then body text.",
+        "Keys and body text are both optional, but the blank line separates metadata from body when both are present.",
+        "A content line may not itself be a title line.",
+        "LSF is designed for human-readable, human-editable files where simple parsing and clean diffs matter."
+      ],
+      "clarifications": [
+        "LSF is not JSON.",
+        "LSF is not Markdown, though it may coexist with Markdown-like body text.",
+        "The first section does not need a title; if the first line is already a title line, there is no header section.",
+        "Programs that modify existing LSF files should preserve formatting where possible and support round-tripping, so changes create minimal diff noise.",
+        "If an LLM needs to generate, parse, or modify LSF precisely, it should ask Lion for the actual LSF guide or examples."
+      ],
+      "related-entries": [
+        "json-document-format",
+        "softspec",
+        "lions-coding-standards"
+      ]
+    },
     "intraflow": {
       "id": "intraflow",
+      "entry-weight": "deep-orientation",
       "identity": {
         "tags": [
           "runtime",
@@ -158,6 +475,7 @@
     },
     "lionscliapp": {
       "id": "lionscliapp",
+      "entry-weight": "orientation",
       "identity": {
         "tags": [
           "tooling",
@@ -182,6 +500,7 @@
     },
     "patchboard": {
       "id": "patchboard",
+      "entry-weight": "keystone",
       "identity": {
         "tags": [
           "routing",
@@ -240,6 +559,7 @@
     },
     "patchboard-router": {
       "id": "patchboard-router",
+      "entry-weight": "deep-orientation",
       "identity": {
         "tags": [
           "router",
@@ -269,6 +589,7 @@
     },
     "pyramidal-specs": {
       "id": "pyramidal-specs",
+      "entry-weight": "deep-orientation",
       "identity": {
         "tags": [
           "specification",
@@ -289,6 +610,7 @@
     },
     "symbols": {
       "id": "symbols",
+      "entry-weight": "orientation",
       "identity": {
         "tags": [
           "python",
@@ -319,6 +641,7 @@
     },
     "tkintertester": {
       "id": "tkintertester",
+      "entry-weight": "orientation",
       "identity": {
         "tags": [
           "tooling",
@@ -351,6 +674,7 @@
     },
     "command-deck-engineering": {
       "id": "command-deck-engineering",
+      "entry-weight": "keystone",
       "identity": {
         "tags": [
           "development",
@@ -390,6 +714,7 @@
     },
     "machine-root": {
       "id": "machine-root",
+      "entry-weight": "orientation",
       "identity": {
         "tags": [
           "registry",
@@ -415,6 +740,7 @@
     },
     "m1": {
       "id": "m1",
+      "entry-weight": "keystone",
       "identity": {
         "tags": [
           "data-model",
@@ -464,6 +790,7 @@
     },
     "silk-road": {
       "id": "silk-road",
+      "entry-weight": "deep-orientation",
       "identity": {
         "tags": [
           "filetalk",
@@ -495,6 +822,7 @@
     },
     "battery-runner": {
       "id": "battery-runner",
+      "entry-weight": "deep-orientation",
       "identity": {
         "tags": [
           "runtime",
@@ -526,6 +854,7 @@
     },
     "eco": {
       "id": "eco",
+      "entry-weight": "deep-orientation",
       "identity": {
         "tags": [
           "runtime",
@@ -588,6 +917,7 @@
     },
     "mill": {
       "id": "mill",
+      "entry-weight": "deep-orientation",
       "identity": {
         "tags": [
           "runtime",
@@ -639,6 +969,77 @@
         "filetalk",
         "patchboard",
         "lionscliapp"
+      ]
+    },
+    "reducer-core-architecture": {
+      "id": "reducer-core-architecture",
+      "entry-weight": "keystone",
+      "identity": {
+        "tags": [
+          "architecture",
+          "state-management",
+          "reducer",
+          "event-processing",
+          "deterministic",
+          "interactive-systems"
+        ],
+        "hook": "an application architecture where semantic events are reduced into compact authoritative state and explicit effects, keeping raw input, rendering, and durable world mutation outside the reducer core"
+      },
+      "origin": "Concept developed by Lion Kimbro as a reducer-centered discipline for interactive software; later incorporated into CIRA as the Discrete Engine layer.",
+      "outline": [
+        "A compact core owns workspace/editor state and the semantic transition law.",
+        "Inputs to the core are semantic events, not raw toolkit events or pointer motion.",
+        "The core emits explicit effects for world mutation, UI alignment, checkpointing, persistence, or state jumps.",
+        "Rendering, hit-testing, gesture recognition, ambient time, filesystem, network, and randomness stay outside the reducer."
+      ],
+      "design-principles": [
+        "Make state transitions deterministic, inspectable, and replayable.",
+        "Separate semantic truth from perception, projection, and side effects.",
+        "Represent meaning as events and effects rather than direct cross-system mutation."
+      ],
+      "clarifications": [
+        "Reducer Core is not the whole application; it is the semantic transition center.",
+        "In CIRA terminology, Reducer Core corresponds to the Discrete Engine.",
+        "Simple applications may use a reducer core without a full Continuity Engine."
+      ],
+      "related-entries": [
+        "cira"
+      ]
+    },
+    "cira": {
+      "id": "cira",
+      "entry-weight": "keystone",
+      "identity": {
+        "tags": [
+          "architecture",
+          "interactive-systems",
+          "runtime",
+          "state-management",
+          "projection",
+          "undo-redo"
+        ],
+        "hook": "Coordinated Interactive Runtime Architecture: a layered architecture separating continuous interaction, discrete semantic reduction, durable modeled reality, visible projection, and history"
+      },
+      "origin": "Architecture developed by Lion Kimbro; summarized in cira.agentic-implementation-brief.v1 as a compact implementation guide for agentic coding systems.",
+      "outline": [
+        "Continuity Engine interprets raw input into derived perceptual facts, semantic events, and single-frame immediates.",
+        "Discrete Engine reduces semantic events into compact workspace/editor state and explicit effects.",
+        "World Model owns durable modeled reality, large object graphs, revisions, assets, and domain state.",
+        "Projection owns visible manifestation, rendering reconciliation, GUI alignment, and realized camera state.",
+        "History Manager owns checkpoint lineage and supports undo/redo state jumps."
+      ],
+      "design-principles": [
+        "Observation across subsystem boundaries is allowed; direct mutation across boundaries is not.",
+        "Raw continuous interaction belongs in Continuity, committed meaning belongs in Discrete, durable reality belongs in World Model, and visual realization belongs in Projection.",
+        "Undo/redo replaces semantic and world state through checkpointed state jumps rather than replaying raw interaction."
+      ],
+      "clarifications": [
+        "CIRA can be applied incrementally; simple apps may begin with semantic events and a Discrete Engine before adding Continuity.",
+        "Reducer Core is an alias/source architecture name for the Discrete Engine.",
+        "Immediates are volatile single-frame effects from Continuity to Projection, not durable semantic events."
+      ],
+      "related-entries": [
+        "reducer-core-architecture"
       ]
     }
   }
