@@ -971,6 +971,43 @@
         "lionscliapp"
       ]
     },
+    "inputlog": {
+      "id": "inputlog",
+      "entry-weight": "orientation",
+      "identity": {
+        "tags": [
+          "automation",
+          "macro-recorder",
+          "input-playback",
+          "tooling",
+          "python",
+          "filesystem"
+        ],
+        "hook": "a minimal recorder/player for capturing keyboard and mouse input and replaying it later as a faithful macro"
+      },
+      "origin": "Python project by Lion Kimbro, initially specified as a TinyTask-like input recorder and player focused on simple, high-fidelity capture and deterministic playback.",
+      "coordinates": {
+        "source-spec": "inputlog.spec.v0"
+      },
+      "outline": [
+        "Records mouse and keyboard events into a JSON file.",
+        "Replays recorded input events in order, preserving timing deltas between events.",
+        "Is run from the CLI.",
+        "Supports editing and annotating recorded input sequences.",
+        "Is meant to automate concrete desktop procedures by replaying the same user input sequence."
+      ],
+      "design-intent": [
+        "Provide a dumb, faithful macro layer before adding interpretation or intelligence.",
+        "Make input automation simple, inspectable, and file-based.",
+        "Allow ordinary desktop actions to be captured once and replayed later as part of larger workflows."
+      ],
+      "clarifications": [
+        "inputlog is not an AI agent.",
+        "inputlog is not a scripting language.",
+        "inputlog does not understand the semantic meaning of the actions it replays."
+      ],
+      "related-entries": []
+    },
     "reducer-core-architecture": {
       "id": "reducer-core-architecture",
       "entry-weight": "keystone",
