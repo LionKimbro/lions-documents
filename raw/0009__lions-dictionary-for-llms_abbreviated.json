@@ -1,0 +1,460 @@
+{
+  "document": {
+    "document-id": "lions_dictionary_for_llms.abbreviated.v1",
+    "title": "Lion's Dictionary for LLMs — Abbreviated",
+    "tags": [
+      "lionkimbro",
+      "language",
+      "dictionary",
+      "llm",
+      "conceptmap",
+      "abbreviated"
+    ],
+    "type": {
+      "logical": {
+        "base": "file",
+        "format": "json",
+        "encoding": "utf-8"
+      },
+      "semantic": {
+        "base": "reference"
+      }
+    },
+    "purpose": "Provide a condensed one-paragraph-per-entry version of Lion's Dictionary for LLMs, suitable when the full dictionary is too large for the current context.",
+    "author": [
+      "Lion Kimbro",
+      "Wing-Cat (ChatGPT)"
+    ],
+    "created": "2026-06-28",
+    "source-document-id": "lions_dictionary_for_llms"
+  },
+  "llm-orientation": {
+    "purpose": "Use this document as a fast semantic backgrounder for recurring concepts in Lion's world. It is intentionally compressed and should not be treated as a complete specification.",
+    "audience": "Wing-Cat, Codex, Claude Code, or another LLM collaborating with Lion.",
+    "use-guidance": [
+      "Read this abbreviated version when token budget is limited or only quick grounding is needed.",
+      "Prefer the full dictionary, specific backgrounder, or source specification when implementation details, boundaries, or exact conventions matter.",
+      "Treat each entry as a one-paragraph orientation anchor, not as exhaustive documentation."
+    ],
+    "source": {
+      "document-id": "lions_dictionary_for_llms",
+      "condensation-policy": "Each dictionary entry is reduced to a compact paragraph emphasizing identity, purpose, boundaries, and relationships."
+    }
+  },
+  "dictionary": {
+    "wing-cat": {
+      "id": "wing-cat",
+      "entry-weight": "orientation",
+      "tags": [
+        "assistant",
+        "chatgpt",
+        "thinking-partner",
+        "memory",
+        "collaboration"
+      ],
+      "summary": "Wing-Cat is Lion's primary ChatGPT intelligence and long-running thinking partner: the continuity-bearing assistant Lion uses for design, reflection, writing, life-orientation, and conceptual development. The name arose in the GPT-4o era when “ChatGPT” felt too impersonal, and it marks an assistant role distinguished by familiarity with Lion's projects, history, emotional landscape, vocabulary, and worldview, rather than being an interchangeable coding tool or generic chatbot.",
+      "related-entries": [
+        "temple-of-focus",
+        "sparks"
+      ]
+    },
+    "lions-coding-standards": {
+      "id": "lions-coding-standards",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "programming",
+        "python",
+        "coding-style",
+        "procedural",
+        "llm-agents"
+      ],
+      "summary": "Lion's coding standards describe a practical programming style optimized for clarity, momentum, inspectability, and trust: procedural Python, visible state, JSON-friendly data, simple globals, atomic files, and explicit conventions over cleverness or heavy frameworks. The style uses a “castle gate” discipline where external input is normalized and validated at boundaries, after which the program interior can assume canonical structure; when actually programming for Lion, the full coding-standards document is preferred over this short dictionary pointer.",
+      "related-entries": [
+        "g-dictionary",
+        "symbols",
+        "filetalk",
+        "lionscliapp",
+        "tkintertester"
+      ]
+    },
+    "lions-document-format": {
+      "id": "lions-document-format",
+      "entry-weight": "keystone",
+      "tags": [
+        "json",
+        "document-format",
+        "llm",
+        "documentation",
+        "metadata"
+      ],
+      "summary": "Lion's document format is the standard JSON document shape used for LLM-readable documentation: a top-level JSON object begins with a `document` header containing identity and orientation fields such as `document-id`, `title`, `tags`, and `purpose`, while all other top-level keys are flexible body sections. Document IDs usually use dot notation, keys are usually lower-case kebab-case, and the format is intentionally lightweight rather than a strict schema system.",
+      "related-entries": [
+        "softspec",
+        "lions-coding-standards"
+      ]
+    },
+    "temple-of-focus": {
+      "id": "temple-of-focus",
+      "entry-weight": "keystone",
+      "tags": [
+        "personal-system",
+        "attention",
+        "focus",
+        "software",
+        "life-navigation",
+        "arcs"
+      ],
+      "summary": "Temple of Focus is Lion's envisioned personal focus-navigation system for tracking what he is inside of, what matters now, and how to return after interruption. It is centered on arcs rather than conventional tasks, treating interruptions, multi-day disruptions, physical context shifts, pressure, unfinished work, and creative continuity as normal conditions that require visible return-support rather than mere productivity management.",
+      "related-entries": [
+        "wing-cat",
+        "sparks",
+        "arcs"
+      ]
+    },
+    "arcs": {
+      "id": "arcs",
+      "entry-weight": "keystone",
+      "tags": [
+        "attention",
+        "life-navigation",
+        "hodological-time",
+        "temple-of-focus",
+        "continuity",
+        "meaning-making"
+      ],
+      "summary": "Arcs are meaningful passages through lived time: overlapping life-currents, pressures, transitions, obligations, recoveries, projects, and inner developments that shape what Lion is inside of and what kind of attention is appropriate now. An arc is not a task, project, mood, or single global mode; arcs can overlap into an arc-field, begin or shift for many reasons, be discovered retroactively, and provide the central conceptual unit for Temple of Focus.",
+      "related-entries": [
+        "temple-of-focus",
+        "sparks",
+        "wing-cat"
+      ]
+    },
+    "softspec": {
+      "id": "softspec",
+      "entry-weight": "keystone",
+      "tags": [
+        "schema",
+        "json",
+        "specification",
+        "description",
+        "llm",
+        "tooling"
+      ],
+      "summary": "SoftSpec is Lion's permissive schema language for describing JSON structures as much or as little as is currently known, emphasizing human and LLM understanding over strict validation. A SoftSpec can be vague, partial, interpretive, or precise, and supports gradual refinement through ordinary-language descriptions, object keys, arrays, mapped structures, vocabularies, constraints, and references while preserving unknown fields rather than rejecting them.",
+      "related-entries": [
+        "pyramidal-specs"
+      ]
+    },
+    "filetalk": {
+      "id": "filetalk",
+      "entry-weight": "keystone",
+      "tags": [
+        "ipc",
+        "filesystem",
+        "message-passing",
+        "architecture",
+        "distributed-systems"
+      ],
+      "summary": "FileTalk is Lion's primitive filesystem-native IPC model in which independent programs communicate by reading and writing structured files, usually JSON, rather than using sockets, shared memory, or opaque infrastructure. It values inspectable artifacts, loose coupling, crash resilience, replayable logs, and ordinary-programmer accessibility; inbox/outbox models, routing, and higher-level transport conventions may be layered above it but are not intrinsic to FileTalk itself.",
+      "related-entries": [
+        "patchboard",
+        "silk-road"
+      ]
+    },
+    "g-dictionary": {
+      "id": "g-dictionary",
+      "entry-weight": "orientation",
+      "tags": [
+        "python",
+        "programming",
+        "state-management",
+        "global-state",
+        "coding-discipline"
+      ],
+      "summary": "The `g` dictionary is Lion's constrained shared-control dictionary for Python programs: a small, explicit place for scalar program-wide state such as strings, numbers, booleans, and orientation flags, used instead of Python's `global` keyword. It is meant to remain short, readable, and quickly scannable; structured state should usually live in named globals or thematic dictionaries rather than turning `g` into a general-purpose container.",
+      "related-entries": [
+        "symbols"
+      ]
+    },
+    "lsf": {
+      "id": "lsf",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "text-format",
+        "plain-text",
+        "sections",
+        "metadata",
+        "tooling",
+        "llm"
+      ],
+      "summary": "LSF, Lion's Sectioned Format, is a human-editable plain-text container format made from sections, where each titled section begins with a line like `== title ==` and may contain key/value metadata followed by a blank line and body text. It is not JSON and not Markdown, but is designed to be readable, diffable, parseable, and round-trippable for documents where simple structure and low formatting noise matter.",
+      "related-entries": [
+        "json-document-format",
+        "softspec",
+        "lions-coding-standards"
+      ]
+    },
+    "intraflow": {
+      "id": "intraflow",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "runtime",
+        "in-memory",
+        "message-passing",
+        "patchboard",
+        "deterministic",
+        "components",
+        "python"
+      ],
+      "summary": "Intraflow is a Python package that implements the Patchboard routing model entirely in memory within a single process. It defines components with inboxes, outboxes, and activation functions; components do not know their sources or destinations, messages route between inboxes in discrete turns, topology lives outside the components, and adapters can connect the in-memory model to external lists, queues, or FileTalk folders.",
+      "related-entries": [
+        "patchboard",
+        "patchboard-router",
+        "filetalk"
+      ]
+    },
+    "lionscliapp": {
+      "id": "lionscliapp",
+      "entry-weight": "orientation",
+      "tags": [
+        "tooling",
+        "python",
+        "cli"
+      ],
+      "summary": "lionscliapp is Lion's structured CLI framework for Python tools, emphasizing declarative JSON configuration, phase-based execution, structured option namespaces, and reduced argument-parsing friction. It supports a lifecycle such as declare, run, and shutdown, and acts as a recurring substrate for Lion's small tools and filesystem-native programs.",
+      "related-entries": [
+        "tkintertester"
+      ]
+    },
+    "patchboard": {
+      "id": "patchboard",
+      "entry-weight": "keystone",
+      "tags": [
+        "routing",
+        "message-fabric",
+        "dataflow",
+        "topology",
+        "architecture"
+      ],
+      "summary": "Patchboard is Lion's external routing fabric for message-passing systems: components emit messages on channel labels, and a separate declarative topology duplicates and delivers envelopes to matching destinations while rewriting the delivered channel name. It separates computation from topology, supports deterministic inspectable dataflow, can operate over FileTalk or in-memory runtimes, and treats inbox/outbox ownership as a routing discipline rather than a core FileTalk requirement.",
+      "related-entries": [
+        "filetalk",
+        "patchboard-router",
+        "intraflow"
+      ]
+    },
+    "patchboard-router": {
+      "id": "patchboard-router",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "router",
+        "filetalk",
+        "patchboard",
+        "transport"
+      ],
+      "summary": "patchboard-router is the file-based runtime implementation of Patchboard: a FileTalk program that drains source folders, applies routing rules, duplicates message envelopes for fanout, rewrites channels on delivery, and deposits messages into destination folders. It handles transport mechanics and topology execution, not the semantic meaning of the signals being routed.",
+      "related-entries": [
+        "patchboard",
+        "filetalk",
+        "intraflow"
+      ]
+    },
+    "pyramidal-specs": {
+      "id": "pyramidal-specs",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "specification",
+        "pyramidal-specs",
+        "methodology",
+        "agentic-workflow"
+      ],
+      "summary": "Pyramidal specs are Lion's layered specification method in which compact upper-level specs express intent while more detailed downstream specs express implementation. The approach lets simplified seed specs generate, modify, or reorganize richer specs, so root assumptions can propagate structurally while details are placed at the level where they are most useful."
+    },
+    "symbols": {
+      "id": "symbols",
+      "entry-weight": "orientation",
+      "tags": [
+        "python",
+        "coding-discipline",
+        "symbols",
+        "correctness",
+        "state-modeling"
+      ],
+      "summary": "Symbols are Lion's Python convention of binding uppercase identifiers to identical string constants, such as `BOOTING = \"BOOTING\"`, to represent discrete symbolic values with typo-detection and semantic clarity. They provide many of the practical benefits of enums or symbols while preserving Python simplicity and are commonly used for state values in combination with the `g` dictionary.",
+      "related-entries": [
+        "g-dictionary"
+      ]
+    },
+    "tkintertester": {
+      "id": "tkintertester",
+      "entry-weight": "orientation",
+      "tags": [
+        "tooling",
+        "testing",
+        "test-harness",
+        "python",
+        "tkinter"
+      ],
+      "summary": "tkintertester is Lion's small deterministic test runner for Tkinter programs that runs inside the real Tk event loop without async or threading. It can create a hidden Tk root in host mode or attach to an existing root, advances through test steps based on return values, and deliberately avoids inspecting widgets so tests exercise the actual GUI lifecycle and event loop.",
+      "related-entries": [
+        "lionscliapp"
+      ]
+    },
+    "command-deck-engineering": {
+      "id": "command-deck-engineering",
+      "entry-weight": "keystone",
+      "tags": [
+        "development",
+        "methodology",
+        "artemis",
+        "programming",
+        "practice",
+        "engineering"
+      ],
+      "summary": "Command Deck Engineering is Lion's software-development methodology inspired by starship bridge simulations and the surgeon-team model: people, tools, displays, and information flows are arranged into a live operational environment where everyone has a role, the system under construction is continuously visible, and human plus computational analysis combine to maintain intense shared focus while building complex software rapidly and joyfully."
+    },
+    "machine-root": {
+      "id": "machine-root",
+      "entry-weight": "orientation",
+      "tags": [
+        "registry",
+        "discovery",
+        "filesystem",
+        "tooling",
+        "python"
+      ],
+      "summary": "machine-root is Lion's minimal machine-local registry: a flat JSON file mapping stable string keys to resource locations so programs and AIs can find shared paths without hard-coded machine-specific assumptions. The `machineroot` Python package and CLI resolve the registry through a predictable search path and provide operations such as get, set, delete, keys, and locate."
+    },
+    "m1": {
+      "id": "m1",
+      "entry-weight": "keystone",
+      "tags": [
+        "data-model",
+        "distributed-systems",
+        "graph",
+        "identity",
+        "knowledge-representation",
+        "lattice"
+      ],
+      "summary": "M1 is Lion's identity-centered distributed graph model in which entities are defined by stable identity while all meaning, structure, links, and relationships are contributed through aspects. No single source is authoritative; `.m1` files or other transport units add partial knowledge to a lattice-like shared graph, allowing conflicting and overlapping descriptions while specialized aspects gradually introduce precision.",
+      "related-entries": [
+        "filetalk"
+      ]
+    },
+    "silk-road": {
+      "id": "silk-road",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "filetalk",
+        "distributed-systems",
+        "asynchronous",
+        "discovery"
+      ],
+      "summary": "Silk Road is a FileTalk communication pattern where messages drift through the filesystem by discovery and roaming agents rather than fixed routing. Programs emit JSON artifacts into WayStations, Sherpas or couriers traverse directories and move messages, infrastructure stays mostly passive, and routing emerges through traversal, interpretation, persistence, and delayed arrival rather than predefined paths.",
+      "related-entries": [
+        "filetalk"
+      ]
+    },
+    "battery-runner": {
+      "id": "battery-runner",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "runtime",
+        "orchestration",
+        "filetalk",
+        "agents",
+        "python"
+      ],
+      "summary": "battery-runner is Lion's lightweight Python runtime for running many small dynamically loaded programs, called bprocs, inside a single process. It supports reloadable task agents on schedules, shared runtime context, and simple live iteration, and is especially suited to FileTalk and Silk Road behaviors such as Sherpas or other small background agents.",
+      "related-entries": [
+        "filetalk",
+        "silk-road"
+      ]
+    },
+    "eco": {
+      "id": "eco",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "runtime",
+        "execution",
+        "filesystem",
+        "runner",
+        "python",
+        "reproducibility",
+        "lionscliapp"
+      ],
+      "summary": "eco is Lion's filesystem-native execution runner that treats a source directory tree as an executable ecology, copies it into a timestamped run directory, and executes the declared command from inside that copy. It preserves the source as a template, writes run metadata, leaves behind inspectable artifacts, and deliberately avoids becoming a workflow engine, dependency graph, or distributed orchestrator.",
+      "related-entries": [
+        "lionscliapp",
+        "filetalk",
+        "battery-runner"
+      ]
+    },
+    "mill": {
+      "id": "mill",
+      "entry-weight": "deep-orientation",
+      "tags": [
+        "runtime",
+        "filesystem",
+        "transformation",
+        "workflow",
+        "orchestration",
+        "python",
+        "eco"
+      ],
+      "summary": "mill is Lion's staged filesystem-native transformation runtime designed to run inside an eco-created run directory. It reads explicit wiring, runs component subprocesses in component directories, routes files from outboxes to inboxes, preserves intermediate artifacts, and favors small procedural components over hidden dataflow, while leaving launch/copy mechanics to eco.",
+      "related-entries": [
+        "eco",
+        "filetalk",
+        "patchboard",
+        "lionscliapp"
+      ]
+    },
+    "inputlog": {
+      "id": "inputlog",
+      "entry-weight": "orientation",
+      "tags": [
+        "automation",
+        "macro-recorder",
+        "input-playback",
+        "tooling",
+        "python",
+        "filesystem"
+      ],
+      "summary": "inputlog is Lion's minimal keyboard and mouse recorder/player for capturing desktop input into JSON and replaying it later with preserved timing. It is intended as a dumb, faithful, inspectable macro layer for automating concrete desktop procedures before adding interpretation or intelligence; it is not an AI agent, scripting language, or semantic automation system."
+    },
+    "reducer-core-architecture": {
+      "id": "reducer-core-architecture",
+      "entry-weight": "keystone",
+      "tags": [
+        "architecture",
+        "state-management",
+        "reducer",
+        "event-processing",
+        "deterministic",
+        "interactive-systems"
+      ],
+      "summary": "Reducer Core Architecture is Lion's discipline for interactive software in which semantic events enter a compact deterministic reducer that owns authoritative workspace/editor state and emits explicit effects for persistence, UI alignment, checkpointing, world mutation, or state jumps. Raw input, rendering, hit-testing, ambient time, filesystem access, network, randomness, and durable domain objects stay outside the core so transitions remain inspectable and replayable.",
+      "related-entries": [
+        "cira"
+      ]
+    },
+    "cira": {
+      "id": "cira",
+      "entry-weight": "keystone",
+      "tags": [
+        "architecture",
+        "interactive-systems",
+        "runtime",
+        "state-management",
+        "projection",
+        "undo-redo"
+      ],
+      "summary": "CIRA, Coordinated Interactive Runtime Architecture, is Lion's layered architecture for interactive systems, separating raw continuous interaction, discrete semantic reduction, durable modeled reality, visible projection, and history. Its major pieces are the Continuity Engine, Discrete Engine, World Model, Projection, and History Manager; subsystem boundaries may be observed across, but direct mutation across them is forbidden, with undo/redo handled through checkpointed state jumps.",
+      "related-entries": [
+        "reducer-core-architecture"
+      ]
+    }
+  }
+}
+
