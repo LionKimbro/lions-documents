@@ -1,0 +1,102 @@
+title: Coding Style Cards - Table of Contents
+chatgpt: https://chatgpt.com/c/6a4de33e-7b78-83e8-8da6-1195958928b7
+date: 2026-07-07
+
+
+0010 Table of Contents (this file)
+
+0100 Globals and Bundles
+     Bundles, open collections, and register.
+     How to use globals correctly, without chaos.
+
+0150 Explicit Structures, Not Classes
+     Prefer dictionaries, registries, records, and explicit links over
+     class machinery.
+
+0200 Functions
+0210 Function Names
+     Primitives, verb_object names, long one-off functions, predicates, handlers.
+0220 Function Arguments
+     0/1/2 arguments, contextual state, flags.
+
+0300 Validation: The Castle Gate
+     Code defensively at boundaries, but not inside the castle.
+
+0400 Machines
+0410 Registers
+     Current context for nearby procedural operations.
+0415 Registers in tkinter GUI workflows
+0420 Stacks, Memory, Data Tape
+     Optional machine structures for nested, indexed,
+     or streamed procedures.
+
+0500 Data Storage
+0510 JSON
+     Prefer JSON data.
+0520 JSONL
+     Use JSONL for append-only event logs.
+0530 Atomic Writes
+     Prevent partial/corrupt writes.
+
+0600 Concurrency and Coordination
+     ACID concerns, responsiveness, job handoff, and safe work delegation.
+     (note: [1])
+0610 Processes Over Threads
+     Job sharing technologies and methods.
+     (note: [1])
+0620 Using Threads with Tkinter
+     GUI thread, worker thread, queues, and polling.
+
+0700 Tkinter Programming
+     Tkinter conventions.
+
+
+0800 Python Rules
+0810 When to use Classes
+
+0900 Writing Documentation
+0910 Document Coding Conventions
+0920 Documenting Data Structures
+0930 Documenting APIs
+
+
+== Possible Filenames ==
+date: 2026-07-07
+
+0100_globals_and_bundles.style-card.md
+
+0200_functions.style-card.md
+0210_function_names.style-card.md
+0220_function_arguments.style-card.md
+
+0300_validation_castle_gate.style-card.md
+
+0400_data.style-card.md
+0410_json.style-card.md
+0420_jsonl_event_logs.style-card.md
+0430_atomic_writes.style-card.md
+
+0500_concurrency_and_coordination.style-card.md
+0510_processes_over_threads.style-card.md
+0520_using_threads_with_tkinter.style-card.md
+
+0600_tkinter_programming.style-card.md
+
+0900_writing_documentation.style-card.md
+0910_document_coding_conventions.style-card.md
+0920_documenting_data_structures.style-card.md
+0930_documenting_apis.style-card.md
+
+== References ==
+date: 2026-07-07
+
+[1]
+  Lion, you had a conversation with Wing-Cat about ACID,
+  and in particular what Isolation requires in a queue-basde
+  single-input system.
+
+  Wing-Cat wisely reported that you need to stage all inputs,
+  so that if they change in the origin, the job still has what
+  it was expected to work from.
+
+  Your conversation was at: https://chatgpt.com/c/6a4de76a-8668-83e8-a6de-407e4ee23e57
