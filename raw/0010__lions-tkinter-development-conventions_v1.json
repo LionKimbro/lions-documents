@@ -1,0 +1,553 @@
+{
+  "document": {
+    "document-id": "lions-tkinter-development-conventions.v1",
+    "title": "Lion's Tkinter Development Conventions",
+    "tags": [
+      "tkinter",
+      "python",
+      "gui",
+      "programming-conventions",
+      "reducer-core",
+      "cira",
+      "llm-coding",
+      "lionkimbro"
+    ],
+    "purpose": "Describe tkinter programming principles and conventions that should be upheld when Lion, Wing-Cat, Codex, Claude Code, or other LLM coding agents create or modify tkinter applications.",
+    "author": [
+      "Lion Kimbro",
+      "Wing-Cat (ChatGPT)"
+    ],
+    "status": "working-draft",
+    "created": "2026-06-29"
+  },
+  "orientation": {
+    "summary": "This document records Lion's preferred tkinter development conventions. These conventions are intended to make tkinter programs clear, inspectable, agent-friendly, testable, and expandable. The central principle is that tkinter GUI programs should usually be organized around window-local reducer cores powered by event queues and routine update cycles, rather than scattered widget callbacks that directly perform application logic.",
+    "audience": [
+      "Wing-Cat",
+      "Codex",
+      "Claude Code",
+      "LLM coding agents",
+      "human programmers collaborating with Lion"
+    ],
+    "use-this-document-when": [
+      "Creating a new tkinter application for Lion.",
+      "Adding a new tkinter window or dialog.",
+      "Reviewing tkinter code for architectural drift.",
+      "Refactoring callback-heavy tkinter code into a reducer-based structure.",
+      "Implementing tkinter.Canvas interactions.",
+      "Adding threaded work to a tkinter application.",
+      "Creating reusable tkinter support packages for Lion's projects."
+    ]
+  },
+  "core-principles": {
+    "root-window-policy": {
+      "name": "Withdraw the root window and use Toplevel windows for real application windows.",
+      "description": "Tkinter applications should normally create the Tk root as the hidden runtime anchor, immediately withdraw it, and then use tkinter.Toplevel widgets for all visible application windows. The root window exists to own the tkinter interpreter and event loop; it should not usually be used as an application window."
+    },
+    "callbacks-report-events": {
+      "name": "Callbacks report events; they do not own application logic.",
+      "description": "Tkinter widget callbacks should usually be thin adapters. A button callback, menu command, key binding, tree selection callback, or similar GUI hook should create a semantic input event and place it into the appropriate event queue. It should not directly perform major application logic, mutate durable state, perform long-running work, or update large parts of the interface."
+    },
+    "meaningful-windows-use-reducer-cores": {
+      "name": "Each meaningful window is powered by a reducer core.",
+      "description": "A significant tkinter window should usually have its own reducer core. The reducer core owns that window's compact semantic state and processes queued semantic input events. Given the current state and an event, it returns a new state and explicit effects or outgoing messages."
+    },
+    "event-queues-provide-uniform-dispatch": {
+      "name": "Event queues provide uniform dispatch.",
+      "description": "Semantic input events should be queued first, then processed by the runtime update cycle. This makes dispatch uniform across buttons, menus, keyboard shortcuts, timers, background worker responses, and messages from other windows or modules."
+    },
+    "application-advances-through-routine-loop": {
+      "name": "The application advances through a routine loop.",
+      "description": "A tkinter program should usually have a routine update loop, often running at about 10-30 Hz, or every 33-100 ms. This loop drains event queues, dispatches events to reducer cores, routes effects, receives safe worker-thread messages, and refreshes projection as needed."
+    },
+    "prefer-semantic-events-for-application-meaning": {
+      "name": "Prefer semantic events for application meaning.",
+      "description": "Reducer cores should normally receive semantic events that express application meaning, such as ISSUE_PRINT_ORDER_CLICKED, DESIGN_SELECTED, SAVE_REQUESTED, PRINT_COUNT_CHANGED, or WORKER_JOB_COMPLETED. They should not normally consume raw tkinter event objects directly. Ordinary widget-local presentation behavior, such as a Treeview highlighting the clicked row or a sortable Treeview helper reordering visible rows, may be handled by the widget or widget adapter when it does not change authoritative application state."
+    },
+    "visible-ui-is-projection": {
+      "name": "Visible UI is projection, not authority.",
+      "description": "Tkinter widgets display and collect interaction, but the authoritative semantic state should live in the reducer-owned state or in explicit model structures. Widget state should not become the hidden source of truth for important application behavior."
+    },
+    "long-work-does-not-block-tkinter-thread": {
+      "name": "Long work does not block the tkinter thread.",
+      "description": "Tkinter runs in the main thread. Long-running work may be offloaded to worker threads or processes, but communication with those workers must happen through safe queues and clearly defined message rules. The tkinter thread must remain free to process events and update the UI."
+    },
+    "design-for-future-support-packages": {
+      "name": "Design for future extraction into support packages.",
+      "description": "Repeated patterns should be written in a way that can later become reusable Python support packages. This includes event queues, reducer loop helpers, tree sorting helpers, worker-thread queue bridges, projection helpers, and CIRA-style canvas support."
+    },
+    "widget-local-behavior-may-stay-local": {
+      "name": "Widget-local behavior may stay local.",
+      "description": "Not every GUI behavior must pass through the reducer core. Behavior that only changes local widget presentation, such as a Treeview highlighting its selected row or a helper reordering visible rows, may remain in the widget or widget adapter. If the behavior changes application meaning, durable state, cross-window coordination, saved preferences, or replayable history, it should be represented as a semantic event and handled by the reducer core."
+    }
+  },
+  "reducer-core-convention": {
+    "summary": "Most tkinter windows should be built around a reducer core. The reducer core receives semantic events from the window's event queue, updates the window's semantic state, and emits explicit effects or outgoing messages.",
+    "typical-shape": {
+      "state": "A dictionary or other JSON-friendly structure representing compact semantic state for the window.",
+      "event": "A semantic input event, usually a dictionary with a type field and event-specific data.",
+      "reducer": "A function that accepts state and event, then returns new_state and effects.",
+      "effects": "Explicit requests for work outside the reducer, such as saving a file, opening a dialog, sending a message to another window, launching a worker, or refreshing some external resource."
+    },
+    "preferred-reducer-signature": "new_state, effects = reduce_window_event(state, event)",
+    "notes": [
+      "The reducer should be as deterministic as practical.",
+      "The reducer should not read ambient GUI state, filesystem state, network state, current time, randomness, or thread state directly.",
+      "When outside information is needed, it should arrive as an event or be requested as an effect.",
+      "The reducer should be easy for an LLM or human to inspect branch-by-branch."
+    ]
+  },
+  "event-queue-convention": {
+    "summary": "Events are posted into queues, then dispatched later by the routine update loop. This trades a small amount of latency for uniformity, inspectability, logging, and cleaner causality.",
+    "rules": [
+      "Each significant window should usually have its own incoming semantic event queue.",
+      "Callbacks should post events into the queue rather than directly dispatching to the reducer.",
+      "The routine update loop drains each window queue and applies events in order.",
+      "Queues may be logged for debugging and replay.",
+      "Events should be simple JSON-friendly dictionaries whenever practical.",
+      "Events should use stable symbolic names."
+    ],
+    "example-event": {
+      "type": "ISSUE_PRINT_ORDER_CLICKED"
+    },
+    "example-event-with-data": {
+      "type": "SORT_TREE_BY_COLUMN",
+      "tree_id": "design-list",
+      "column_id": "title"
+    }
+  },
+  "routine-update-loop": {
+    "summary": "A tkinter application should usually contain a routine update cycle driven by root.after. This loop is the heartbeat of the program.",
+    "typical-frequency": {
+      "recommended-range": "10-30 Hz",
+      "recommended-interval-ms": "33-100 ms",
+      "notes": [
+        "Use faster intervals when interaction needs to feel more immediate.",
+        "Use slower intervals when the program is mostly form-based or low activity.",
+        "Avoid using an interval so fast that routine work starves tkinter or wastes CPU."
+      ]
+    },
+    "responsibilities": [
+      "Drain window event queues.",
+      "Dispatch semantic events to the appropriate reducer cores.",
+      "Replace reducer-owned state with new state returned by reducers.",
+      "Route effects emitted by reducers.",
+      "Receive messages from worker-thread output queues.",
+      "Post worker results as semantic events where appropriate.",
+      "Send outgoing messages to other windows or modules.",
+      "Perform projection or UI refresh work as needed.",
+      "Schedule the next update cycle with root.after."
+    ],
+    "notes": [
+      "The routine loop should remain short and predictable.",
+      "Long operations should not run inside the routine loop.",
+      "The loop should be written so that its responsibilities are easy to inspect."
+    ]
+  },
+  "multi-window-message-passing": {
+    "summary": "Multiple tkinter windows may communicate by posting messages into one another's queues. This avoids direct cross-window mutation and keeps causality explicit.",
+    "rules": [
+      "A window should not directly mutate another window's reducer state.",
+      "A window should not reach into another window's widgets except through a carefully defined projection or public adapter boundary.",
+      "Cross-window communication should usually happen as outgoing effects or messages.",
+      "The runtime routes outgoing messages to the destination window's queue.",
+      "A module may also have its own queue if it behaves like an event-processing participant."
+    ],
+    "example-message": {
+      "type": "DESIGN_SELECTED_EXTERNALLY",
+      "design_id": "example-design-id"
+    }
+  },
+  "window-registry-conventions": {
+    "summary": "Each significant tkinter Toplevel window should be registered with the application runtime so that the runtime can connect the physical tkinter window, the window's reducer-owned state, its event queue, and its projection/update functions.",
+    "root-window-policy": {
+      "name": "Withdraw the root window and use Toplevel windows for real application windows.",
+      "description": "Tkinter applications should normally create the Tk root as the hidden runtime anchor, immediately withdraw it, and then use tkinter.Toplevel widgets for all visible application windows. The root window exists to own the tkinter interpreter and event loop; it should not usually be used as an application window."
+    },
+    "purpose": "The window registry makes it possible to move in both directions: from a tkinter Toplevel widget to the reducer state for that window, and from a reducer state or window id back to the tkinter Toplevel widget. This supports event routing, projection, debugging, cleanup, and multi-window coordination.",
+    "rules": [
+      "Create exactly one Tk root for the application runtime.",
+      "Withdraw the root window soon after creation unless there is a specific reason not to.",
+      "Use tkinter.Toplevel widgets for visible application windows.",
+      "Each significant Toplevel window should have a stable window_id.",
+      "Each significant Toplevel window should have a window record in a central runtime registry.",
+      "The window record should connect the tkinter Toplevel widget, the reducer-owned state dictionary, the incoming event queue, and any projection or reducer functions for that window.",
+      "Callbacks attached to widgets in a Toplevel window should be able to identify their owning window_id.",
+      "The runtime should be able to find the window record from the tkinter Toplevel widget.",
+      "The runtime should be able to find the tkinter Toplevel widget from the window_id or window state record.",
+      "Window state should not rely on the tkinter widget object as its identity.",
+      "When a Toplevel window is destroyed, closed, or withdrawn permanently, the window registry should be updated so stale widget references do not remain.",
+      "Cross-window communication should normally route through window_id and event queues rather than direct widget mutation."
+    ],
+    "recommended-window-record-shape": {
+      "window_id": "<stable-window-id>",
+      "window_kind": "<window-kind>",
+      "toplevel": "<tkinter.Toplevel object, runtime-only>",
+      "state": "<window reducer state dictionary>",
+      "event_queue": "<queue or list of pending semantic events>",
+      "reducer": "<function reference>",
+      "project": "<function reference>",
+      "is_open": true
+    },
+    "window-identity-and-summoning": {
+      "summary": "Windows should have explicit identity and multiplicity policies so the runtime knows whether a request to open a window should create a new Toplevel, reuse an existing Toplevel, or realize a window for a particular data object.",
+      "terms": {
+        "summon": "Request that a window be available and brought to the foreground. Summoning may create a new window or raise an existing one.",
+        "realize": "Actually create the tkinter.Toplevel, reducer state, event queue, widgets, projection bindings, and window registry record.",
+        "hydrate": "Load or prepare the data needed to initialize a window, especially a per-object window.",
+        "raise": "Bring an already realized window to the foreground instead of creating a duplicate."
+      },
+      "multiplicity-policies": {
+        "singleton": {
+          "description": "There should be at most one live instance of this window kind for the whole application. If summoned while already open, the existing window is raised instead of creating a new one.",
+          "examples": [
+            "settings-window",
+            "print-queue-window",
+            "debug-console-window"
+          ]
+        },
+        "free-instance": {
+          "description": "Each summon creates a new independent window. These windows are disposable and many may exist at once.",
+          "examples": [
+            "scratch-note-window",
+            "temporary-preview-window",
+            "ad-hoc-search-results-window"
+          ]
+        },
+        "per-object": {
+          "description": "There should be at most one live instance of this window kind for a given data object or named point. If the object-specific window is already open, it is raised. If not, the object is hydrated as needed and a new window is realized.",
+          "examples": [
+            "edit-design-window for a design_id",
+            "edit-sticker-window for a sticker_id",
+            "subject-window for a subject_id"
+          ]
+        }
+      },
+      "rules": [
+        "Each window kind should declare its multiplicity policy.",
+        "The runtime should provide a summon_window operation rather than requiring callers to decide whether to create or reuse a window.",
+        "Singleton windows should use a stable singleton instance key.",
+        "Free-instance windows should receive a fresh generated instance key each time they are realized.",
+        "Per-object windows should use an instance key derived from both the window kind and the object identity.",
+        "The instance key should be stored in the window record.",
+        "The reducer-owned state may store window_id, window_kind, object_id, and instance_key, but should not store the tkinter.Toplevel object.",
+        "The runtime registry should be able to find an existing live window by instance_key.",
+        "When a window is closed or destroyed, its instance key should be removed from the live-window lookup."
+      ],
+      "recommended-window-kind-record-shape": {
+        "window_kind": "<stable-window-kind>",
+        "multiplicity": "singleton | free-instance | per-object",
+        "object_key_type": "<optional object identity type, such as design_id>",
+        "make_initial_state": "<function reference>",
+        "realize_window": "<function reference>",
+        "project_window": "<function reference>",
+        "reduce_window_event": "<function reference>"
+      },
+      "recommended-live-window-record-fields": {
+        "window_id": "<unique live window id>",
+        "window_kind": "<stable-window-kind>",
+        "multiplicity": "singleton | free-instance | per-object",
+        "instance_key": "<stable lookup key for singleton/per-object, generated key for free-instance>",
+        "object_id": "<optional object id for per-object windows>",
+        "toplevel": "<tkinter.Toplevel object, runtime-only>",
+        "state": "<window reducer state dictionary>",
+        "event_queue": "<incoming semantic event queue>",
+        "is_open": true
+      }
+    },
+    "notes": [
+      "The hidden root is part of the tkinter runtime shell, not a semantic application window.",
+      "The window record itself may contain runtime-only Python objects and does not need to be JSON-serializable.",
+      "The reducer-owned state dictionary should remain JSON-friendly where practical.",
+      "If the state dictionary stores a window reference, it should usually store window_id rather than the tkinter widget object.",
+      "The registry is part of the runtime shell, not part of the reducer core."
+    ]
+  },
+  "tkinter-treeview-conventions": {
+    "summary": "When a tkinter Treeview is used to represent columnar data, column headers should normally support predictable sorting behavior.",
+    "principles": {
+      "treeview-sorting-is-usually-widget-adapter-behavior": {
+        "name": "Treeview sorting is usually widget adapter behavior.",
+        "description": "When a tkinter Treeview is used to display columnar data, clicking a column header should usually sort the visible rows through a reusable Treeview adapter or helper rather than through the reducer core. The helper may maintain local presentation state such as sort priority and ascending/descending direction. If the chosen sort order affects durable state, saved preferences, exported order, application queries, pagination, or other windows, then the sort change should also be represented as a semantic event and handled by the reducer core."
+      }
+    },
+    "column-sort-policy": {
+      "summary": "Conventions for tkinter Treeview widgets used to display lists, tables, and columnar data.",
+      "principles": {
+        "treeview-sorting-is-usually-widget-adapter-behavior": {
+          "name": "Treeview sorting is usually widget adapter behavior.",
+          "description": "When a tkinter Treeview is used to display columnar data, clicking a column header should usually sort the visible rows through a reusable Treeview adapter or helper rather than through the reducer core. The helper may maintain local presentation state such as sort priority and ascending/descending direction. If the chosen sort order affects durable state, saved preferences, exported order, application queries, pagination, or other windows, then the sort change should also be represented as a semantic event and handled by the reducer core."
+        }
+      },
+      "column-sort-policy": {
+        "rules": [
+          "Clicking a column header sorts the displayed rows by that column.",
+          "The most recently clicked column becomes the first-priority sort key.",
+          "Previously sorted columns remain as lower-priority sort keys, preserving multi-column sorting behavior.",
+          "If the same column header is clicked again consecutively, that column's sort direction flips between ascending and descending.",
+          "The default first click on a column should usually sort ascending unless a specific application has a reason to do otherwise.",
+          "Sorting should alphabetize textual columns and reverse-alphabetize them when descending.",
+          "Non-textual columns may use appropriate typed comparison when the data model clearly provides typed values."
+        ]
+      }
+    }
+  },
+  "threading-conventions": {
+    "summary": "Threads may be used to offload long-running work, but tkinter itself should remain on the main thread. Worker communication must happen through safe queues and explicit messages.",
+    "rules": [
+      "Tkinter widget creation, mutation, and reading should happen on the main tkinter thread.",
+      "Worker threads must not directly call tkinter widget methods.",
+      "Worker threads should receive work through a clearly defined input queue or worker-start effect.",
+      "Worker threads should report progress, completion, failure, and cancellation through an output queue.",
+      "The routine update loop should poll or drain worker output queues.",
+      "Worker output messages should normally be converted into semantic events for the appropriate reducer core.",
+      "Long filesystem, network, image processing, printing, or subprocess operations should not block the tkinter thread.",
+      "Thread lifecycle should be explicit: start, running, completed, failed, cancelled, or abandoned should be visible in state where relevant."
+    ],
+    "worker-message-examples": [
+      {
+        "type": "WORKER_PROGRESS",
+        "worker_id": "<worker-id>",
+        "message": "human-readable progress message"
+      },
+      {
+        "type": "WORKER_COMPLETED",
+        "worker_id": "<worker-id>",
+        "result": "result payload or result reference"
+      },
+      {
+        "type": "WORKER_FAILED",
+        "worker_id": "<worker-id>",
+        "error": "error summary"
+      }
+    ]
+  },
+  "canvas-and-cira-conventions": {
+    "summary": "Most tkinter programs only need reducer cores. However, when a window contains a tkinter.Canvas or another source of meaningful continuous input, that window may need a localized CIRA implementation.",
+    "when-to-use-local-cira": [
+      "The window uses tkinter.Canvas for direct manipulation.",
+      "The user can drag, pan, zoom, resize, marquee-select, connect, draw, or otherwise perform continuous gestures.",
+      "Multiple interaction behaviors may compete for the same pointer, object, region, or interaction resource.",
+      "Hit-testing, drag thresholds, hover state, gesture recognition, previews, or single-frame visual immediates start leaking into reducer logic.",
+      "Undo/redo should operate over completed semantic actions, not raw motion."
+    ],
+    "localized-cira-parts": {
+      "continuity-engine": "Interprets raw and derived input facts, tracks ongoing interaction episodes, consults coordination rules, and emits semantic events or volatile immediates.",
+      "discrete-engine": "The window reducer core. Owns compact semantic workspace state and processes semantic events.",
+      "world-model": "Owns durable modeled reality when the window edits larger documents, graphs, geometry, assets, or other durable domain structures.",
+      "projection": "Owns the visible tkinter Canvas manifestation, canvas item handles, overlays, realized camera state, and visual reconciliation.",
+      "history-manager": "Owns checkpoint lineage and undo/redo state jumps when needed."
+    },
+    "boundary-rules": [
+      "Raw pointer movement should not be fed directly into the reducer as application meaning.",
+      "Hit-testing and gesture recognition belong outside the reducer, in continuity/tokenizer-style logic.",
+      "In-progress previews and hover effects should not become committed semantic state unless explicitly committed.",
+      "Completed semantic actions should be emitted as semantic events.",
+      "Projection draws and reconciles; it does not decide semantic truth.",
+      "The reducer emits effects; it does not directly draw on the Canvas."
+    ]
+  },
+  "projection-conventions": {
+    "summary": "Projection code updates tkinter widgets from state. It should be downstream from reducer state and model state, not the hidden owner of application meaning.",
+    "rules": [
+      "Projection should make the UI reflect current state.",
+      "Projection may keep widget handles and projection-private bookkeeping.",
+      "Projection should not secretly mutate semantic state.",
+      "Projection should not create semantic events except through explicit GUI callback adapters.",
+      "Projection should be idempotent where practical: applying projection twice to the same state should be safe.",
+      "For complex widgets, prefer reconciliation by logical keys over deleting and rebuilding everything when possible."
+    ]
+  },
+  "state-conventions": {
+    "summary": "Application state should be explicit, inspectable, and friendly to humans and LLMs.",
+    "rules": [
+      "Prefer dictionaries and simple JSON-friendly structures for reducer-owned state.",
+      "Use stable symbolic values for modes, statuses, and event types.",
+      "Keep reducer-owned state compact.",
+      "Do not store large durable domain objects in a window reducer if a separate model structure is more appropriate.",
+      "Do not use tkinter widget state as the only record of important semantic state.",
+      "Keep transient visual projection bookkeeping separate from semantic state."
+    ]
+  },
+  "effect-conventions": {
+    "summary": "Reducers should request outside action by emitting effects. Effects are routed by the runtime or shell.",
+    "common-effect-types": [
+      "POST_EVENT",
+      "SEND_WINDOW_MESSAGE",
+      "START_WORKER",
+      "OPEN_FILE_DIALOG",
+      "SAVE_FILE",
+      "LOAD_FILE",
+      "SHOW_MESSAGE_BOX",
+      "REQUEST_PROJECTION_REFRESH",
+      "REQUEST_CHECKPOINT",
+      "REQUEST_STATE_JUMP",
+      "LOG_EVENT"
+    ],
+    "rules": [
+      "Effects should be explicit dictionaries when practical.",
+      "Effects should be routed outside the reducer.",
+      "Effects may cause new semantic events to be posted after completion.",
+      "Effects should be easy to log and inspect.",
+      "Effects should not be confused with reducer state."
+    ]
+  },
+  "debug-mode-exposes-runtime-state": {
+    "name": "Debug mode exposes runtime state.",
+    "description": "Tkinter applications following lions-tkinter-development-conventions.v1 should support a debug mode that exposes generic runtime introspection tools. When debug mode is active, applications may show a Debug menu containing tools for inspecting registered window kinds, active windows, reducer state dictionaries, event queues, recent events, effects, worker status, and copyable debug snapshots. The purpose is to make the running application understandable to Lion, Wing-Cat, Codex, Claude Code, and future debugging tools.",
+    "convention": "Ctrl+Shift+Alt+D enables the debug mode."
+  },
+  "naming-conventions": {
+    "summary": "Names should make architecture visible.",
+    "recommended-names": {
+      "post_event": "Place a semantic event into a queue.",
+      "event_queue": "A queue of pending semantic events.",
+      "update_cycle": "The routine tkinter heartbeat.",
+      "reduce_window_event": "Reducer for a window's semantic events.",
+      "route_effect": "Handle an effect emitted by a reducer.",
+      "project_window": "Update tkinter widgets to reflect current state.",
+      "window_state": "Reducer-owned state for a window."
+    },
+    "notes": [
+      "Prefer post_event for callback adapters because dispatch does not happen immediately.",
+      "Use dispatch or reduce terminology for the routine loop's processing step.",
+      "Use projection terminology for widget updates."
+    ]
+  },
+  "visual-hierarchy-conventions": {
+    "summary": "Tkinter windows should use visual hierarchy to show which fields or concepts are most important.",
+    "principles": {
+      "primary-title-is-visually-prominent": {
+        "name": "Primary object titles are visually prominent.",
+        "description": "When a tkinter.Toplevel represents a particular data item, and that data item has a human-facing title or primary label, the title should usually be displayed prominently near the top of the window using larger text. If the title is editable, it may be shown in a larger tkinter.Entry. If it is not editable, it may be shown in a larger tkinter.Label. This convention helps make the identity of the object immediately visible."
+      },
+      "text-size-indicates-importance": {
+        "name": "Text size may indicate conceptual importance.",
+        "description": "Tkinter interfaces may use larger text for the most important object identity or section identity, medium text for ordinary labels and values, and smaller text for supporting metadata. This is preferred over treating all text as visually equal."
+      }
+    }
+  },
+  "status-bar-conventions": {
+    "summary": "Tkinter Toplevel windows should often reserve the bottom of the window for a status bar.",
+    "principles": {
+      "bottom-status-bar": {
+        "name": "Use the bottom of the Toplevel for status.",
+        "description": "When useful, a tkinter.Toplevel should place a status bar or status message area at the bottom of the window. This area reports save status, errors, progress, structural messages, and other transient information."
+      },
+      "status-color-conventions": {
+        "name": "Use conventional colors for status messages.",
+        "description": "Status messages should use color to indicate message kind. Dark green should indicate success, completion, saved state, or other positive completion. Dark red should indicate errors, failures, incompletions, or states that cannot be completed. Black should indicate ordinary informational messages. Blue should be used more rarely for structural information, phase changes, chapter headings, or other messages about the organization of an operation."
+      },
+      "status-bar-debug-cheat": {
+        "name": "Five status-bar clicks copies focused debug JSON.",
+        "description": "A Toplevel may support a debug cheat where five clicks on the status bar within two seconds copies relevant JSON debug data to the clipboard. If the window represents a specific data object, the copied data should describe that object, and may include M1 data, aspects, and links to or from the object when available. If the window is not object-specific, the copied data should describe the data currently in focus, such as the visible list, selected item, filters, partial result set, current state dictionary, or other relevant context. This is intended to make troubleshooting with Wing-Cat, Codex, Claude Code, or another assistant easier."
+      }
+    }
+  },
+  "path-field-conventions": {
+    "summary": "Fields that accept filesystem paths should use a standard layout and behavior.",
+    "standard-layout": {
+      "description": "A path field should usually appear as a label, an entry containing the path, and one or more buttons for browsing, opening, copying, or opening the containing folder.",
+      "shape": "[Label] [Entry containing path] [Browse] [Open] [Containing] [Path]"
+    },
+    "button-behaviors": {
+      "browse": {
+        "label": "Browse",
+        "description": "Open an appropriate filesystem browser dialog. When the user selects an object, place its full path into the path entry and accept it as the new selected value."
+      },
+      "open": {
+        "label": "Open",
+        "description": "Open the path using the operating system's default behavior, typically through Python os, sys, subprocess, or platform-specific helpers."
+      },
+      "containing": {
+        "label": "Containing",
+        "description": "Open the folder containing the selected path. This is mainly used when the path refers to a file rather than a folder."
+      },
+      "path": {
+        "label": "Path",
+        "description": "Copy the path currently shown in the path entry to the clipboard."
+      }
+    },
+    "entry-behavior": {
+      "ctrl-enter-accepts-path": {
+        "name": "Ctrl+Enter accepts the path entry.",
+        "description": "When focus is in a path entry, Ctrl+Enter should accept the current text as the new value and perform the same application behavior that occurs when a new path is selected through Browse."
+      },
+      "browse-selection-accepts-implicitly": {
+        "name": "Browse selection accepts implicitly.",
+        "description": "After the user chooses a path through Browse, the selected path should be treated as accepted immediately rather than merely inserted into the entry."
+      }
+    }
+  },
+  "image-input-and-storage-conventions": {
+    "summary": "Tkinter applications that accept images should use predictable drag-and-drop, ingestion, hashing, and storage conventions.",
+    "image-input": {
+      "single-image-input-drag-drop": {
+        "name": "Drag-and-drop targets the only image input when unambiguous.",
+        "description": "If a Toplevel has exactly one image input, dragging an image into the Toplevel should input that image into that field."
+      },
+      "primary-image-input-drag-drop": {
+        "name": "Drag-and-drop targets the primary image input when multiple inputs exist.",
+        "description": "If a Toplevel has multiple image inputs and one is clearly primary, dragging an image into the Toplevel should input the image into the primary image field."
+      },
+      "ambiguous-image-inputs-need-explicit-target": {
+        "name": "Ambiguous image inputs should require a clearer target.",
+        "description": "If a Toplevel has multiple image inputs and no primary target is clear, the interface should provide a way to drop or choose the image for a named target rather than guessing."
+      }
+    },
+    "image-storage": {
+      "sha256-image-ingestion": {
+        "name": "Store ingested images by SHA-256 filename.",
+        "description": "Images ingested into a project should typically be copied into an images/ subdirectory of the project directory. The stored filename should usually be based on the image's SHA-256 hash, such as <sha-256>.png or <sha-256>.jpeg."
+      },
+      "project-images-directory": {
+        "name": "Use the project images directory.",
+        "description": "The conventional storage location for ingested images is images/ under the project directory or application data directory."
+      }
+    },
+    "image-tools": {
+      "pillow-is-conventional": {
+        "name": "Use Pillow conventionally for image work.",
+        "description": "Pillow is the conventional Python library for image loading, inspection, conversion, resizing, and related image operations."
+      },
+      "imagemagick-may-be-used": {
+        "name": "ImageMagick may be used when appropriate.",
+        "description": "ImageMagick is often available and may be used for image operations when it is more convenient, more capable, or already part of the workflow."
+      }
+    }
+  },
+  "implementation-notes-for-llm-agents": [
+    "Do not build a complex CIRA system for every small tkinter form. Most windows only need reducer core plus event queue plus projection.",
+    "When a tkinter.Canvas introduces meaningful continuous interaction, consider a localized CIRA structure for that window.",
+    "Do not put major business logic directly inside tkinter callbacks.",
+    "Do not let background threads directly manipulate tkinter widgets.",
+    "Do not hide important application state inside widget contents.",
+    "When adding a new user action, first define the semantic event.",
+    "When adding a new outside operation, define the effect and its routing.",
+    "When adding a new visible state, decide whether it belongs to reducer state, model state, projection-private state, or continuity state.",
+    "Prefer boring, explicit, inspectable structures over clever implicit behavior.",
+    "Write code so that the next LLM can see the architecture quickly."
+  ],
+  "expansion-plan": {
+    "purpose": "This document is expected to grow as Lion develops more tkinter programs.",
+    "likely-future-sections": [
+      "standard window skeleton",
+      "standard application skeleton",
+      "standard reducer event format",
+      "standard effect format",
+      "standard Treeview helper package",
+      "standard worker-thread helper package",
+      "standard projection reconciliation helpers",
+      "standard dialog conventions",
+      "standard menu conventions",
+      "standard keyboard shortcut conventions",
+      "standard status bar conventions",
+      "standard debug panel conventions",
+      "tkintertester testing conventions",
+      "undo-redo conventions",
+      "logging and replay conventions",
+      "CIRA Canvas skeleton",
+      "packaging reusable support libraries"
+    ]
+  }
+}
