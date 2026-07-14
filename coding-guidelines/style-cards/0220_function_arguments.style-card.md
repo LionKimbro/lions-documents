@@ -79,6 +79,44 @@ A Lion-style function call exposes the decision being made. It does
 not expose the pipes behind the wall.
 
 
+## Note: Changing Is Not Choosing
+
+A value changing over time is not the same thing as the caller
+choosing that value.
+
+For example, the current inbox entries may change every time the inbox
+is scanned. That does not mean entries should be passed to the
+function that processes the current queue.
+
+Bad:
+
+```python
+entries = scan_inbox()
+process_entries(entries)
+```
+
+This suggests callers may provide any arbitrary entries list they
+want. But the intended operation is not "process this caller-selected
+list." The intended operation is "process the program's current
+scanned inbox."
+
+Good:
+
+```python
+entries = []
+
+scan_inbox()
+process_entries()
+```
+
+In this shape, `entries` is an open global collection. `scan_inbox()`
+updates the machine's current queue, and `process_entries()` acts on
+that current queue.
+
+The queue changes over time, but it is still machine state, not a
+caller-chosen argument.
+
+
 ## Policy
 
 Lion-style functions have 0, 1, or 2 ordinary arguments.
@@ -336,8 +374,15 @@ When writing Lion-style code:
 * Make `flags` a list of string flags.
 * Do not pass stable program infrastructure through function calls.
 * Context belongs in the global context.
+* Remember that changing is not choosing; current queues, selections, modes, and clocks may change over time without becoming caller-chosen arguments.
+* Do not create false degrees of freedom by accepting a parameter for machine state that should live in a global bundle, open collection, or register.
 * Pass dictionaries only when they represent one coherent record.
 * If a function wants many arguments, stop and redesign.
+
+For each parameter, ask:
+- Is the caller meant to choose this value?
+- Or is this current machine state?
+- Would accepting this parameter imply an API affordance we do not want?
 
 
 ## See Also
