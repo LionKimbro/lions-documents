@@ -1,5 +1,5 @@
 ```
-documentid: lionsphilosophyofprogramming.style-cards-2026.function-arguments.v1
+document-id: lionsphilosophyofprogramming.style-cards-2026.function-arguments.v1
 title: Coding Style Card -- Function Arguments and Flags
 date: 2026-07-07
 chatgpt: https://chatgpt.com/c/6a4dee3a-0514-83e8-8015-b8e50fc89cab

@@ -1,17 +1,10 @@
 ```
-documentid: lionsphilosophyofprogramming.style-cards-2026.registers.v1
+document-id: lionsphilosophyofprogramming.style-cards-2026.registers.v1
 title: Coding Style Card -- Registers
 date: 2026-07-08
 chatgpt: https://chatgpt.com/c/6a4e1ab9-41f4-83e8-9b2d-c9eba271c3cd
 uuid: d5f8dafb-3c5f-4b61-85e4-eeab46731a72
 taguri: lionkimbro@gmail.com,2026-07-07:style-card/registers/v1
-```
-
-```yaml
-title: Coding Style Card -- Registers
-date: 2026-07-08
-uuid:
-taguri: lionkimbro@gmail.com,2026-07-08:style-card/registers/v1
 ```
 
 # Lion Programming Guide: Registers

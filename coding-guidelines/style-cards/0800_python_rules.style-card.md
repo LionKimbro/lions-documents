@@ -1,5 +1,5 @@
 ```
-documentid: lionsphilosophyofprogramming.style-cards-2026.python-rules.v1
+document-id: lionsphilosophyofprogramming.style-cards-2026.python-rules.v1
 title: Coding Style Card -- Python Rules
 date: 2026-07-09
 uuid: d4453132-1bef-4b19-a0ff-b6d3e1150d5b
