@@ -1,4 +1,5 @@
 ```
+documentid: lionsphilosophyofprogramming.style-cards-2026.machines.v1
 title: Coding Style Card -- Machines
 date: 2026-07-09
 uuid: 8f3d12f9-3432-48a2-90fb-0a82add07e7f

@@ -1,4 +1,5 @@
 ```
+documentid: lionsphilosophyofprogramming.style-cards-2026.globals.v1
 title: Coding Style Card -- Globals
 date: 2026-07-07
 chatgpt: https://chatgpt.com/c/6a4e12e5-1564-83e8-9fc8-6b65e2e9f421
