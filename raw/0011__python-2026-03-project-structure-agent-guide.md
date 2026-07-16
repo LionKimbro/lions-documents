@@ -1,3 +1,12 @@
+```
+document-id: project-structure.python-2026-03.agent-guide.full.v1
+title: Lion's `python-2026-03` Project Structure — Full Explanation
+purpose: Describe the python-2026-03 project structure for agents -- in excruciating detail.
+tags: project structure guide agent full
+document-type: reference
+document-created: 2026-07-14
+```
+
 # Lion's `python-2026-03` Project Structure
 
 ## Big-Picture Orientation for AI Coding Agents
@@ -11,6 +20,10 @@ The structure is identified in Zoo metadata as:
 ```
 
 This is an archetype, not an inflexible schema. Most of Lion's Python projects follow it closely, but some projects have special-purpose layouts. Examples of exceptions include `lions-documents` and `lions-db`.
+
+(Post-scripted notes: 2026-07-15:)
+- It's also expected that in the future, there will be other forms of Python-based project layouts.  And in the past, there have certainly been many different formats as well.  This is the format that has come to dominate this period however.  Hence the name: "python-2026-03".
+- Also, it is expected that this very format will develop and expand.
 
 An AI coding agent should use this guide to understand:
 

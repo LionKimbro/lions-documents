@@ -1,9 +1,12 @@
 ```
-document-id: lionsphilosophyofprogramming.style-cards-2026.python-rules.v1
+document-id: lionsphilosophyofprogramming.style-cards-2026.python.v1
 title: Coding Style Card -- Python Rules
 date: 2026-07-09
 uuid: d4453132-1bef-4b19-a0ff-b6d3e1150d5b
 taguri: lionkimbro@gmail.com,2026-07-09:style-card/python-rules/v0
+document-type: reference
+tags: programming guidelines python pythonprogramming rule rules
+purpose: This card descrbes broad guidelines particular to Python programming in Lion's style.
 ```
 
 # Lion Programming Guide: Python Rules

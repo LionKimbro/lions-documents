@@ -5,6 +5,9 @@ date: 2026-07-07
 chatgpt: https://chatgpt.com/c/6a4dee3a-0514-83e8-8015-b8e50fc89cab
 uuid: 567d4f5c-11d5-465d-97b4-15b47f769a17
 taguri: lionkimbro@gmail.com,2026-07-07:style-card/function-arguments-and-flags/v1
+document-type: reference
+tags: programming guidelines functions arguments parameters argument parameter function
+purpose: This guide explains how function arguments work in Lion-style Python.
 ```
 
 # Lion Programming Guide: Function Arguments and Flags

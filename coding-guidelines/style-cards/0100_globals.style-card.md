@@ -5,6 +5,9 @@ date: 2026-07-07
 chatgpt: https://chatgpt.com/c/6a4e12e5-1564-83e8-9fc8-6b65e2e9f421
 uuid: 22d507d2-9b9a-478f-a86d-dc86cb6b6281
 taguri: lionkimbro@gmail.com,2026-07-07:style-card/globals/v1
+tags: programming guidelines global globals
+document-type: reference
+purpose: This guide explains how to use global state deliberately in Lion-style Python programs.
 ```
 
 # Lion Programming Guide: Globals

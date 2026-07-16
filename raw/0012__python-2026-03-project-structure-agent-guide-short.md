@@ -1,3 +1,12 @@
+```
+document-id: project-structure.python-2026-03.agent-guide.compact.v1
+title: Lion's `python-2026-03` Project Structure — Compact Agent Guide
+purpose: Describe the python-2026-03 project structure for agents -- in a compact way.
+tags: project structure guide agent compact
+document-type: reference
+document-created: 2026-07-14
+```
+
 # Lion's `python-2026-03` Project Structure — Compact Agent Guide
 
 This is Lion Kimbro's common Python project archetype. It is a default, not a rigid schema.

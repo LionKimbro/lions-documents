@@ -4,6 +4,9 @@ title: Coding Style Card -- Machines
 date: 2026-07-09
 uuid: 8f3d12f9-3432-48a2-90fb-0a82add07e7f
 taguri: lionkimbro@gmail.com,2026-07-09:style-card/machines/v1
+document-type: reference
+tags: programming guidelines machines machine
+purpose: This guide explains how to write modules that are shaped like a little machine that the program needs.
 ```
 
 # Lion Programming Guide: Machines
