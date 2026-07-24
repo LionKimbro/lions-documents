@@ -573,9 +573,39 @@ Do not hand-edit generated HTML unless the project explicitly says to.
 
 ## 7.4 `docs/code/`
 
-This is a special-purpose documentation area. It may contain generated or curated explanations of the codebase.
+`docs/code/` contains maintained explanations of the codebase and its internal operation.
 
-Its exact meaning is project-specific.
+It is typically maintained by AI coding agents as they inspect, modify, and better understand the project. Its purpose is to preserve a current, navigable model of how the implementation works so that Lion and future agents do not have to reconstruct the same understanding repeatedly.
+
+Suitable contents include:
+
+* codebase maps;
+* module and package overviews;
+* runtime and control-flow explanations;
+* descriptions of important data structures;
+* subsystem relationships;
+* lifecycle and event-flow documentation;
+* implementation invariants;
+* explanations of difficult or non-obvious code;
+* maintenance and extension guidance;
+* indexes linking code concepts to relevant source files, tests, ADRs, and raw documents.
+
+Documents in `docs/code/` are usually maintained projections of the current implementation rather than historical source material.
+
+They should be updated when significant code changes make them inaccurate.
+
+An agent should normally consult `docs/code/` before reconstructing the architecture directly from source. When the existing documentation is stale, the agent should correct it as part of substantial implementation work.
+
+`docs/code/` is not intended for:
+
+* raw conversations or project history, which belong in `docs/raw/`;
+* binding architectural decisions, which belong in `docs/architecture/`;
+* public introductory material, which belongs in `README.md`;
+* user-facing or developer-facing manuals, which may belong in `docs/manual/`;
+* operational instructions for agents, which belong in `db/rules.md`.
+
+Although agents typically maintain this directory, its contents remain ordinary project documentation: human-readable, inspectable, editable by Lion, and subject to project-local rules.
+
 
 ## 7.5 Standalone files in `docs/`
 
@@ -597,13 +627,14 @@ Generated does not mean unimportant. It may be the primary maintained manual.
 
 However, an agent should know whether a document is:
 
-- raw source;
-- authored decision;
-- generated projection;
-- current guide;
-- historical guide;
+- raw source or historical project memory;
+- an authored architectural decision;
+- an agent-maintained explanation of the current codebase;
+- a generated projection;
+- a current guide;
+- a historical guide;
 - public-facing documentation;
-- internal agent orientation.
+- internal operational instruction.
 
 Improvement direction:
 
@@ -612,6 +643,15 @@ Improvement direction:
 - identify generated outputs;
 - add reproducible generation commands;
 - prevent agents from editing projections instead of sources.
+
+A typical mapping is:
+
+- `docs/raw/` — source stream, provenance, and history;
+- `docs/architecture/` — architectural decisions;
+- `docs/code/` — agent-maintained understanding of the current implementation;
+- `docs/manual/` — maintained human-facing manual source;
+- `docs/manual-html/` — generated manual projection;
+- `db/rules.md` — operational instructions for agents and maintainers.
 
 ---
 
@@ -1300,6 +1340,7 @@ Examples:
 | `docs/raw/*.md` | historical or source input |
 | `docs/manual/` | living manual source |
 | `docs/manual-html/` | generated projection |
+| `docs/code/` | generated projection, explanation of current implementation |
 | `README.md` | public summary and entry point |
 | `db/tasks.md` | operational task state |
 | `docs/architecture/` | authored decisions |
@@ -1388,12 +1429,13 @@ When entering an unfamiliar project, an AI coding agent should usually inspect f
 4. `pyproject.toml`
 5. `db/tasks.md`, if relevant to the assigned work
 6. current guides in `docs/`
-7. `docs/architecture/`
-8. recent or relevant files in `docs/raw/`
-9. `src/`
-10. `tests/`
-11. `examples/`
-12. `guitests/`
+7. relevant material in `docs/code`
+8. `docs/architecture/`
+9. recent or relevant files in `docs/raw/`
+10. `src/`
+11. `tests/`
+12. `examples/`
+13. `guitests/`
 
 This is not a mandate to read every file. It is an orientation path.
 
@@ -1425,6 +1467,9 @@ Unless the project says otherwise, prefer the following:
 - Do not introduce deep hierarchy without a clear reason.
 - Do not silently migrate evolving formats.
 - Record supersession relationships when creating replacement documents.
+- Consult `docs/code/` before reconstructing codebase understanding from scratch.
+- Maintain `docs/code/` when substantial implementation changes make its explanations inaccurate.
+- Treat `docs/code/` as a current projection of the implementation, not as an immutable historical record.
 
 ---
 
@@ -1534,6 +1579,7 @@ Its folders separate different kinds of truth:
 - `examples/` shows what the system can do;
 - `docs/raw/` preserves the stream of thought and source material;
 - `docs/architecture/` preserves decisions;
+- `docs/code/` preserves agent’s maintained understanding of current implementation;
 - `docs/manual/` may hold maintained explanation;
 - `db/` contains living operational facts;
 - `README.md` faces the public;

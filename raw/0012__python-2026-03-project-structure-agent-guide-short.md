@@ -104,7 +104,7 @@ When replacing a guide, create a new numbered file and link the two. Do not eras
 - `docs/architecture/`: usually ADRs
 - `docs/manual/`: often living manual source
 - `docs/manual-html/`: often generated output, not source
-- `docs/code/`: project-specific code documentation
+- `docs/code/`: maintained explanations of the implementation and is typically maintained by coding agents
 
 Check `db/rules.md` before editing generated documentation.
 
@@ -226,11 +226,12 @@ Usually inspect:
 3. `README.md`
 4. `pyproject.toml`
 5. relevant `db/tasks.md`
-6. current docs
-7. ADRs
-8. relevant recent `docs/raw/`
-9. source and tests
-10. examples and GUI tests
+6. current guides in docs/
+7. relevant materials in docs/code/
+8. docs/architecture/ (ADRs)
+9. recent or relevant files in `docs/raw/`
+10. source and tests
+11. examples and GUI tests
 
 ## Default Agent Behavior
 
@@ -245,6 +246,9 @@ Usually inspect:
 - Append replacement documents instead of overwriting history.
 - Prefer simple, visible, inspectable structures.
 - Do not perform broad cross-project migrations without a shared standard and migration plan.
+- Read `docs/code/` before rebuilding codebase understanding from scratch.
+- Keep `docs/code/` synchronized with substantial implementation changes.
+- Treat `docs/code/` as an agent-maintained current projection, not as historical source.
 
 ## Improvements Lion Wants
 
