@@ -28,29 +28,52 @@ when a function is really a labeled step in one particular procedure.
 The result should read like a map rather than a maze.
 
 
-## Core Rule
+## The Five Naming Questions
 
-Choose a function name based on the function's role and expected use:
+When choosing a function name, ask these five questions:
 
-```text
-high-frequency primitive       send()
-reusable action                verb_object()
-one-off procedural unit        long_descriptive_prose_like_name()
-boolean question               is_..., has_..., should_..., or may_...
-external callback handler      handle_...() or on_...()
-internal helper                _name_using_the_same_rules()
-```
+1. **Is it a callback?** A callback handler uses `handle_...()` or
+   `on_...()`.
 
-Do not make a function name more general than the function really is.
+2. **How many lexical calling locations is it intended to have?** Is
+   it intended to have zero or one lexical calling locations in this
+   codebase, or potentially many? A zero- or one-location function
+   uses a long, descriptive name. A reusable function uses a compact,
+   stable name.
 
-Do not make a unique, local step pretend to be a reusable primitive.
+3. **Is it a predicate?** Does it answer a true/false question? If
+   so, use `is_`, `has_`, `should_`, or `may_` question grammar rather
+   than ordinary action grammar.
+
+4. **Is it part of the program's pervasive, routine vocabulary?** An
+   operation that appears systematically throughout the source may use
+   one word, such as `send()` or `_emit()`. This is lexical frequency,
+   not runtime invocation rate.
+
+5. **Is it an implementation detail?** If so, prefix its otherwise
+   appropriate name with `_`.
+
+These are all first-class naming decisions. They combine rather than
+forming mutually exclusive categories. A function may be a private,
+high-frequency primitive such as `_emit()`, or a single-location
+predicate callback with a long `handle_...()` name.
+
+Choose a name that makes the function's actual role visible. Do not
+make a narrow function look like a general utility, or make a general
+utility look more specialized than it is.
 
 
 ## Primitives: One Word
 
-Use a single-word name for a function called extremely frequently,
-such as multiple times within 50 to 100 lines of code. These functions
-form the core vocabulary of a small machine.
+Use a single-word name for a function whose calls appear extremely
+frequently in the source, such as multiple times within 50 to 100
+lines of code. These functions form the core vocabulary of a small
+machine. (For the idea of a module as a small machine, see **0400
+Machines**.)
+
+A one-word name signals to the reader that this operation is called
+from a very large number of places in the source. It is deliberately
+short because it will be encountered again and again.
 
 ```python
 log("connected")
@@ -65,6 +88,12 @@ _emit(evt)
 Primitives should have minimal conceptual weight. Their surrounding
 context does most of the disambiguation. Global state and flags may
 select their precise behavior internally.
+
+This rule concerns lexical frequency: how often the function appears
+as a call in the codebase. It does not concern runtime rate. A callback
+that runs at 1,000 Hz but is named and registered in one place is still
+a one-off callback, and should keep its long descriptive `handle_...()`
+or `on_...()` name.
 
 Do not use a one-word name merely to save space. A rare or specialized
 operation needs a name that tells the reader what it does.
@@ -198,9 +227,10 @@ vocabulary. For the three-or-more-word guideline, the prefixes `is_`,
 
 ## Callback Handlers: `handle_...()`
 
-Callbacks are invoked by an external system or framework: Tkinter,
-sockets, network protocols, timers, event loops, file watchers, or GUI
-widgets. They are the edges where the outside world enters the program.
+Callbacks are invoked by a callback system: perhaps Tkinter, sockets,
+network protocols, timers, event loops, file watchers, GUI widgets, or
+an internal dispatcher. They identify functions called in response to
+an event rather than by the ordinary procedural flow.
 
 All callback handlers should begin with `handle_` or `on_`; prefer
 `handle_` unless there is a local convention that makes `on_` clearer.
@@ -249,7 +279,7 @@ When writing Lion-style code:
 * Name functions intended for one calling location with long, narrative, descriptive names.
 * Give boolean-returning functions an `is_`, `has_`, `should_`, or `may_` question name.
 * Use short predicates for reusable checks and long predicates for one-flow decisions.
-* Prefix external callback handlers with `handle_` or `on_`; prefer `handle_`.
+* Prefix callback handlers with `handle_` or `on_`; prefer `handle_`.
 * Give callback handlers three or more meaningful words after their prefix.
 * Use flags to select small variants of a stable action instead of proliferating nearly identical function names.
 * Prefix internal helpers with `_`, while keeping their names honest and role-shaped.
