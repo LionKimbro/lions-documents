@@ -259,5 +259,3 @@ When writing Lion-style code:
 ## See Also
 
 * **0220 Function Arguments and Flags** — for arguments as caller choices and flags as behavior selectors.
-* **0400 Machines** — for writing modules as visible, exact little machines.
-* **0410 Registers** — for functions that operate on current procedural context.
