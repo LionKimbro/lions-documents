@@ -13,13 +13,13 @@ purpose: This guide explains how function names give Lion-style Python programs 
 
 Function names should make the shape of a program visible.
 
-A reader should be able to scan a module and see its entry points from
-the outside world. When the reader looks at a function, they should be
-able to quickly know whether it is an ordinary action, a one-off
-procedural step, a predicate, or an internally called helper versus an
-externally invoked handler. The naming system is not about making
-every name uniformly short or uniformly precise. It is about giving
-each kind of function the name shape that matches its role.
+A reader should be able to scan a module and see its callback entry
+points. When the reader looks at a function, they should be able to
+quickly know whether it is an ordinary action, a one-off procedural
+step, a predicate, an internal helper, or a callback handler. The
+naming system is not about making every name uniformly short or
+uniformly precise. It is about giving each kind of function the name
+shape that matches its role.
 
 Lion-style code uses a small vocabulary for high-frequency operations,
 straightforward names for reusable actions, and long descriptive names
@@ -127,8 +127,9 @@ for the flags convention.
 
 ## One-Off Functions: Long and Descriptive
 
-When a function is intended to be called from one location only, give
-it a long, prose-like, descriptive name.
+When a function is intended to be called from one location only, or
+possibly not called directly at all, give it a long, prose-like,
+descriptive name.
 
 The rule is about intended scope, not about whether the function is a
 step inside one particular main procedure. A one-off function may be a
