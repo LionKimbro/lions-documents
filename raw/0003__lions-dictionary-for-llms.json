@@ -1008,6 +1008,58 @@
       ],
       "related-entries": []
     },
+    "zoo": {
+      "id": "zoo",
+      "entry-weight": "deep-orientation",
+      "identity": {
+        "tags": [
+          "projects",
+          "catalogue",
+          "filesystem",
+          "json",
+          "indexing",
+          "python",
+          "gui"
+        ],
+        "hook": "a small filesystem-native project catalogue: each project has an independent JSON identity record, while a derived index makes the collection quick to browse, search, and reopen"
+      },
+      "origin": "A Lion Kimbro Python project, descended from a 2022 GUI application and being modernized around a simpler per-project JSON storage model.",
+      "coordinates": {
+        "github": "https://github.com/LionKimbro/zoo",
+        "repository": "F:\\repo\\zoo",
+        "project-format": "zoo.project-json.format.v1",
+        "storage-and-indexing": "zoo.storage-and-indexing.v1",
+        "linking-design": "zoo.linking-external-systems-before-m1.v1"
+      },
+      "outline": [
+        "Zoo represents a project as a small, extensible JSON file whose stable GUID is its canonical identity; title, tag URI, date, tags, description, and hook supply human orientation.",
+        "Project files are authoritative and live independently under a Zoo projects directory resolved through Machine-Root; the filesystem, rather than a database or monolithic registry, is the source of truth.",
+        "A compact index.json holds project summaries for fast startup, tag filtering, sorting, and result display. It is derived data, can be rebuilt from project files, and must never be treated as authoritative.",
+        "The current Python/Tk application opens with a search window, then opens recurring project windows on demand; full project JSON is loaded only when a project is selected.",
+        "Zoo can associate projects with external folders or repositories through sidecar links. Abstract cross-system links are kept separate from machine-local path tables, so a project identity remains portable across machines.",
+        "The project is a deliberately small bridge toward richer identity-centered systems such as M1, without requiring M1 in order to make projects discoverable and useful now."
+      ],
+      "design-principles": [
+        "Prefer independently editable, human-inspectable JSON files over a database layer or a single authoritative registry.",
+        "Keep the project concept abstract: a project record identifies and describes a project, but does not contain machine-local filesystem paths or current life-state.",
+        "Use indexes as replaceable caches: browse from them quickly, reread before amending them, write them atomically, and retain a rebuild path.",
+        "Keep external-resource associations data-centered and portable by separating abstract links from local resource resolution.",
+        "Favor a fast, direct, procedurally simple user experience over framework-heavy architecture."
+      ],
+      "clarifications": [
+        "Zoo is not a general-purpose project-management or task-management system; it is a catalogue and re-entry surface for projects.",
+        "A Zoo project does not require its own on-disk folder; the JSON record may be the only material stored by Zoo for it.",
+        "The index is not a source of truth and may be absent or stale.",
+        "Paths do not belong in project JSON. Machine-local folder locations belong in a separate local table, while shared link data names only abstract resource identities.",
+        "Zoo's pre-M1 linking scheme is intentionally not M1, though its links and resolution tables are designed to translate naturally into a later M1 model."
+      ],
+      "related-entries": [
+        "machine-root",
+        "m1",
+        "lions-document-format",
+        "lions-coding-standards"
+      ]
+    },
     "reducer-core-architecture": {
       "id": "reducer-core-architecture",
       "entry-weight": "keystone",
