@@ -1,264 +1,388 @@
 ```
-document-id: lionsphilosophyofprogramming.style-cards-2026.machines.v1
+document-id: lionsphilosophyofprogramming.style-cards-2026.machines.v2
 title: Coding Style Card -- Machines
-date: 2026-07-09
-uuid: 8f3d12f9-3432-48a2-90fb-0a82add07e7f
-taguri: lionkimbro@gmail.com,2026-07-09:style-card/machines/v1
+date: 2026-08-24
+uuid: 044edafb-c4c2-451d-9e72-761e159fb4bc
+series-uuid: 6205a832-7967-4cd3-b5d5-ec19c8e92977
+taguri: lionkimbro@gmail.com,2026-08-24:style-card/machines/v2
 document-type: reference
 tags: programming guidelines machines machine
 purpose: This guide explains how to write modules that are shaped like a little machine that the program needs.
+reference-chatgpt: https://chatgpt.com/c/6a8c0c45-fdac-83e8-83cb-786e49a09adc
+caution: This work remains very much in progress.
 ```
 
-# Lion Programming Guide: Machines
+# Lion Programming Style — Short Form
 
-## Purpose
+Think of the program as a staged machine whose state evolves under
+explicit control, not as a collection of objects which own behavior.
 
-This card describes a deeper goal behind Lion-style globals,
-registers, and function arguments.
+Prefer **machine-oriented procedural code** over object-oriented design.
 
-The goal is not to use globals for their own sake.
+Write the program as a set of **machines that operate on data**, the
+output of one machine becoming the input of another.
 
-The goal is to write modules that are shaped like the actual machine
-the program needs.
+Do not model ordinary data as active objects merely because the data
+has identity or structure.  The data does not do anything.  The
+machine does everything to the data.
 
-A good module should feel exact. It should not pretend to be more
-general than it is. It should not turn one concrete operation into a
-fake library of reusable utilities. It should expose the current state
-of the operation, then name the steps that act on that state.
+Ask:
 
-This card is an early attempt to describe that style.
+> What process is this code performing?
 
+Then expose that process directly.
 
-## Core Idea
-
-A module can be a little machine.
-
-That means:
-
-* The module has a small visible state panel.
-* The module performs one kind of work or owns one region of behavior.
-* External input is unpacked once at the boundary.
-* Internal functions act on the module's current state.
-* Function names describe machine actions.
-* Parameters are used only for real caller choices.
-
-The module is not trying to be abstract.
-
-The module is trying to be exact.
-
-
-## Exactness Over Fake Generality
-
-Sophisticated coding agents often try to make code cleaner by making
-it more general.
-
-Sometimes this is correct.
-
-But often it creates fake generality: functions that accept records,
-contexts, work packets, options, or state bundles even though the
-system has no intended caller choice there.
-
-Bad:
+Prefer:
 
 ```python
-def execute_round_corners(request):
-    work = {
-        "source": request["input"]["image_path"],
-        "output": request["output"]["image_path"],
-        "radius_percent": request["options"].get("radius_percent", 5),
-    }
-    read_image_size(work)
-    round_corners(work)
-    write_outcome(work)
+load_current_record()
+normalize_record()
+update_indexes()
+render_record()
 ```
 
-This looks explicit, but it turns the operation into a fake generic
-pipeline. The `work` packet is passed around because the functions need
-access to it, not because each call is choosing a different work packet.
+over distributing those operations into methods on domain objects.
 
-Better:
+Create NO Classes.  Model the data with dictionaries, lists, and
+global values, global registers.  Manipulate the data with functions.
+Group functions and global data (including registers) in Python
+modules.
+
+Do not create classes to:
+* group functions
+* hold mutable state
+* avoid globals
+* create namespaces
+* imitate domain nouns
+* encapsulate a record
+* satisfy conventional OOP style
+
+Prefer:
+
+```python
+record = {
+    "id": rid,
+    "name": name,
+    "status": status,
+}
+records.append(record)
+```
+
+over:
+
+```python
+record = Record(...)
+```
+
+
+## When One Can Use a Class
+
+The only time you can use a class is when it represents a tiny,
+general-purpose computational abstraction whose behavior is intrinsic
+to the value itself -- not when it represents a piece of the program's
+machinery.
+
+A Matrix can legitimately know what matrix multiplication means; The
+operation belongs to the mathematical object.  A Box can legitimately
+mean "a mutable cell containing one value."  A list can legitimately
+know how to append, index, iterate, and so on.  These are small
+algebraic/data abstractions.  You could pick them up and carry them
+into ten thousand unrelated programs without bringing any application
+architecture along with them.
+
+But ProjectManager, PanelManager, EventRouter, ApplicationController,
+DatabaseCoordinator, -- those aren't really things.  They're chunks of
+procedure dressed up as nouns.
+
+A good class has something like an intrinsic law:
+
+Matrix x Matrix -> Matrix
+Box.value -> contained value
+List.append(x) -> modified sequence
+
+A bad class has methods because somebody needed somewhere to put code:
+
+PanelManager.refresh_panels()
+PanelManager.handle_click()
+PanelManager.load_layout()
+PanelManager.save_layout()
+PanelManager.update_state()
+
+At this point, the class isn't modeling a coherent reusable
+object. It's become a control-flow container.  And worse, it starts
+smuggling in ownership: "the Manager owns the panels; therefore state
+lives here; therefore methods become the privileged way to reach that
+state; therefore execution gets distributed among object
+relationships."
+
+Use a class ONLY when data and operations form a small,
+self-contained, ultra-reusable abstraction whose semantics exist
+independently of the application.  Never use classes as an
+architectural decomposition mechanism.
+
+If the word "Manager" appears ANYWHERE in the name of a class, it
+means "I turned a region of the program into an object," and that's
+grounds for IMMEDIATE EXILE.
+
+"I never knew you."
+
+...
+
+If this all seems rather complex and abstract, just go with:
+NO CLASSES.
+
+note: https://chatgpt.com/c/6a8c273f-e5dc-83e8-a4ea-86c10e1ab180
+  -- one day, I'll work all this in, to a specific guide ABOUT classes specifically,
+     and my division points from OOP, and why it's center of gravity is all wrong
+     for my ethos
+
+---
+
+## Organize By Process, Not By Noun
+
+Do not ask:
+
+> What does this object do?
+
+Ask:
+
+> What system operates on this data?
+
+Do not distribute behavior merely according to which noun appears in the operation.
+
+Prefer:
+
+```python
+handle_collision(a, b)
+```
+
+inside a collision system over inventing ownership such as:
+
+```python
+a.collide_with(b)
+b.receive_collision(a)
+```
+
+Interactions often belong to the **system handling the interaction**, not to either participant.
+
+---
+
+## Think Like ECS
+
+A datum may participate in many different systems.
+
+A game entity may participate in:
+
+```text
+movement
+collision
+rendering
+damage
+persistence
+```
+
+through different aspects of its data.
+
+Do not force all of those behaviors into one object.
+
+Prefer systems that systematically operate on the relevant data.
+
+Think:
+
+```text
+movement system operates on Position + Velocity
+collision system operates on Position + Collider
+render system operates on Position + Renderable
+```
+
+The same datum may mean different things to different machines.
+
+---
+
+## Control Time Explicitly
+
+Lion cares strongly about **when operations happen**.
+
+Do not assume that a request for an operation means the operation should execute immediately.
+
+Separate:
+
+```text
+request time
+```
+
+from:
+
+```text
+execution time
+```
+
+When a request arrives at an arbitrary time, prefer turning it into data:
+
+```python
+save_requests.append(request)
+```
+
+or:
+
+```python
+g["save-requested"] = True
+```
+
+Then process that request at the stage where the operation belongs.
+
+Do not casually write:
+
+```python
+if everything_is_ready():
+    save()
+```
+
+when the machine can instead guarantee that persistence occurs only at a stage where its assumptions already hold.
+
+Prefer **structural scheduling** over arbitrary-time readiness checks.
+
+---
+
+## Preserve Legal System States
+
+Think carefully about what states the system is allowed to occupy.
+
+The system should move through controlled transitions between legal states.
+
+Temporary inconsistency may exist inside a known transition stage, but should not casually leak into the rest of the program.
+
+For example:
+
+```text
+mutate
+reconcile
+rebuild derived state
+restore invariants
+stable boundary
+persist
+```
+
+Prefer:
+
+> operations that occur where their preconditions hold by construction
+
+over:
+
+> operations callable anywhere that repeatedly ask whether their preconditions happen to hold.
+
+A stage should establish the assumptions required by the next stage.
+
+---
+
+## Make The Main Process Visible
+
+Top-level procedures should read like the machine operating.
+
+Prefer:
+
+```python
+def execute():
+    receive_requests()
+    apply_changes()
+    reconcile_state()
+    rebuild_indexes()
+    process_persistence()
+    emit_updates()
+```
+
+Avoid hiding the operating sequence behind large networks of object calls.
+
+A reader should be able to see:
+
+```text
+what happens
+in what order
+on what current state
+```
+
+---
+
+## Prefer Visible State Over Hidden Ceremony
+
+Machine state should be easy to inspect in a debugger.
+
+A small dictionary such as:
 
 ```python
 g = {
-    "request": None,
-    "source": None,
-    "output": None,
-    "radius-percent": None,
-    "width": None,
-    "height": None,
-}
-
-def execute_round_corners():
-    unpack_request()
-    read_image_size()
-    round_corners()
-    set_success_outcome()
-```
-
-Here, the module is shaped like the actual operation. It has a current
-job. The helper functions are not advertised as arbitrary utilities.
-They are parts of the round-corners machine.
-
-
-## Boundary First, Then Current State
-
-External input should be normalized or unpacked at the boundary.
-
-After that, the module interior may operate on current state.
-
-Example:
-
-```python
-def execute_round_corners():
-    unpack_request()
-    read_image_size()
-    round_corners()
-    set_success_outcome()
-
-
-def unpack_request():
-    g["request"] = core.reg["request"]
-    g["source"] = g["request"]["input"]["image_path"]
-    g["output"] = g["request"]["output"]["image_path"]
-    g["radius-percent"] = normalize_radius_percent(g["request"]["options"].get("radius_percent", 5))
-```
-
-`unpack_request()` is the boundary step.
-
-After it runs, `g["source"]`, `g["output"]`, and
-`g["radius-percent"]` are the current machine state.
-
-The later functions do not need these facts as parameters.
-
-
-## Machine State Is Not Hidden State
-
-Global state is dangerous when it is invisible, sprawling, or
-surprising.
-
-Machine state should be the opposite:
-
-* small
-* named
-* initialized
-* easy to inspect
-* owned by the module
-* reset or overwritten at the beginning of the operation
-
-Good:
-
-```python
-g = {
-    "request": None,
-    "source": None,
-    "output": None,
-    "width": None,
-    "height": None,
+    "mode": "idle",
+    "current-request": None,
+    "save-requested": False,
+    "state-stable": True,
 }
 ```
 
-This is not a junk drawer.
+is often preferable to equivalent state distributed through opaque object graphs.
 
-It is a control panel.
+The goal is not minimal state.
 
+The goal is **visible, governed state**.
 
-## Function Roles
+---
 
-Inside a machine module, functions usually have one of these roles:
+## Default Design Questions
 
-* boundary functions unpack or normalize external input
-* action functions perform one step using current state
-* observation functions read or measure something and store the result
-* output functions write final state, files, messages, or outcomes
-* registration functions connect the module to the larger system
+Before designing code, ask:
 
-These functions often have zero arguments because the module already
-knows its current subject.
+```text
+What machine is this?
 
-Good:
+What process does it perform?
 
-```python
-unpack_request()
-read_image_size()
-round_corners()
-set_success_outcome()
+What stages does that process have?
+
+What is the current machine state?
+
+What data is merely being operated upon?
+
+What requests can arrive out of order?
+
+Which requests should become queued data?
+
+When should their effects actually execute?
+
+What legal states may the system occupy?
+
+What invariants hold at each stage boundary?
+
+What interactions belong to a system rather than to either participant?
+
+Which values are real caller choices?
+
+Which values are merely shared context?
+
+Am I inventing an object because the problem contains a noun?
+
+Am I hiding process behind methods?
+
+Am I making the code more general than the actual machine?
 ```
 
-Bad:
+---
 
-```python
-read_image_size(work)
-round_corners(work)
-set_success_outcome(work)
+## Default Bias
+
+When uncertain, bias toward:
+
+```text
+data structures over domain objects
+modules over classes
+functions over methods
+systems over object behavior
+explicit process over distributed control
+queues and flags over arbitrary-time effects
+staged execution over readiness checks
+legal-state transitions over unrestricted mutation
+visible shared context over parameter plumbing
+exact machinery over generic architecture
 ```
 
-The second version is only better if `work` is genuinely selected by
-the caller. If `work` is merely the current operation state, passing it
-around adds noise and creates false generality.
+The objective is not procedural programming for its own sake.
 
-
-## Relationship To Other Cards
-
-This card depends on:
-
-* **0100 Globals**: machine state often lives in a module `g` bundle or
-  other named global containers.
-* **0220 Function Arguments**: arguments are for caller choices, not
-  current machine state.
-* **0410 Registers**: registers hold active working context that spans
-  nearby functions.
-
-The machine idea is what these techniques are for.
-
-They are not separate tricks.
-
-They are ways to make a module's real operating shape visible.
-
-
-## Agent Instructions
-
-When writing or refactoring Lion-style code:
-
-* Ask what little machine this module actually is.
-* Do not make the code more general than the system actually needs.
-* Prefer a small explicit `g` bundle for module-owned current state.
-* Unpack external input once at the boundary, then operate on current state.
-* Use zero-argument internal functions when they are actions of the current machine.
-* Do not pass work packets, config, queues, current records, or current requests merely because helper functions need access to them.
-* Keep generic utilities only when there is real reuse or real caller choice.
-* Make the main procedure read like the machine doing its work.
-
-
-## Potential Agent Audit Instructions
-
-Audit this code for Lion-style function arguments and machine modules.
-For every function parameter, classify it as:
-- caller choice
-- coherent record
-- flags
-- current machine state
-- plumbing/context
-- false degree of freedom
-
-Then refactor every parameter classified as current machine state,
-plumbing/context, or false degree of freedom into an appropriate global bundle,
-open collection, or register.
-
-For every module, identify the little machine it represents, its current state
-panel, its boundary unpacking functions, and its main procedural flow. Refactor
-modules that pass work packets around internally when a module g bundle would
-make the current operation clearer.
-
-
-## Signs The Machine Is Clear
-
-The code is probably moving in the right direction when:
-
-* the top-level procedure reads as a short sequence of named steps
-* the module state can be inspected in one small dictionary
-* helper function names are specific and honest
-* function signatures are short
-* there are few courier variables passed from step to step
-* the module does not pretend to be a general-purpose library
-* the code feels like this exact operation, not an abstraction of many possible operations
-
+The objective is to make the program read like **the actual machine that performs the work**.
